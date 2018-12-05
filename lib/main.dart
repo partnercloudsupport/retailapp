@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
 import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
+import 'package:retailapp/ui/user/userLoginUI.dart' as userLoginUI;
+import 'package:retailapp/control/my/mySharedPreferences.dart'
+    as mySharedPreferences;
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+
 void main() {
   runApp(UI());
 }
@@ -13,19 +17,24 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
+  bool _myLanguageIsLoaded = false;
+  bool _myAccountIsVaild = false;
+
   _UIState() {
-    getLanguageApp();
+    _initState();
   }
-  String v;
-  Future<Null> getLanguageApp() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    v = prefs.getString('languageApp') ?? 'en-US';
+  void _initState() async {
+    myLanguage.setLanguage(await mySharedPreferences.getLanguageApp());
+    userLoginUI.userName = await mySharedPreferences.getUserName();
 
-    myLanguage.setLanguage(v);
+    bool myAccountIsVaild = await controlUser.signInByAuto(
+        await mySharedPreferences.getUserName(),
+        await mySharedPreferences.getUserPassword());
 
     setState(() {
-      v = 'en-US';
+      _myLanguageIsLoaded = true;
+      _myAccountIsVaild = myAccountIsVaild;
     });
   }
 
@@ -34,9 +43,15 @@ class _UIState extends State<UI> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Smart Security',
-     // home: v == null ? Text('') : uiLoginUser.UI(),
-       home: homePageUI.UI(4), 
-           theme:
+      home: _myLanguageIsLoaded == false
+          ? Container(
+              color: Colors.white,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : _myAccountIsVaild ? homePageUI.UI(4) : userLoginUI.UI(),
+      theme:
           ThemeData(primarySwatch: Colors.blue, primaryColor: myColor.master),
       routes: <String, WidgetBuilder>{
         '/customerNewUI': (BuildContext context) => customerNewUI.UI(),

@@ -4,9 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:firebase_storage/firebase_storage.dart';
 
-Future<bool> signIn(
+DocumentSnapshot drNow;
+
+Future<bool> signInByEmail(
     String email, String password, GlobalKey<ScaffoldState> scaffoldKey) async {
   try {
     await FirebaseAuth.instance
@@ -20,7 +21,7 @@ Future<bool> signIn(
   return false;
 }
 
-Future<bool> create(
+Future<bool> createByEmail(
     String email, String password, GlobalKey<ScaffoldState> scaffoldKey) async {
   try {
     await FirebaseAuth.instance
@@ -39,7 +40,7 @@ Future<bool> create(
   return false;
 }
 
-Future<bool> signOut(GlobalKey<ScaffoldState> scaffoldKey) async {
+Future<bool> signOutByEmail(GlobalKey<ScaffoldState> scaffoldKey) async {
   try {
     await FirebaseAuth.instance.signOut();
 
@@ -47,6 +48,52 @@ Future<bool> signOut(GlobalKey<ScaffoldState> scaffoldKey) async {
   } catch (e) {
     mySnackBar.show(scaffoldKey, e.toString());
   }
+  return false;
+}
+
+Future<bool> signIn(
+    String name, String password, GlobalKey<ScaffoldState> scaffoldKey) async {
+  try {
+    QuerySnapshot dr = await Firestore.instance
+        .collection('user')
+        .where('name', isEqualTo: name)
+        .where('password', isEqualTo: password)
+        .snapshots()
+        .first;
+
+    drNow = dr.documents.first;
+
+    if (dr.documents.length != 1) {
+      mySnackBar.show(scaffoldKey, 'Not find this user');
+
+      return false;
+    }
+
+    return true;
+  } catch (e) {
+    mySnackBar.show(scaffoldKey, e.toString());
+  }
+
+  return false;
+}
+
+Future<bool> signInByAuto(String name, String password) async {
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: 'samerbrees@gmail.com', password: '12345678');
+
+    QuerySnapshot dr = await Firestore.instance
+        .collection('user')
+        .where('name', isEqualTo: name)
+        .where('password', isEqualTo: password)
+        .snapshots()
+        .first;
+
+    drNow = dr.documents.first;
+
+    return (dr.documents.length == 1);
+  } catch (e) {}
+
   return false;
 }
 

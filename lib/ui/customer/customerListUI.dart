@@ -36,7 +36,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: myLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(),
+        drawer: homeDrawer.buildDrawer(context),
         appBar: _buildAppBar(),
         body: Center(
           child: Column(

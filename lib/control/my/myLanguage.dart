@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:retailapp/control/my/mySharedPreferences.dart'
+    as mySharedPreferences;
 
 enum TextIndex {
   yourName,
@@ -364,7 +365,7 @@ TextDirection rtl() {
 
 void setLanguageEN() {
   languageApp = 'en-US';
-  setLanguageApp('en-US');
+  mySharedPreferences.setLanguageApp('en-US');
 }
 
 void setLanguageAR() {
@@ -376,7 +377,7 @@ void setLanguage(String v) {
   languageApp = v;
 }
 
-Future<Null> setLanguageApp(String v) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('languageApp', v);
+void setLanguageApp(String v) {
+  languageApp = v;
+  mySharedPreferences.setLanguageApp(v);
 }

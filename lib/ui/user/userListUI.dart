@@ -5,7 +5,6 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/user/controluser.dart' as controlUser;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:firebase_storage/firebase_storage.dart';
 
 class UI extends StatefulWidget {
   @override
@@ -33,7 +32,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: myLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(),
+        drawer: homeDrawer.buildDrawer(context),
         appBar: _buildAppBar(),
         body: Center(
           child: Column(
@@ -170,8 +169,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         Container(
           height: 150.0,
           width: 150.0,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0),
-              image: DecorationImage(fit: BoxFit.fill,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100.0),
+              image: DecorationImage(
+                  fit: BoxFit.fill,
                   image: NetworkImage(dr['imageURL'].toString()))),
         ),
         Row(
