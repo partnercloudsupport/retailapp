@@ -46,7 +46,17 @@ enum TextIndex {
   detectLocation,
   setLocationFromTheMap,
   location,
-  viewLocation
+  viewLocation,
+  requests,
+  tomorrow,
+  all,
+  pending,
+  newRequest,
+  chooseACustomer,
+  chooseAnEmployee,
+  subject,
+  appointment,
+  chooseAppointment
 }
 
 String languageApp = 'en-US';
@@ -54,6 +64,36 @@ String languageApp = 'en-US';
 
 String _textEN(TextIndex t) {
   switch (t) {
+    case TextIndex.chooseAppointment:
+      return 'choose an appointment';
+      break;
+    case TextIndex.appointment:
+      return 'Appointment';
+      break;
+    case TextIndex.subject:
+      return 'Subject';
+      break;
+    case TextIndex.chooseAnEmployee:
+      return 'Choose a employee';
+      break;
+    case TextIndex.chooseACustomer:
+      return 'Choose a customer';
+      break;
+    case TextIndex.newRequest:
+      return 'New Request';
+      break;
+    case TextIndex.pending:
+      return 'Pending';
+      break;
+    case TextIndex.all:
+      return 'All';
+      break;
+    case TextIndex.tomorrow:
+      return 'Tomorrow';
+      break;
+    case TextIndex.requests:
+      return 'Requests';
+      break;
     case TextIndex.viewLocation:
       return 'view location';
       break;
@@ -197,6 +237,36 @@ String _textEN(TextIndex t) {
 
 String _textAR(TextIndex t) {
   switch (t) {
+    case TextIndex.chooseAppointment:
+      return 'اختر موعد';
+      break;
+    case TextIndex.appointment:
+      return 'الموعد';
+      break;
+    case TextIndex.subject:
+      return 'الموضوع';
+      break;
+    case TextIndex.chooseAnEmployee:
+      return 'اختيار موظف';
+      break;
+    case TextIndex.chooseACustomer:
+      return 'اختيار زبون';
+      break;
+    case TextIndex.newRequest:
+      return 'طلب جديد';
+      break;
+    case TextIndex.pending:
+      return 'قيد الانتظار';
+      break;
+    case TextIndex.all:
+      return 'الكل';
+      break;
+    case TextIndex.tomorrow:
+      return 'غدا';
+      break;
+    case TextIndex.requests:
+      return 'الطلبات';
+      break;
     case TextIndex.viewLocation:
       return 'عرض الموقع';
       break;

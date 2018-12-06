@@ -103,7 +103,7 @@ class _UIState extends State<UI> {
       validator: (String v) => v.trim().isEmpty
           ? myLanguage.text(myLanguage.TextIndex.youMustInsertText)
           : null,
-      style: myStyle.textEdit(),
+      style: myStyle.textEdit15(),
       decoration: InputDecoration(
           labelText: myLanguage.text(myLanguage.TextIndex.name)),
       onSaved: (String v) => _name = v,
@@ -118,7 +118,7 @@ class _UIState extends State<UI> {
       initialValue: _phones,
       focusNode: _focusNodePhones,
       textInputAction: TextInputAction.next,
-      style: myStyle.textEdit(),
+      style: myStyle.textEdit15(),
       decoration: InputDecoration(
           labelText: myLanguage.text(myLanguage.TextIndex.phones)),
       onSaved: (String v) => _phones = v,
@@ -134,7 +134,7 @@ class _UIState extends State<UI> {
       focusNode: _focusNodeAddress,
       textInputAction: TextInputAction.next,
       maxLines: 2,
-      style: myStyle.textEdit(),
+      style: myStyle.textEdit15(),
       decoration: InputDecoration(
           labelText: myLanguage.text(myLanguage.TextIndex.address)),
       onSaved: (String v) => _address = v,
@@ -150,7 +150,7 @@ class _UIState extends State<UI> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
           labelText: myLanguage.text(myLanguage.TextIndex.email)),
-      style: myStyle.textEdit(),
+      style: myStyle.textEdit15(),
       validator: (v) => v.trim().isEmpty
           ? null
           : myString.isEmail(v) == false
@@ -170,7 +170,7 @@ class _UIState extends State<UI> {
       focusNode: _focusNodeNote,
       textInputAction: TextInputAction.done,
       maxLines: 2,
-      style: myStyle.textEdit(),
+      style: myStyle.textEdit15(),
       decoration: InputDecoration(
           labelText: myLanguage.text(myLanguage.TextIndex.note)),
       onSaved: (String v) => _note = v,

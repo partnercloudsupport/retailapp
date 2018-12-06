@@ -15,7 +15,7 @@ class Row {
   Row(this.name, this.phones, this.address, this.email, this.note,
       this.mapLocation,
       {this.needInsert = true}) {
-    this.needUpdate = true;
+    this.needUpdate = !this.needInsert;
   }
 
   Row.fromSnapshot(DataSnapshot snapshot) {

@@ -68,3 +68,17 @@ Stream<QuerySnapshot> getByFilter(String v) {
       .where('name', isEqualTo: v)
       .snapshots();
 }
+
+Future<String> getKey(String v) async {
+  try {
+    QuerySnapshot dr = await Firestore.instance
+        .collection(_name)
+        .where('name', isEqualTo: v)
+        .snapshots()
+        .first;
+
+    return dr.documents.first.documentID;
+  } catch (e) {
+    return "";
+  }
+}

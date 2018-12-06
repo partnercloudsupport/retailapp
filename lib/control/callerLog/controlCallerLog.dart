@@ -3,13 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
-import 'package:retailapp/dataAccess/callerLog/callerLogRow.dart' as callerLogRow;
+import 'package:retailapp/dataAccess/callerLog/callerLogRow.dart'
+    as callerLogRow;
+
+String _name = 'callerLog';
 
 Future<bool> save(GlobalKey<ScaffoldState> scaffoldKey, String customer,
     String noteIs, String phone) async {
   try {
     await Firestore.instance
-        .collection('callerLog')
+        .collection(_name)
         .add(callerLogRow.Row(customer, noteIs, phone).toJson());
     mySnackBar.show(
         scaffoldKey, myLanguage.text(myLanguage.TextIndex.saveSuccessfully));
@@ -22,12 +25,12 @@ Future<bool> save(GlobalKey<ScaffoldState> scaffoldKey, String customer,
 }
 
 Stream<QuerySnapshot> getAll() {
-  return Firestore.instance.collection('callerLog').snapshots();
+  return Firestore.instance.collection(_name).snapshots();
 }
 
 Stream<QuerySnapshot> getToday() {
   return Firestore.instance
-      .collection('callerLog')
+      .collection(_name)
       .orderBy('dateTimeIs', descending: true)
       .where('dateTimeIs',
           isGreaterThanOrEqualTo: DateTime.utc(
@@ -37,7 +40,7 @@ Stream<QuerySnapshot> getToday() {
 
 Stream<QuerySnapshot> getYesterday() {
   return Firestore.instance
-      .collection('callerLog')
+      .collection(_name)
       .orderBy('dateTimeIs', descending: true)
       .where('dateTimeIs',
           isGreaterThanOrEqualTo: DateTime.utc(
@@ -54,7 +57,7 @@ Stream<QuerySnapshot> getYesterday() {
 
 Stream<QuerySnapshot> getLastWeek() {
   return Firestore.instance
-      .collection('callerLog')
+      .collection(_name)
       .orderBy('dateTimeIs', descending: true)
       .where('dateTimeIs',
           isGreaterThanOrEqualTo: DateTime.utc(
@@ -71,7 +74,7 @@ Stream<QuerySnapshot> getLastWeek() {
 
 Stream<QuerySnapshot> getAllBeforeLastWeek() {
   return Firestore.instance
-      .collection('callerLog')
+      .collection(_name)
       .orderBy('dateTimeIs', descending: true)
       .where(
         'dateTimeIs',
@@ -93,7 +96,7 @@ Stream<QuerySnapshot> getBetweenData(DateTime fromDate, DateTime toDate) {
   }
 
   return Firestore.instance
-      .collection('callerLog')
+      .collection(_name)
       .orderBy('dateTimeIs', descending: true)
       .where('dateTimeIs',
           isGreaterThanOrEqualTo:

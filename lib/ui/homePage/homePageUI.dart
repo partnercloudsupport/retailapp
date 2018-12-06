@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/ui/callerLog/callerLogListUI.dart' as callerLogListUI;
 import 'package:retailapp/ui/customer/customerListUI.dart' as customerListUI;
 import 'package:retailapp/ui/user/userListUI.dart' as userListUI;
+import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 
 int _currentIndex = 4;
 
@@ -83,6 +84,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           break;
         case 1:
           _ui = userListUI.UI();
+          break;
+        case 2:
+          _ui = requestListUI.UI();
           break;
         case 4:
           _ui = callerLogListUI.UI();
