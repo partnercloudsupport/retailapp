@@ -16,6 +16,7 @@ Future<bool> signInByEmail(
     return true;
   } catch (e) {
     mySnackBar.show(scaffoldKey, e.toString());
+    print(e.toString());
   }
 
   return false;
