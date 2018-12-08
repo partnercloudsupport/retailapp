@@ -21,15 +21,17 @@ Future<bool> save(
 ) async {
   try {
     await Firestore.instance.collection(_name).add(requestRow.Row(
-          customer,
-          employee,
+          customer.trim().isEmpty ? '-' : customer,
+          employee.trim().isEmpty ? '-' : employee,
           requiredImplementation,
           appointment,
-          targetPrice,
+          targetPrice < 0 ? 0 : targetPrice,
           stageIs,
-          salseman,
-          typeIs,
+          salseman.trim().isEmpty ? '-' : salseman,
+          typeIs.trim().isEmpty ? '-' : typeIs,
         ).toJson());
+
+    controlLiveVersion.save(_name);
     mySnackBar.show(
         scaffoldKey, myLanguage.text(myLanguage.TextIndex.saveSuccessfully));
     return true;
@@ -53,8 +55,15 @@ Future<bool> edit(
     String typeIs) async {
   try {
     await Firestore.instance.collection(_name).document(key).updateData(
-        requestRow.Row(customer, employee, requiredImplementation, appointment,
-                targetPrice, stageIs, salseman, typeIs,
+        requestRow.Row(
+                customer.trim().isEmpty ? '-' : customer,
+                employee.trim().isEmpty ? '-' : employee,
+                requiredImplementation,
+                appointment,
+                targetPrice < 0 ? 0 : targetPrice,
+                stageIs,
+                salseman.trim().isEmpty ? '-' : salseman,
+                typeIs.trim().isEmpty ? '-' : typeIs,
                 needInsert: false)
             .toJson());
 

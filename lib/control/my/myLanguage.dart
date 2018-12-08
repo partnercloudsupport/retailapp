@@ -56,7 +56,10 @@ enum TextIndex {
   chooseAnEmployee,
   subject,
   appointment,
-  chooseAppointment
+  chooseAnAppointment,
+  target,
+  chooseASalseman,
+  chooseARequestType
 }
 
 String languageApp = 'en-US';
@@ -64,7 +67,16 @@ String languageApp = 'en-US';
 
 String _textEN(TextIndex t) {
   switch (t) {
-    case TextIndex.chooseAppointment:
+    case TextIndex.chooseARequestType:
+      return 'Choose a request type';
+      break;
+    case TextIndex.chooseASalseman:
+      return 'Choose a salseman';
+      break;
+    case TextIndex.target:
+      return 'Target';
+      break;
+    case TextIndex.chooseAnAppointment:
       return 'choose an appointment';
       break;
     case TextIndex.appointment:
@@ -74,7 +86,7 @@ String _textEN(TextIndex t) {
       return 'Subject';
       break;
     case TextIndex.chooseAnEmployee:
-      return 'Choose a employee';
+      return 'Choose an employee';
       break;
     case TextIndex.chooseACustomer:
       return 'Choose a customer';
@@ -237,7 +249,16 @@ String _textEN(TextIndex t) {
 
 String _textAR(TextIndex t) {
   switch (t) {
-    case TextIndex.chooseAppointment:
+    case TextIndex.chooseARequestType:
+      return 'اختيار نوع الطلب';
+      break;
+    case TextIndex.chooseASalseman:
+      return 'اختيار مندوب مبيعات';
+      break;
+    case TextIndex.target:
+      return 'الهدف';
+      break;
+    case TextIndex.chooseAnAppointment:
       return 'اختر موعد';
       break;
     case TextIndex.appointment:

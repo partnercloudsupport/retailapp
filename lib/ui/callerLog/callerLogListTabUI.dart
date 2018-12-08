@@ -101,7 +101,7 @@ class _UIState extends State<UI> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 document['noteIs'],
-                style: myStyle.masterLevel2(),
+                style: myStyle.masterLevel16_1(),
               ),
             ),
           ),
@@ -112,7 +112,7 @@ class _UIState extends State<UI> {
                   document['dateTimeIs'].toString(),
                   myDateTime.Types.ddMMyyyyhhmma),
               textAlign: TextAlign.end,
-              style: myStyle.dateLevel1(),
+              style: myStyle.dateLevel12(),
             ),
           ),
         ],
@@ -170,7 +170,7 @@ class _UIState extends State<UI> {
             children: <Widget>[
               SimpleDialogOption(
                 child: Text(myLanguage.text(myLanguage.TextIndex.cancel),
-                    style: myStyle.masterLevel2()),
+                    style: myStyle.masterLevel16_1()),
                 onPressed: () => Navigator.pop(_bc, 'Cancel'),
               ),
               Expanded(
@@ -178,7 +178,7 @@ class _UIState extends State<UI> {
               ),
               SimpleDialogOption(
                 child: Text(myLanguage.text(myLanguage.TextIndex.search),
-                    style: myStyle.masterLevel1()),
+                    style: myStyle.masterLevel16()),
                 onPressed: () => Navigator.pop(_bc, 'Ok'),
               ),
             ],

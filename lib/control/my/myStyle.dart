@@ -25,19 +25,24 @@ TextStyle mainTitle() {
   return TextStyle(fontSize: 20.0, color: myColor.master);
 }
 
-TextStyle mainTitle2() {
+TextStyle mainTitle20() {
   return TextStyle(fontSize: 20.0, color: myColor.master2);
 }
 
-TextStyle masterLevel1() {
+TextStyle masterLevel16() {
   return TextStyle(fontSize: 16.0, color: myColor.master);
 }
 
-TextStyle masterLevel2() {
+TextStyle masterLevel16_1() {
   return TextStyle(
       fontSize: 16.0, color: myColor.master, fontStyle: FontStyle.italic);
 }
 
-TextStyle dateLevel1() {
+TextStyle dateLevel12() {
   return TextStyle(fontSize: 12.0, color: myColor.dateLevel1);
+}
+
+TextStyle stylel12Italic() {
+  return TextStyle(
+      fontSize: 12.0, color: myColor.dateLevel1, fontStyle: FontStyle.italic);
 }

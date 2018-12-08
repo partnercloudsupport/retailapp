@@ -8,8 +8,6 @@ import 'package:retailapp/control/request/controlRequestNote.dart'
     as controlRequestNote;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/ui/request/requestNoteListUI.dart'
-    as requestNoteListUI;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
@@ -105,12 +103,11 @@ class _UIState extends State<UI> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            _buildNoteButton(dr),
+                            _buildPendingButton(),
                             Expanded(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  _buildPendingButton(dr),
                                   _buildEditButton(dr),
                                   _buildNeedInsertOrUpdate(dr),
                                 ],
@@ -118,6 +115,15 @@ class _UIState extends State<UI> {
                             )
                           ],
                         ),
+                        Column(
+                          children: <Widget>[
+                            _builTextNote(dr),
+                            Card(
+                                elevation: 2.0,
+                                color: myColor.master,
+                                child: _buildListNote(dr)),
+                          ],
+                        )
                       ],
                     )
                   ],
@@ -127,32 +133,13 @@ class _UIState extends State<UI> {
           );
   }
 
-  Widget _buildPendingButton(DocumentSnapshot dr) {
+  Widget _buildPendingButton() {
     return IconButton(
       icon: Icon(
-        Icons.pause,
+        Icons.style,
         color: myColor.master,
       ),
       onPressed: () => {},
-    );
-  }
-
-  Widget _buildNoteButton(DocumentSnapshot dr) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        child: Text(
-          myLanguage.text(myLanguage.TextIndex.note) +
-              ' ' +
-              dr['notesCount'].toString(),
-          style: myStyle.stylel12Italic(),
-        ),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  requestNoteListUI.UI(double.parse(dr.documentID.toString())))),
-      ),
     );
   }
 
@@ -190,6 +177,112 @@ class _UIState extends State<UI> {
               )
       ],
     );
+  }
+
+  Widget _builTextNote(DocumentSnapshot dr) {
+    return Container(
+      margin: EdgeInsets.only(left: 5.0, right: 5.0),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+      child: Row(
+        children: <Widget>[
+          _note.isEmpty == false
+              ? IconButton(
+                  icon: Icon(
+                    Icons.save,
+                    color: myColor.master,
+                  ),
+                  onPressed: () => _saveNote(dr),
+                )
+              : SizedBox(),
+          Expanded(
+            child: TextField(
+              controller: _noteController,
+              textInputAction: TextInputAction.done,
+              style: myStyle.textEdit15(),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: myLanguage.text(myLanguage.TextIndex.note)),
+              onChanged: (String v) {
+                setState(() {
+                  _note = v;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListNote(DocumentSnapshot dr) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: controlRequestNote.getOfRequest(double.parse(dr.documentID)),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
+        if (!v.hasData) return _buildTextLoading();
+
+        return Container(
+          height: 180.0,
+          child: ListView(
+            children: v.data.documents.map((DocumentSnapshot dr) {
+              return _buildCardNote(dr);
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCardNote(DocumentSnapshot dr) {
+    return Card(
+      child: ExpansionTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              dr['user'],
+              style: myStyle.dateLevel12(),
+            ),
+            Text(
+              dr['note'],
+              style: myStyle.masterLevel16(),
+            ),
+          ],
+        ),
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+                child: Text(
+                  myDateTime.formatAndShortByFromString(
+                      dr['dateTimeIs'].toString(),
+                      myDateTime.Types.ddMMyyyyhhmma),
+                  textAlign: TextAlign.end,
+                  style: myStyle.dateLevel12(),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  _buildNeedInsertOrUpdate(dr),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void _saveNote(DocumentSnapshot dr) {
+    controlRequestNote.save(
+        double.parse(dr.documentID), controlUser.drNow['name'], _note);
+
+    setState(() {
+      _note = '';
+      _noteController.clear();
+    });
   }
 
   void _new() {

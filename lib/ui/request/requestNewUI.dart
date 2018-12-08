@@ -12,6 +12,11 @@ import 'package:retailapp/ui/customer/customerSelectUI.dart'
     as customerSelectUI;
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
+import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:retailapp/control/employee/controlEmployee.dart'
+    as controlEmployee;
+import 'package:retailapp/control/request/controlRequestType.dart'
+    as controlRequestType;
 
 class UI extends StatefulWidget {
   _UIState createState() => _UIState();
@@ -26,9 +31,10 @@ class _UIState extends State<UI> {
   String _customer = '';
   String _employee = '';
   String _requiredImplementation = '';
-  DateTime _appointment;
+  DateTime _appointment = DateTime.now();
+  String _salseman = '';
   double _targetPrice = 0;
-  String _note = '';
+  String _requestType = '';
 
   final FocusNode _focusNode1 = new FocusNode();
   final FocusNode _focusNode2 = new FocusNode();
@@ -98,7 +104,9 @@ class _UIState extends State<UI> {
               _buildEmployeeChoose(),
               _buildrequiredImplementationFormField(),
               _buildAppointment(),
-              _buildTargetPrice()
+              _buildSalsemanChoose(),
+              _buildTargetPrice(),
+              _buildRequestTypeChoose(),
             ],
           )),
     );
@@ -114,7 +122,7 @@ class _UIState extends State<UI> {
           children: <Widget>[
             Text(
               myLanguage.text(myLanguage.TextIndex.chooseACustomer),
-              style: myStyle.dateLevel1(),
+              style: myStyle.dateLevel12(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
@@ -128,53 +136,77 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildEmployeeChoose() {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            myLanguage.text(myLanguage.TextIndex.chooseAnEmployee),
-            style: myStyle.dateLevel1(),
-          ),
-          Container(
-            decoration: UnderlineTabIndicator(
-                borderSide: BorderSide(color: myColor.master)),
-            child: DropdownButton(
-              isExpanded: true,
-              value: _employee,
-              items: _listEmployee,
-              onChanged: _chooseEmployee,
-              style: myStyle.textEdit15(),
+    return InkWell(
+      child: Container(
+        decoration: UnderlineTabIndicator(
+            borderSide: BorderSide(color: myColor.master)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
             ),
-          ),
-        ],
+            Text(
+              myLanguage.text(myLanguage.TextIndex.chooseAnEmployee),
+              style: myStyle.dateLevel12(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: Text(_employee, style: myStyle.textEdit15()),
+            ),
+          ],
+        ),
       ),
+      onTap: _openChooseEmployee,
     );
   }
 
   Widget _buildrequiredImplementationFormField() {
     return TextFormField(
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       maxLines: 4,
       style: myStyle.textEdit15(),
       decoration: InputDecoration(
           labelText: myLanguage.text(myLanguage.TextIndex.subject)),
       onSaved: (String v) => _requiredImplementation = v,
       focusNode: _focusNode1,
-      onFieldSubmitted: (v) => FocusScope.of(context).requestFocus(_focusNode2),
     );
   }
 
   Widget _buildAppointment() {
     return DateTimePickerFormField(
+      initialValue: _appointment,
       editable: false,
       format: dateFormat,
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.TextIndex.chooseAppointment)),
+          labelText: myLanguage.text(myLanguage.TextIndex.chooseAnAppointment)),
       onChanged: _chooseAppointment,
+    );
+  }
+
+  Widget _buildSalsemanChoose() {
+    return InkWell(
+      child: Container(
+        decoration: UnderlineTabIndicator(
+            borderSide: BorderSide(color: myColor.master)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              myLanguage.text(myLanguage.TextIndex.chooseASalseman),
+              style: myStyle.dateLevel12(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: Text(_salseman, style: myStyle.textEdit15()),
+            ),
+          ],
+        ),
+      ),
+      onTap: _openChooseSalseman,
     );
   }
 
@@ -188,9 +220,35 @@ class _UIState extends State<UI> {
         textInputAction: TextInputAction.done,
         style: myStyle.textEdit15(),
         decoration: InputDecoration(
-            labelText: myLanguage.text(myLanguage.TextIndex.note)),
+            labelText: myLanguage.text(myLanguage.TextIndex.target)),
         onSaved: (String v) => _targetPrice = double.parse(v),
         focusNode: _focusNode2);
+  }
+
+  Widget _buildRequestTypeChoose() {
+    return InkWell(
+      child: Container(
+        decoration: UnderlineTabIndicator(
+            borderSide: BorderSide(color: myColor.master)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              myLanguage.text(myLanguage.TextIndex.chooseARequestType),
+              style: myStyle.dateLevel12(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: Text(_requestType, style: myStyle.textEdit15()),
+            ),
+          ],
+        ),
+      ),
+      onTap: _openChooseRequestType,
+    );
   }
 
   void _openChooseCustomer() {
@@ -206,6 +264,16 @@ class _UIState extends State<UI> {
     });
   }
 
+  void _openChooseEmployee() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => selectWithFilterUI.UI(
+                controlEmployee.getAll(),
+                _chooseEmployee,
+                myLanguage.text(myLanguage.TextIndex.chooseAnEmployee))));
+  }
+
   void _chooseEmployee(String v) {
     setState(() {
       _employee = v;
@@ -213,7 +281,43 @@ class _UIState extends State<UI> {
   }
 
   void _chooseAppointment(DateTime v) {
-    _appointment = v;
+    setState(() {
+      _appointment = v;
+    });
+  }
+
+  void _openChooseSalseman() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => selectWithFilterUI.UI(
+                controlEmployee.getAll(),
+                _chooseSalseman,
+                myLanguage.text(myLanguage.TextIndex.chooseASalseman))));
+  }
+
+  void _chooseSalseman(String v) {
+    setState(() {
+      _salseman = v;
+    });
+  }
+
+  void _openChooseRequestType() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => selectWithFilterUI.UI(
+                  controlRequestType.getAll(),
+                  _chooseRequestType,
+                  myLanguage.text(myLanguage.TextIndex.chooseARequestType),
+                  autofocus: false,
+                )));
+  }
+
+  void _chooseRequestType(String v) {
+    setState(() {
+      _requestType = v;
+    });
   }
 
   bool _saveValidator() {
@@ -235,8 +339,8 @@ class _UIState extends State<UI> {
               _appointment,
               _targetPrice,
               3,
-              'saleman',
-              'type is new') ==
+              _salseman,
+              _requestType) ==
           true) {
         Navigator.pop(_context);
       }

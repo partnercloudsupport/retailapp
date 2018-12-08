@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
 import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:retailapp/control/customer/controlCustomer.dart'
-    as controlCustomer;
-import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
-import 'package:retailapp/ui/customer/customerEditUI.dart' as customerEditUI;
+import 'package:retailapp/control/request/controlRequestNote.dart'
+    as controlRequestNote;
+
 import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 
 class UI extends StatefulWidget {
+  final double requestID;
+  UI(this.requestID);
   @override
   UIState createState() => UIState();
 }
@@ -36,7 +35,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: myLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(context),
         appBar: _buildAppBar(),
         body: Center(
           child: Column(
@@ -46,7 +44,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             ],
           ),
         ),
-        floatingActionButton: _buildFloatingActionButton(),
       ),
     );
   }
@@ -138,15 +135,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildList() {
     return StreamBuilder<QuerySnapshot>(
-      stream: controlCustomer.getAll(),
+      stream: controlRequestNote.getOfRequest(widget.requestID),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return v['name'].toString().contains(_filter) ||
-                  v['address'].toString().contains(_filter) ||
-                  v['phones'].toString().contains(_filter);
+              return v['user'].toString().contains(_filter) ||
+                  v['note'].toString().contains(_filter);
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
             }).toList(),
@@ -159,48 +155,20 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   Widget _buildCard(DocumentSnapshot dr) {
     return ExpansionTile(
       title: Text(
-        dr['name'],
+        dr['user'],
         style: myStyle.textEdit(),
       ),
-      leading: dr['phones'].toString().isEmpty
-          ? Icon(
-              Icons.phone,
-              color: Colors.red,
-            )
-          : Text(
-              dr['phones'],
-            ),
+      leading: Text(
+        dr['note'],
+      ),
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                dr['address'].toString().isEmpty
-                    ? SizedBox()
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:
-                            Text(dr['address'], style: myStyle.masterLevel16_1()),
-                      ),
-                dr['note'].toString().isEmpty
-                    ? SizedBox()
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(dr['note'], style: myStyle.masterLevel16_1()),
-                      ),
-              ],
-            ),
-          ],
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            _buildViewMapButton(dr),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  _buildEditButton(dr),
                   _buildNeedInsertOrUpdate(dr),
                 ],
               ),
@@ -208,26 +176,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           ],
         )
       ],
-    );
-  }
-
-  Widget _buildViewMapButton(DocumentSnapshot dr) {
-    return IconButton(
-      icon: Icon(
-        Icons.location_on,
-        color: myColor.master,
-      ),
-      onPressed: () => _viewMap(dr),
-    );
-  }
-
-  Widget _buildEditButton(DocumentSnapshot dr) {
-    return IconButton(
-      icon: Icon(
-        Icons.edit,
-        color: myColor.master,
-      ),
-      onPressed: () => _edit(dr),
     );
   }
 
@@ -257,14 +205,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: _new,
-      backgroundColor: myColor.master,
-    );
-  }
-
   void _filterReactive() {
     setState(() {
       _filterActive = !_filterActive;
@@ -289,31 +229,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       _filter = '';
       _textEditingController = TextEditingController(text: '');
     });
-  }
-
-  void _new() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => customerNewUI.UI()));
-  }
-
-  void _edit(DocumentSnapshot dr) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => customerEditUI.UI(dr)));
-
-    // Navigator.pushAndRemoveUntil(
-    //   this.context,
-    //   MaterialPageRoute(
-    //       builder: (BuildContext context) => customerEditUI.UI(dr)),
-    //   ModalRoute.withName('/'),
-    // );
-  }
-
-  void _viewMap(DocumentSnapshot dr) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => mapGoogleViewUI.UI(
-                dr.data['name'], dr.data['phones'], dr.data['mapLocation'])));
   }
 
   @override

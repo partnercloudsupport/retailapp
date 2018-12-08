@@ -13,14 +13,14 @@ Widget buildDrawer(BuildContext bc) {
         UserAccountsDrawerHeader(
           accountName: Text(
             'Samer Brees',
-            style: myStyle.mainTitle2(),
+            style: myStyle.mainTitle20(),
           ),
           accountEmail: Text(
               controlUser.drNow.data['name'].toString() +
                   ' (' +
                   controlUser.drNow.data['permission'].toString() +
                   ')',
-              style: myStyle.mainTitle2()),
+              style: myStyle.mainTitle20()),
           currentAccountPicture: Container(
             height: 150.0,
             width: 150.0,

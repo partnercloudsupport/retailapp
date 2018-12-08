@@ -27,7 +27,7 @@ class _UIState extends State<UI> {
         appBar: AppBar(
           title: Text(
             myLanguage.text(myLanguage.TextIndex.smartSecurity),
-            style: myStyle.mainTitle2(),
+            style: myStyle.mainTitle20(),
           ),
         ),
         body: Container(
