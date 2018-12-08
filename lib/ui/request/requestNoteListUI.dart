@@ -135,14 +135,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildList() {
     return StreamBuilder<QuerySnapshot>(
-      stream: controlRequestNote.getOfRequest(widget.requestID),
+      stream: controlRequestNote.getAll(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return v['user'].toString().contains(_filter) ||
-                  v['note'].toString().contains(_filter);
+              return (v['user'].toString().contains(_filter) ||
+                      v['note'].toString().contains(_filter)) &&
+                  v['requestID'] == widget.requestID;
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
             }).toList(),
@@ -155,11 +156,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   Widget _buildCard(DocumentSnapshot dr) {
     return ExpansionTile(
       title: Text(
-        dr['user'],
+        dr['note'],
         style: myStyle.textEdit(),
       ),
       leading: Text(
-        dr['note'],
+        dr['user'],
       ),
       children: <Widget>[
         Row(
