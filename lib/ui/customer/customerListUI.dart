@@ -41,7 +41,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         body: Center(
           child: Column(
             children: <Widget>[
-              _buildTextFieldFilter(),
+              _buildFilter(),
               _buildList(),
             ],
           ),
@@ -51,7 +51,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildTextFieldFilter() {
+  Widget _buildFilter() {
     return _filterActive
         ? SizeTransition(
             axis: Axis.horizontal,
@@ -77,12 +77,21 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           onTap: _filterReactive,
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: InkWell(
+                          child: Icon(
+                            Icons.search,
+                            color: myColor.master,
+                          ),
+                          onTap: _filterApply,
+                        ),
+                      ),
                       Flexible(
                         child: TextField(
                           autofocus: true,
                           style: myStyle.textEdit15(),
                           controller: _textEditingController,
-                          onChanged: (v) => _filterApply(v),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
@@ -144,9 +153,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return v['name'].toString().toLowerCase().contains(_filter) ||
-                  v['address'].toString().toLowerCase().contains(_filter) ||
-                  v['phones'].toString().toLowerCase().contains(_filter);
+              return (v['name'].toString() +
+                      v['address'].toString() +
+                      v['phones'].toString())
+                  .toLowerCase()
+                  .contains(_filter);
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
             }).toList(),
@@ -179,14 +190,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     ? SizedBox()
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:
-                            Text(dr['address'], style: myStyle.masterLevel16_1()),
+                        child: Text(dr['address'],
+                            style: myStyle.masterLevel16_1()),
                       ),
                 dr['note'].toString().isEmpty
                     ? SizedBox()
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(dr['note'], style: myStyle.masterLevel16_1()),
+                        child:
+                            Text(dr['note'], style: myStyle.masterLevel16_1()),
                       ),
               ],
             ),
@@ -269,7 +281,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     setState(() {
       _filterActive = !_filterActive;
       _textEditingController = TextEditingController(text: '');
-      _filterApply('');
+      _filterApply();
 
       if (_filterActive) {
         _ac.reset();
@@ -278,9 +290,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     });
   }
 
-  void _filterApply(String v) {
+  void _filterApply() {
     setState(() {
-      _filter = v.toLowerCase();
+      _filter = _textEditingController.text;
     });
   }
 
@@ -320,5 +332,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _ac.dispose();
+    _textEditingController.dispose();
   }
 }

@@ -27,7 +27,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         appBar: _buildAppBar(),
         body: Column(
           children: <Widget>[
-            _buildTextFieldFilter(),
+            _buildFilter(),
             _buildList(),
           ],
         ),
@@ -41,7 +41,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildTextFieldFilter() {
+  Widget _buildFilter() {
     return Column(
       children: <Widget>[
         Container(
@@ -50,6 +50,16 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   bottom: BorderSide(width: 1.0, color: myColor.master))),
           child: Row(
             children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: InkWell(
+                  child: Icon(
+                    Icons.search,
+                    color: myColor.master,
+                  ),
+                  onTap: _filterApply,
+                ),
+              ),
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -57,7 +67,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     autofocus: true,
                     style: myStyle.textEdit15(),
                     controller: _textEditingController,
-                    onChanged: (v) => _filterApply(v),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText:
@@ -97,7 +106,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return StreamBuilder<QuerySnapshot>(
       stream: controlCustomer.getAll(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
-        if (!v.hasData) return Center(child: CircularProgressIndicator());
+        if (!v.hasData) return CircularProgressIndicator();
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
@@ -133,9 +142,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  void _filterApply(String v) {
+  void _filterApply() {
     setState(() {
-      _filter = v;
+      _filter = _textEditingController.text;
     });
   }
 

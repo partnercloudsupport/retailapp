@@ -81,11 +81,11 @@ Stream<QuerySnapshot> getToday() {
       .collection(_name)
       .where('appointment',
           isGreaterThanOrEqualTo: DateTime.utc(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day))
+              DateTime.now().year, DateTime.now().month, DateTime.now().day,-2))
       .where(
         'appointment',
         isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
-            DateTime.now().month, DateTime.now().day, 24, 60, 60),
+            DateTime.now().month, DateTime.now().day, 22, 60, 60),
       )
       .snapshots();
 }
@@ -95,12 +95,12 @@ Stream<QuerySnapshot> getTomorrow() {
       .collection(_name)
       .where('appointment',
           isGreaterThanOrEqualTo: DateTime.utc(
-                  DateTime.now().year, DateTime.now().month, DateTime.now().day)
+                  DateTime.now().year, DateTime.now().month, DateTime.now().day,-2)
               .add(Duration(days: 1)))
       .where(
         'appointment',
         isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
-                DateTime.now().month, DateTime.now().day, 24, 60, 60)
+                DateTime.now().month, DateTime.now().day, 22, 60, 60)
             .add(Duration(days: 1)),
       )
       .snapshots();

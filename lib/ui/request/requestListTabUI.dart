@@ -58,9 +58,8 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildCard(DocumentSnapshot dr) {
-    return dr['statusIs'] != widget.statusIs || dr['stageIs'] < widget.stageIs
-        ? SizedBox()
-        : Card(
+    return dr['statusIs'] == widget.statusIs && dr['stageIs'] >= widget.stageIs
+        ? Card(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -120,7 +119,8 @@ class _UIState extends State<UI> {
                 ),
               ],
             ),
-          );
+          )
+        : SizedBox();
   }
 
   Widget _buildPendingButton(DocumentSnapshot dr) {
