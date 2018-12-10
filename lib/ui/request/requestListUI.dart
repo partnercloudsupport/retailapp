@@ -11,6 +11,8 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  bool _filterActive = false;
+
   TabController _tabController;
 
   @override
@@ -30,10 +32,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            requestListTabUI.UI(controlRequest.getToday(), 0,3),
-            requestListTabUI.UI(controlRequest.getTomorrow(), 0,3),
-            requestListTabUI.UI(controlRequest.getAll(), 0,3),
-            requestListTabUI.UI(controlRequest.getPending(), 1,0),
+            requestListTabUI.UI(controlRequest.getToday(), 0, 3, _filterActive),
+            requestListTabUI.UI(
+                controlRequest.getTomorrow(), 0, 3, _filterActive),
+            requestListTabUI.UI(controlRequest.getAll(), 0, 3, _filterActive),
+            requestListTabUI.UI(
+                controlRequest.getPending(), 1, 0, _filterActive),
           ],
         ),
       ),
@@ -60,6 +64,19 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.search,
+            color: _filterActive ? Colors.white : Colors.grey,
+          ),
+          onPressed: () {
+            setState(() {
+              _filterActive = !_filterActive;
+            });
+          },
+        )
+      ],
     );
   }
 

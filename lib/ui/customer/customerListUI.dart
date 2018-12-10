@@ -18,8 +18,7 @@ class UI extends StatefulWidget {
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
   bool _filterActive = false;
   String _filter = '';
-  TextEditingController _textEditingController =
-      TextEditingController(text: '');
+  TextEditingController _filterController = TextEditingController(text: '');
 
   AnimationController _ac;
 
@@ -91,7 +90,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         child: TextField(
                           autofocus: true,
                           style: myStyle.textEdit15(),
-                          controller: _textEditingController,
+                          controller: _filterController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
@@ -280,7 +279,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void _filterReactive() {
     setState(() {
       _filterActive = !_filterActive;
-      _textEditingController = TextEditingController(text: '');
+      _filterController = TextEditingController(text: '');
       _filterApply();
 
       if (_filterActive) {
@@ -292,14 +291,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _filterApply() {
     setState(() {
-      _filter = _textEditingController.text;
+      _filter = _filterController.text;
     });
   }
 
   void _filterClear() {
     setState(() {
       _filter = '';
-      _textEditingController = TextEditingController(text: '');
+      _filterController = TextEditingController(text: '');
     });
   }
 
@@ -332,6 +331,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _ac.dispose();
-    _textEditingController.dispose();
+    _filterController.dispose();
   }
 }

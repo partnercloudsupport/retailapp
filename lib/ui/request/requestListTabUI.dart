@@ -11,21 +11,87 @@ import 'package:retailapp/ui/request/requestEditUI.dart' as requestEditUI;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
-  final int statusIs;
-  final int stageIs;
-  UI(this._querySnapshot, this.statusIs, this.stageIs);
+  final int _statusIs;
+  final int _stageIs;
+  final bool _filterActive;
+  UI(this._querySnapshot, this._statusIs, this._stageIs, this._filterActive);
 
   @override
-  _UIState createState() => _UIState();
+  UIState createState() => UIState();
 }
 
-class _UIState extends State<UI> {
+class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  String _filter = '';
+  TextEditingController _filterController = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildList(),
+      body: Column(
+        children: <Widget>[
+          _buildFilter(),
+          Expanded(child: _buildList()),
+        ],
+      ),
       floatingActionButton: _buildFloatingActionButton(),
     );
+  }
+
+  Widget _buildFilter() {
+    return widget._filterActive
+        ? Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: myColor.master))),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: TextField(
+                          autofocus: true,
+                          style: myStyle.textEdit15(),
+                          controller: _filterController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText:
+                                myLanguage.text(myLanguage.TextIndex.search) +
+                                    '...',
+                          ),
+                          onChanged: _filterApply,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: _filter.isEmpty == true
+                          ? SizedBox(width: 0)
+                          : InkWell(
+                              child: Icon(
+                                Icons.clear,
+                                color: myColor.master,
+                              ),
+                              onTap: _filterClear,
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                  height: 1,
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        color: myColor.master,
+                        blurRadius: 5.0,
+                        offset: Offset(0.0, 5.0)),
+                  ])),
+            ],
+          )
+        : SizedBox(
+            height: 0,
+          );
   }
 
   Widget _buildList() {
@@ -35,7 +101,14 @@ class _UIState extends State<UI> {
         if (!v.hasData) return _buildTextLoading();
 
         return ListView(
-          children: v.data.documents.map((DocumentSnapshot dr) {
+          children: v.data.documents.where((v) {
+            return (v['customer'].toString() +
+                    v['typeIs'].toString() +
+                    v['requiredImplementation'].toString() +
+                    v['employee'].toString())
+                .toLowerCase()
+                .contains(_filter);
+          }).map((DocumentSnapshot dr) {
             return _buildCard(dr);
           }).toList(),
         );
@@ -58,13 +131,14 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildCard(DocumentSnapshot dr) {
-    return dr['statusIs'] == widget.statusIs && dr['stageIs'] >= widget.stageIs
+    return dr['statusIs'] == widget._statusIs &&
+            dr['stageIs'] >= widget._stageIs
         ? Card(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 ExpansionTile(
-                  leading: Text(dr.documentID + ' | ' + dr['typeIs']),
+                  leading: Text(dr.documentID + dr['typeIs']),
                   title: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -186,6 +260,19 @@ class _UIState extends State<UI> {
               )
       ],
     );
+  }
+
+  void _filterApply(String v) {
+    setState(() {
+      _filter = v;
+    });
+  }
+
+  void _filterClear() {
+    setState(() {
+      _filter = '';
+      _filterController = TextEditingController(text: '');
+    });
   }
 
   void _new() {
