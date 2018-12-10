@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 class Row {
   String key;
@@ -11,7 +12,8 @@ class Row {
   bool needInsert;
   bool needUpdate;
 
-  Row(this.requestID, this.user, this.note, {this.needInsert = true}) {
+  Row(this.requestID, this.note, {this.needInsert = true}) {
+    this.user = controlUser.drNow.data['name'];
     this.userID = 0;
     this.stageIs = 3;
     this.dateTimeIs = DateTime.now();

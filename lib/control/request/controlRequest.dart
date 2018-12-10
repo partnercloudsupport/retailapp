@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/dataAccess/request/requestRow.dart' as requestRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
@@ -32,8 +31,6 @@ Future<bool> save(
         ).toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show(
-        scaffoldKey, myLanguage.text(myLanguage.TextIndex.saveSuccessfully));
     return true;
   } catch (e) {
     mySnackBar.show(scaffoldKey, e.toString());
@@ -54,22 +51,19 @@ Future<bool> edit(
     String salseman,
     String typeIs) async {
   try {
-    await Firestore.instance.collection(_name).document(key).updateData(
-        requestRow.Row(
-                customer.trim().isEmpty ? '-' : customer,
-                employee.trim().isEmpty ? '-' : employee,
-                requiredImplementation,
-                appointment,
-                targetPrice < 0 ? 0 : targetPrice,
-                stageIs,
-                salseman.trim().isEmpty ? '-' : salseman,
-                typeIs.trim().isEmpty ? '-' : typeIs,
-                needInsert: false)
-            .toJson());
+    await Firestore.instance.collection(_name).document(key).updateData({
+      "customer": customer,
+      "employee": employee,
+      "requiredImplementation": requiredImplementation,
+      "appointment": appointment,
+      "targetPrice": targetPrice,
+      "stageIs": stageIs,
+      "salseman": salseman,
+      "typeIs": typeIs,
+      "needUpdate": true,
+    });
 
     controlLiveVersion.save(_name);
-    mySnackBar.show(
-        scaffoldKey, myLanguage.text(myLanguage.TextIndex.saveSuccessfully));
     return true;
   } catch (e) {
     mySnackBar.show(scaffoldKey, e.toString());

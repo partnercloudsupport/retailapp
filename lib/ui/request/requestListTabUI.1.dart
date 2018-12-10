@@ -6,7 +6,6 @@ import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 import 'package:retailapp/control/request/controlRequestNote.dart'
     as controlRequestNote;
-import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 
 class UI extends StatefulWidget {
@@ -276,8 +275,7 @@ class _UIState extends State<UI> {
   }
 
   void _saveNote(DocumentSnapshot dr) {
-    controlRequestNote.save(
-        double.parse(dr.documentID), controlUser.drNow['name'], _note);
+    controlRequestNote.save(double.parse(dr.documentID), _note);
 
     setState(() {
       _note = '';
@@ -291,8 +289,7 @@ class _UIState extends State<UI> {
   }
 
   void _edit(DocumentSnapshot dr) {
-    controlRequestNote.save(
-        dr['requestID'], controlUser.drNow['name'], 'new note');
+    controlRequestNote.save(dr['requestID'], 'new note');
     // Navigator.push(
     //     context, MaterialPageRoute(builder: (context) => requestNewUI.UI()));
 

@@ -87,20 +87,20 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildCard(DocumentSnapshot document) {
+  Widget _buildCard(DocumentSnapshot dr) {
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           ListTile(
             title: Text(
-              document['phone'] + " - " + document['customer'],
+              dr['phone'] + " - " + dr['customer'],
               style: myStyle.textEdit(),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                document['noteIs'],
+                dr['noteIs'],
                 style: myStyle.masterLevel16_1(),
               ),
             ),
@@ -109,7 +109,7 @@ class _UIState extends State<UI> {
             padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
             child: Text(
               myDateTime.formatAndShortByFromString(
-                  document['dateTimeIs'].toString(),
+                  dr['dateTimeIs'].toString(),
                   myDateTime.Types.ddMMyyyyhhmma),
               textAlign: TextAlign.end,
               style: myStyle.dateLevel12(),

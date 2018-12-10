@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,8 @@ import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
 
 class UI extends StatefulWidget {
+  final DocumentSnapshot dr;
+  UI(this.dr);
   _UIState createState() => _UIState();
 }
 
@@ -38,6 +41,19 @@ class _UIState extends State<UI> {
   final FocusNode _focusNode2 = new FocusNode();
 
   final dateFormat = DateFormat("EEEE, d-MM-yyyy 'at' h:mma");
+
+  @override
+  void initState() {
+    _customer = widget.dr['customer'];
+    _employee = widget.dr['employee'];
+    _requiredImplementation = widget.dr['requiredImplementation'];
+    _appointment = widget.dr['appointment'];
+    _salseman = widget.dr['salseman'];
+    _targetPrice = widget.dr['targetPrice'];
+    _typeIs = widget.dr['typeIs'];
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +82,7 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.TextIndex.newRequest),
+      myLanguage.text(myLanguage.TextIndex.editRequest),
       style: myStyle.button2(),
     );
   }
@@ -141,6 +157,7 @@ class _UIState extends State<UI> {
 
   Widget _buildrequiredImplementationFormField() {
     return TextFormField(
+      initialValue: _requiredImplementation,
       textInputAction: TextInputAction.done,
       maxLines: 4,
       style: myStyle.textEdit15(),
@@ -194,7 +211,7 @@ class _UIState extends State<UI> {
         inputFormatters: [
           WhitelistingTextInputFormatter(myRegExp.number1To9999999),
         ],
-        initialValue: '0',
+        initialValue: _targetPrice.toStringAsFixed(0),
         textInputAction: TextInputAction.done,
         style: myStyle.textEdit15(),
         decoration: InputDecoration(
@@ -309,14 +326,15 @@ class _UIState extends State<UI> {
 
   void _save() async {
     if (_saveValidator() == true) {
-      if (await controlRequest.save(
+      if (await controlRequest.edit(
               scaffoldKey,
+              widget.dr.documentID,
               _customer,
               _employee,
               _requiredImplementation,
               _appointment,
               _targetPrice,
-              3,
+              widget.dr['stageIs'],
               _salseman,
               _typeIs) ==
           true) {

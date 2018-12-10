@@ -30,10 +30,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            requestListTabUI.UI(controlRequest.getToday(), 0),
-            requestListTabUI.UI(controlRequest.getTomorrow(), 0),
-            requestListTabUI.UI(controlRequest.getAll(), 0),
-            requestListTabUI.UI(controlRequest.getPending(), 1),
+            requestListTabUI.UI(controlRequest.getToday(), 0,3),
+            requestListTabUI.UI(controlRequest.getTomorrow(), 0,3),
+            requestListTabUI.UI(controlRequest.getAll(), 0,3),
+            requestListTabUI.UI(controlRequest.getPending(), 1,0),
           ],
         ),
       ),

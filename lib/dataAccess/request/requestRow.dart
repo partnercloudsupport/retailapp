@@ -1,4 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Row {
   String key;
@@ -33,6 +33,7 @@ class Row {
     this.paidByEmployee = "";
     this.amount = 0;
     this.takeIn = DateTime.now();
+    this.stageIs = 3;
     this.notesCount = 0;
     this.salsemanID = 0;
     this.statusIs = 0;
@@ -40,28 +41,28 @@ class Row {
     this.needUpdate = !this.needInsert;
   }
 
-  Row.fromSnapshot(DataSnapshot snapshot) {
-    key = snapshot.key;
-    customerID = snapshot.value["customerID"];
-    customer = snapshot.value["customer"];
-    employeeID = snapshot.value["employeeID"];
-    employee = snapshot.value["employee"];
-    requiredImplementation = snapshot.value["requiredImplementation"];
-    appointment = snapshot.value["appointment"];
-    haveQuotation = snapshot.value["haveQuotation"];
-    paidByEmployeeID = snapshot.value["paidByEmployeeID"];
-    paidByEmployee = snapshot.value["paidByEmployee"];
-    amount = snapshot.value["amount"];
-    takeIn = snapshot.value["takeIn"];
-    targetPrice = snapshot.value["targetPrice"];
-    stageIs = snapshot.value["stageIs"];
-    notesCount = snapshot.value["notesCount"];
-    salsemanID = snapshot.value["salsemanID"];
-    salseman = snapshot.value["salseman"];
-    statusIs = snapshot.value["statusIs"];
-    typeIs = snapshot.value["typeIs"];
-    needInsert = snapshot.value["needInsert"];
-    needUpdate = snapshot.value["needUpdate"];
+  Row.fromSnapshot(DocumentSnapshot dr) {
+    key = dr.documentID;
+    customerID = dr["customerID"];
+    customer = dr["customer"];
+    employeeID = dr["employeeID"];
+    employee = dr["employee"];
+    requiredImplementation = dr["requiredImplementation"];
+    appointment = dr["appointment"];
+    haveQuotation = dr["haveQuotation"];
+    paidByEmployeeID = dr["paidByEmployeeID"];
+    paidByEmployee = dr["paidByEmployee"];
+    amount = dr["amount"];
+    takeIn = dr["takeIn"];
+    targetPrice = dr["targetPrice"];
+    stageIs = dr["stageIs"];
+    notesCount = dr["notesCount"];
+    salsemanID = dr["salsemanID"];
+    salseman = dr["salseman"];
+    statusIs = dr["statusIs"];
+    typeIs = dr["typeIs"];
+    needInsert = dr["needInsert"];
+    needUpdate = dr["needUpdate"];
   }
 
   toJson() {

@@ -6,6 +6,7 @@ import 'package:retailapp/control/request/controlRequestNote.dart'
     as controlRequestNote;
 
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 
 class UI extends StatefulWidget {
   final double requestID;
@@ -17,8 +18,9 @@ class UI extends StatefulWidget {
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
   bool _filterActive = false;
   String _filter = '';
-  TextEditingController _textEditingController =
-      TextEditingController(text: '');
+  TextEditingController _filterController = TextEditingController(text: '');
+  String _note = '';
+  TextEditingController _noteController = TextEditingController(text: '');
 
   AnimationController _ac;
 
@@ -39,7 +41,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         body: Center(
           child: Column(
             children: <Widget>[
-              _buildTextFieldFilter(),
+              _buildFilter(),
+              _buildNote(),
               _buildList(),
             ],
           ),
@@ -48,7 +51,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildTextFieldFilter() {
+  Widget _buildFilter() {
     return _filterActive
         ? SizeTransition(
             axis: Axis.horizontal,
@@ -78,7 +81,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         child: TextField(
                           autofocus: true,
                           style: myStyle.textEdit15(),
-                          controller: _textEditingController,
+                          controller: _filterController,
                           onChanged: (v) => _filterApply(v),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -123,7 +126,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return _filterActive
         ? null
         : AppBar(
-            title: Text(myLanguage.text(myLanguage.TextIndex.contacts)),
+            title: Text(myLanguage.text(myLanguage.TextIndex.notes)),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
@@ -131,6 +134,55 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               )
             ],
           );
+  }
+
+  Widget _buildNote() {
+    return Column(
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(width: 1.0, color: myColor.master))),
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                child: TextField(
+                  autofocus: true,
+                  style: myStyle.textEdit15(),
+                  controller: _noteController,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: myLanguage.text(myLanguage.TextIndex.note),
+                  ),
+                  onChanged: _noteApply,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: _note.isEmpty == true
+                    ? SizedBox(width: 0)
+                    : InkWell(
+                        child: Icon(
+                          Icons.save,
+                          color: myColor.master,
+                        ),
+                        onTap: _save,
+                      ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+            height: 1,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                  color: myColor.master,
+                  blurRadius: 5.0,
+                  offset: Offset(0.0, 5.0)),
+            ])),
+      ],
+    );
   }
 
   Widget _buildList() {
@@ -141,8 +193,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return (v['user'].toString().contains(_filter) ||
-                      v['note'].toString().contains(_filter)) &&
+              return (v['user'].toString().toLowerCase().contains(_filter) ||
+                      v['note'].toString().toLowerCase().contains(_filter)) &&
                   v['requestID'] == widget.requestID;
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
@@ -154,29 +206,27 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildCard(DocumentSnapshot dr) {
-    return ExpansionTile(
+    return ListTile(
       title: Text(
         dr['note'],
         style: myStyle.textEdit(),
       ),
-      leading: Text(
-        dr['user'],
+      subtitle: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              dr['user'],
+            ),
+          ),
+          Text(
+            myDateTime.formatAndShortByFromString(
+                dr['dateTimeIs'].toString(), myDateTime.Types.ddMMyyyyhhmma),
+            textAlign: TextAlign.end,
+            style: myStyle.dateLevel12(),
+          ),
+          _buildNeedInsertOrUpdate(dr),
+        ],
       ),
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  _buildNeedInsertOrUpdate(dr),
-                ],
-              ),
-            )
-          ],
-        )
-      ],
     );
   }
 
@@ -209,7 +259,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void _filterReactive() {
     setState(() {
       _filterActive = !_filterActive;
-      _textEditingController = TextEditingController(text: '');
+      _filterController = TextEditingController(text: '');
       _filterApply('');
 
       if (_filterActive) {
@@ -221,14 +271,29 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _filterApply(String v) {
     setState(() {
-      _filter = v;
+      _filter = v.toLowerCase();
     });
   }
 
   void _filterClear() {
     setState(() {
       _filter = '';
-      _textEditingController = TextEditingController(text: '');
+      _filterController = TextEditingController(text: '');
+    });
+  }
+
+  void _noteApply(String v) {
+    setState(() {
+      _note = v.toLowerCase();
+    });
+  }
+
+  void _save() {
+    controlRequestNote.save(widget.requestID, _note);
+
+    setState(() {
+      _note = '';
+      _noteController.clear();
     });
   }
 
@@ -236,5 +301,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _ac.dispose();
+    _filterController.dispose();
+    _noteController.dispose();
   }
 }

@@ -4,26 +4,22 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
-import 'package:retailapp/control/request/controlRequestNote.dart'
-    as controlRequestNote;
-import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/ui/request/requestNoteListUI.dart'
     as requestNoteListUI;
+import 'package:retailapp/ui/request/requestEditUI.dart' as requestEditUI;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
   final int statusIs;
-  UI(this._querySnapshot, this.statusIs);
+  final int stageIs;
+  UI(this._querySnapshot, this.statusIs, this.stageIs);
 
   @override
   _UIState createState() => _UIState();
 }
 
 class _UIState extends State<UI> {
-  String _note = '';
-  TextEditingController _noteController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +58,7 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildCard(DocumentSnapshot dr) {
-    return dr['statusIs'] != widget.statusIs
+    return dr['statusIs'] != widget.statusIs || dr['stageIs'] < widget.stageIs
         ? SizedBox()
         : Card(
             child: Column(
@@ -148,10 +144,10 @@ class _UIState extends State<UI> {
           style: myStyle.stylel12Italic(),
         ),
         onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  requestNoteListUI.UI(double.parse(dr.documentID.toString())))),
+            context,
+            MaterialPageRoute(
+                builder: (context) => requestNoteListUI
+                    .UI(double.parse(dr.documentID.toString())))),
       ),
     );
   }
@@ -198,16 +194,7 @@ class _UIState extends State<UI> {
   }
 
   void _edit(DocumentSnapshot dr) {
-    controlRequestNote.save(
-        dr['requestID'], controlUser.drNow['name'], 'new note');
-    // Navigator.push(
-    //     context, MaterialPageRoute(builder: (context) => requestNewUI.UI()));
-
-    // Navigator.pushAndRemoveUntil(
-    //   this.context,
-    //   MaterialPageRoute(
-    //       builder: (BuildContext context) => customerEditUI.UI(dr)),
-    //   ModalRoute.withName('/'),
-    // );
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => requestEditUI.UI(dr)));
   }
 }
