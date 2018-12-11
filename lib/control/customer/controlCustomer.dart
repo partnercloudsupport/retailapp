@@ -23,7 +23,7 @@ Future<bool> save(
 
     controlLiveVersion.save(_name);
     mySnackBar.show(
-        scaffoldKey, myLanguage.text(myLanguage.TextIndex.saveSuccessfully));
+        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
   } catch (e) {
     mySnackBar.show(scaffoldKey, e.toString());
@@ -49,7 +49,7 @@ Future<bool> edit(
 
     controlLiveVersion.save(_name);
     mySnackBar.show(
-        scaffoldKey, myLanguage.text(myLanguage.TextIndex.saveSuccessfully));
+        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
   } catch (e) {
     mySnackBar.show(scaffoldKey, e.toString());

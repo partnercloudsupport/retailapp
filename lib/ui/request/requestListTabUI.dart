@@ -48,7 +48,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               Container(
                 decoration: BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(width: 1.0, color: myColor.master))),
+                        bottom: BorderSide(width: 1.0, color: myColor.color1))),
                 child: Row(
                   children: <Widget>[
                     Flexible(
@@ -56,12 +56,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.textEdit15(),
+                          style: myStyle.style15(),
                           controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.TextIndex.search) +
+                                myLanguage.text(myLanguage.item.search) +
                                     '...',
                           ),
                           onChanged: _searchApply,
@@ -75,7 +75,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           : InkWell(
                               child: Icon(
                                 Icons.clear,
-                                color: myColor.master,
+                                color: myColor.color1,
                               ),
                               onTap: _searchClear,
                             ),
@@ -87,7 +87,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   height: 1,
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
-                        color: myColor.master,
+                        color: myColor.color1,
                         blurRadius: 5.0,
                         offset: Offset(0.0, 5.0)),
                   ])),
@@ -145,7 +145,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       dr['customer'],
-                      style: myStyle.masterLevel16_1(),
+                      style: myStyle.style16Italic(),
                     ),
                   ),
                   children: <Widget>[
@@ -155,12 +155,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(dr['requiredImplementation'],
-                              style: myStyle.masterLevel16_1()),
+                              style: myStyle.style16Italic()),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(dr['employee'],
-                              style: myStyle.masterLevel16_1()),
+                              style: myStyle.style16Italic()),
                         ),
                         Padding(
                           padding:
@@ -170,7 +170,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                                 dr['appointment'].toString(),
                                 myDateTime.Types.ddMMyyyyhhmma),
                             textAlign: TextAlign.end,
-                            style: myStyle.dateLevel12(),
+                            style: myStyle.style12Color3(),
                           ),
                         ),
                         Row(
@@ -203,7 +203,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return IconButton(
       icon: Icon(
         Icons.pause,
-        color: myColor.master,
+        color: myColor.color1,
       ),
       onPressed: () => {},
     );
@@ -214,10 +214,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         child: Text(
-          myLanguage.text(myLanguage.TextIndex.note) +
+          myLanguage.text(myLanguage.item.note) +
               ' ' +
               dr['notesCount'].toString(),
-          style: myStyle.stylel12Italic(),
+          style: myStyle.style12Color3Italic(),
         ),
         onTap: () => Navigator.push(
             context,
@@ -232,7 +232,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return IconButton(
       icon: Icon(
         Icons.edit,
-        color: myColor.master,
+        color: myColor.color1,
       ),
       onPressed: () => _edit(dr),
     );
@@ -268,7 +268,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: _new,
-      backgroundColor: myColor.master,
+      backgroundColor: myColor.color1,
     );
   }
 

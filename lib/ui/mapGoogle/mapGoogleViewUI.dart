@@ -42,7 +42,7 @@ class _UIState extends State<UI> {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.TextIndex.viewLocation)),
+      title: Text(myLanguage.text(myLanguage.item.viewLocation)),
     );
   }
 
@@ -50,7 +50,7 @@ class _UIState extends State<UI> {
     return FloatingActionButton(
       child: Icon(Icons.center_focus_strong),
       onPressed: _reviewLocation,
-      backgroundColor: myColor.master,
+      backgroundColor: myColor.color1,
     );
   }
 

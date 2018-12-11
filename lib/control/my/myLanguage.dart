@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/mySharedPreferences.dart'
     as mySharedPreferences;
 
-enum TextIndex {
+enum item {
   yourName,
   yourPassword,
   login,
@@ -68,186 +68,186 @@ enum TextIndex {
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
-String _textEN(TextIndex t) {
+String _textEN(item t) {
   switch (t) {
-    case TextIndex.filterRequests:
+    case item.filterRequests:
       return 'Filter requests';
       break;
-    case TextIndex.editRequest:
+    case item.editRequest:
       return 'Edit Request';
       break;
-    case TextIndex.notes:
+    case item.notes:
       return 'Notes';
       break;
-    case TextIndex.chooseARequestType:
+    case item.chooseARequestType:
       return 'Choose a request type';
       break;
-    case TextIndex.chooseASalseman:
+    case item.chooseASalseman:
       return 'Choose a salseman';
       break;
-    case TextIndex.target:
+    case item.target:
       return 'Target';
       break;
-    case TextIndex.chooseAnAppointment:
+    case item.chooseAnAppointment:
       return 'choose an appointment';
       break;
-    case TextIndex.appointment:
+    case item.appointment:
       return 'Appointment';
       break;
-    case TextIndex.subject:
+    case item.subject:
       return 'Subject';
       break;
-    case TextIndex.chooseAnEmployee:
+    case item.chooseAnEmployee:
       return 'Choose an employee';
       break;
-    case TextIndex.chooseACustomer:
+    case item.chooseACustomer:
       return 'Choose a customer';
       break;
-    case TextIndex.newRequest:
+    case item.newRequest:
       return 'New Request';
       break;
-    case TextIndex.pending:
+    case item.pending:
       return 'Pending';
       break;
-    case TextIndex.all:
+    case item.all:
       return 'All';
       break;
-    case TextIndex.tomorrow:
+    case item.tomorrow:
       return 'Tomorrow';
       break;
-    case TextIndex.requests:
+    case item.requests:
       return 'Requests';
       break;
-    case TextIndex.viewLocation:
+    case item.viewLocation:
       return 'view location';
       break;
-    case TextIndex.location:
+    case item.location:
       return 'Location';
       break;
-    case TextIndex.setLocationFromTheMap:
+    case item.setLocationFromTheMap:
       return 'Set location from the map';
       break;
-    case TextIndex.detectLocation:
+    case item.detectLocation:
       return 'Detect Location';
       break;
-    case TextIndex.typeToFindWhatYouWant:
+    case item.typeToFindWhatYouWant:
       return 'Type to find what you want';
       break;
-    case TextIndex.editContact:
+    case item.editContact:
       return 'Edit Contact';
       break;
-    case TextIndex.newContact:
+    case item.newContact:
       return 'New Contact';
       break;
-    case TextIndex.save:
+    case item.save:
       return 'Save';
       break;
-    case TextIndex.note:
+    case item.note:
       return 'Note';
       break;
-    case TextIndex.email:
+    case item.email:
       return 'Email';
       break;
-    case TextIndex.address:
+    case item.address:
       return 'Address';
       break;
-    case TextIndex.phones:
+    case item.phones:
       return 'Phones';
       break;
-    case TextIndex.name:
+    case item.name:
       return 'Name';
       break;
-    case TextIndex.contacts:
+    case item.contacts:
       return 'Contacts';
       break;
-    case TextIndex.search:
+    case item.search:
       return 'Search';
       break;
-    case TextIndex.cancel:
+    case item.cancel:
       return 'Cancel';
       break;
-    case TextIndex.toDate:
+    case item.toDate:
       return 'To date';
       break;
-    case TextIndex.fromDate:
+    case item.fromDate:
       return 'From date';
       break;
-    case TextIndex.filterSettings:
+    case item.filterSettings:
       return 'Filter Settings';
       break;
-    case TextIndex.clickOnTheFilterButtonToLoadData:
+    case item.clickOnTheFilterButtonToLoadData:
       return 'Click on the filter button to load data';
       break;
-    case TextIndex.loading:
+    case item.loading:
       return 'Loading';
       break;
-    case TextIndex.old:
+    case item.old:
       return 'Old';
       break;
-    case TextIndex.lastWeek:
+    case item.lastWeek:
       return 'Last Week';
       break;
-    case TextIndex.thisWeek:
+    case item.thisWeek:
       return 'This week';
       break;
-    case TextIndex.interval:
+    case item.interval:
       return 'Interval';
       break;
-    case TextIndex.week:
+    case item.week:
       return 'Week';
       break;
-    case TextIndex.yesterday:
+    case item.yesterday:
       return 'Yesterday';
       break;
-    case TextIndex.today:
+    case item.today:
       return 'Today';
       break;
-    case TextIndex.callerLog:
+    case item.callerLog:
       return 'Caller Log';
       break;
-    case TextIndex.youMustInsertText:
+    case item.youMustInsertText:
       return 'You must insert text';
       break;
-    case TextIndex.theDataIsIncorrect:
+    case item.theDataIsIncorrect:
       return 'The data is incorrect';
       break;
-    case TextIndex.textToBeImplemented:
+    case item.textToBeImplemented:
       return 'Text to be implemented';
       break;
-    case TextIndex.saveSuccessfully:
+    case item.saveSuccessfully:
       return 'Save successfully';
       break;
-    case TextIndex.yourAccountWasSuccessfullyCreated:
+    case item.yourAccountWasSuccessfullyCreated:
       return 'Your account was successfully created';
       break;
-    case TextIndex.welcome:
+    case item.welcome:
       return 'Welcome';
       break;
-    case TextIndex.emailIsInvalid:
+    case item.emailIsInvalid:
       return 'Email is invalid';
       break;
-    case TextIndex.passwordMustBe8CharactersOrMore:
+    case item.passwordMustBe8CharactersOrMore:
       return 'Password must be 8 characters or more';
       break;
-    case TextIndex.youMustInsertYourPassword:
+    case item.youMustInsertYourPassword:
       return 'You must insert your password';
       break;
-    case TextIndex.youMustInsertYourName:
+    case item.youMustInsertYourName:
       return 'You must insert your name';
       break;
-    case TextIndex.createAnAccount:
+    case item.createAnAccount:
       return 'Create an account';
       break;
-    case TextIndex.smartSecurity:
+    case item.smartSecurity:
       return 'Smart Security';
       break;
-    case TextIndex.login:
+    case item.login:
       return 'Login';
       break;
-    case TextIndex.yourPassword:
+    case item.yourPassword:
       return 'Your password';
       break;
-    case TextIndex.yourName:
+    case item.yourName:
       return 'Your name';
       break;
 
@@ -259,186 +259,186 @@ String _textEN(TextIndex t) {
   }
 }
 
-String _textAR(TextIndex t) {
+String _textAR(item t) {
   switch (t) {
-    case TextIndex.filterRequests:
+    case item.filterRequests:
       return 'تصفية الطلبات';
       break;
-    case TextIndex.editRequest:
+    case item.editRequest:
       return 'تعديل الطلب';
       break;
-    case TextIndex.notes:
+    case item.notes:
       return 'الملاحظات';
       break;
-    case TextIndex.chooseARequestType:
+    case item.chooseARequestType:
       return 'اختيار نوع الطلب';
       break;
-    case TextIndex.chooseASalseman:
+    case item.chooseASalseman:
       return 'اختيار مندوب مبيعات';
       break;
-    case TextIndex.target:
+    case item.target:
       return 'الهدف';
       break;
-    case TextIndex.chooseAnAppointment:
+    case item.chooseAnAppointment:
       return 'اختر موعد';
       break;
-    case TextIndex.appointment:
+    case item.appointment:
       return 'الموعد';
       break;
-    case TextIndex.subject:
+    case item.subject:
       return 'الموضوع';
       break;
-    case TextIndex.chooseAnEmployee:
+    case item.chooseAnEmployee:
       return 'اختيار موظف';
       break;
-    case TextIndex.chooseACustomer:
+    case item.chooseACustomer:
       return 'اختيار زبون';
       break;
-    case TextIndex.newRequest:
+    case item.newRequest:
       return 'طلب جديد';
       break;
-    case TextIndex.pending:
+    case item.pending:
       return 'قيد الانتظار';
       break;
-    case TextIndex.all:
+    case item.all:
       return 'الكل';
       break;
-    case TextIndex.tomorrow:
+    case item.tomorrow:
       return 'غدا';
       break;
-    case TextIndex.requests:
+    case item.requests:
       return 'الطلبات';
       break;
-    case TextIndex.viewLocation:
+    case item.viewLocation:
       return 'عرض الموقع';
       break;
-    case TextIndex.location:
+    case item.location:
       return 'الموقع';
       break;
-    case TextIndex.setLocationFromTheMap:
+    case item.setLocationFromTheMap:
       return 'تعيين الموقع من الخريطة';
       break;
-    case TextIndex.detectLocation:
+    case item.detectLocation:
       return 'تحديد الموقع';
       break;
-    case TextIndex.typeToFindWhatYouWant:
+    case item.typeToFindWhatYouWant:
       return 'اكتب للعثور على ما تريد';
       break;
-    case TextIndex.editContact:
+    case item.editContact:
       return 'تعديل الاتصال';
       break;
-    case TextIndex.newContact:
+    case item.newContact:
       return 'جهة اتصال جديدة';
       break;
-    case TextIndex.save:
+    case item.save:
       return 'حفظ';
       break;
-    case TextIndex.note:
+    case item.note:
       return 'الملاحظة';
       break;
-    case TextIndex.email:
+    case item.email:
       return 'البريد الإلكتروني';
       break;
-    case TextIndex.address:
+    case item.address:
       return 'العنوان';
       break;
-    case TextIndex.phones:
+    case item.phones:
       return 'الهواتف';
       break;
-    case TextIndex.name:
+    case item.name:
       return 'الاسم';
       break;
-    case TextIndex.contacts:
+    case item.contacts:
       return 'جهات الاتصال';
       break;
-    case TextIndex.search:
+    case item.search:
       return 'بحث';
       break;
-    case TextIndex.cancel:
+    case item.cancel:
       return 'إلغاء';
       break;
-    case TextIndex.toDate:
+    case item.toDate:
       return 'إلى التاريخ';
       break;
-    case TextIndex.fromDate:
+    case item.fromDate:
       return 'من التاريخ';
       break;
-    case TextIndex.filterSettings:
+    case item.filterSettings:
       return 'إعدادات تصفية';
       break;
-    case TextIndex.clickOnTheFilterButtonToLoadData:
+    case item.clickOnTheFilterButtonToLoadData:
       return 'انقر على زر التصفية لتحميل البيانات';
       break;
-    case TextIndex.loading:
+    case item.loading:
       return 'جار التحميل';
       break;
-    case TextIndex.old:
+    case item.old:
       return 'قديم';
       break;
-    case TextIndex.lastWeek:
+    case item.lastWeek:
       return 'الاسبوع الماضي';
       break;
-    case TextIndex.thisWeek:
+    case item.thisWeek:
       return 'هذا الاسبوع';
       break;
-    case TextIndex.interval:
+    case item.interval:
       return 'فترة';
       break;
-    case TextIndex.week:
+    case item.week:
       return 'أسبوع';
       break;
-    case TextIndex.yesterday:
+    case item.yesterday:
       return 'في الامس';
       break;
-    case TextIndex.today:
+    case item.today:
       return 'اليوم';
       break;
-    case TextIndex.callerLog:
+    case item.callerLog:
       return 'سجل الاتصالات';
       break;
-    case TextIndex.youMustInsertText:
+    case item.youMustInsertText:
       return 'يجب عليك إدخال النص';
       break;
-    case TextIndex.theDataIsIncorrect:
+    case item.theDataIsIncorrect:
       return 'البيانات غير صحيحة';
       break;
-    case TextIndex.textToBeImplemented:
+    case item.textToBeImplemented:
       return 'نص المطلوب تنفيذه';
       break;
-    case TextIndex.saveSuccessfully:
+    case item.saveSuccessfully:
       return 'تم الحفظ بنجاح';
       break;
-    case TextIndex.yourAccountWasSuccessfullyCreated:
+    case item.yourAccountWasSuccessfullyCreated:
       return 'تم إنشاء حسابك بنجاح';
       break;
-    case TextIndex.welcome:
+    case item.welcome:
       return 'أهلا بك';
       break;
-    case TextIndex.emailIsInvalid:
+    case item.emailIsInvalid:
       return 'البريد الالكتروني غير صحيح';
       break;
-    case TextIndex.passwordMustBe8CharactersOrMore:
+    case item.passwordMustBe8CharactersOrMore:
       return 'كلمة المرور يجب أن تكون 8 أحرف أو أكثر';
       break;
-    case TextIndex.youMustInsertYourPassword:
+    case item.youMustInsertYourPassword:
       return 'يجب عليك إدخال كلمة المرور الخاصة بك';
       break;
-    case TextIndex.youMustInsertYourName:
+    case item.youMustInsertYourName:
       return 'يجب عليك إدخال اسمك';
       break;
-    case TextIndex.createAnAccount:
+    case item.createAnAccount:
       return 'إنشاء حساب';
       break;
-    case TextIndex.smartSecurity:
+    case item.smartSecurity:
       return 'سمارت سكرتي';
       break;
-    case TextIndex.login:
+    case item.login:
       return 'تسجيل الدخول';
       break;
-    case TextIndex.yourPassword:
+    case item.yourPassword:
       return 'كلمة السر خاصتك';
       break;
-    case TextIndex.yourName:
+    case item.yourName:
       return 'اسمك';
       break;
 
@@ -450,7 +450,7 @@ String _textAR(TextIndex t) {
   }
 }
 
-String text(TextIndex t) {
+String text(item t) {
   if (languageApp == 'en-US')
     return _textEN(t);
   else if (languageApp == 'ar-AR') return _textAR(t);
@@ -458,7 +458,7 @@ String text(TextIndex t) {
   return _textEN(t);
 }
 
-String text2(TextIndex t, TextIndex t1) {
+String text2(item t, item t1) {
   if (languageApp == 'en-US')
     return _textEN(t) + ' ' + _textEN(t).toLowerCase();
   else if (languageApp == 'ar-AR')

@@ -13,14 +13,14 @@ Widget buildDrawer(BuildContext bc) {
         UserAccountsDrawerHeader(
           accountName: Text(
             'Samer Brees',
-            style: myStyle.mainTitle20(),
+            style: myStyle.style20Color2(),
           ),
           accountEmail: Text(
               controlUser.drNow.data['name'].toString() +
                   ' (' +
                   controlUser.drNow.data['permission'].toString() +
                   ')',
-              style: myStyle.mainTitle20()),
+              style: myStyle.style20Color2()),
           currentAccountPicture: Container(
             height: 150.0,
             width: 150.0,
@@ -33,14 +33,14 @@ Widget buildDrawer(BuildContext bc) {
           ),
         ),
         ListTile(
-          title: Text('Language EN', style: myStyle.mainTitle()),
+          title: Text('Language EN', style: myStyle.style20()),
           onTap: () {
             myLanguage.setLanguageEN();
           },
         ),
         Divider(),
         ListTile(
-          title: Text('Language AR', style: myStyle.mainTitle()),
+          title: Text('Language AR', style: myStyle.style20()),
           onTap: () {
             myLanguage.setLanguageAR();
           },
@@ -48,7 +48,7 @@ Widget buildDrawer(BuildContext bc) {
         Divider(),
         ListTile(
           trailing: Icon(Icons.exit_to_app),
-          title: Text('Logout', style: myStyle.mainTitle()),
+          title: Text('Logout', style: myStyle.style20()),
           onTap: () {
             mySharedPreferences.setUserPassword('');
             Navigator.pushAndRemoveUntil(

@@ -46,21 +46,21 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.TextIndex.callerLog)),
+      title: Text(myLanguage.text(myLanguage.item.callerLog)),
       bottom: TabBar(
         controller: _tabController,
         tabs: <Tab>[
           Tab(
-            text: myLanguage.text(myLanguage.TextIndex.today),
+            text: myLanguage.text(myLanguage.item.today),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.TextIndex.yesterday),
+            text: myLanguage.text(myLanguage.item.yesterday),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.TextIndex.lastWeek),
+            text: myLanguage.text(myLanguage.item.lastWeek),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.TextIndex.interval),
+            text: myLanguage.text(myLanguage.item.interval),
           ),
         ],
       ),

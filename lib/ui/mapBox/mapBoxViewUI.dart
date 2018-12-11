@@ -38,7 +38,7 @@ class _UIState extends State<UI> {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.TextIndex.viewLocation)),
+      title: Text(myLanguage.text(myLanguage.item.viewLocation)),
     );
   }
 
@@ -57,11 +57,11 @@ class _UIState extends State<UI> {
             children: <Widget>[
               Icon(
                 Icons.location_on,
-                color: myColor.master,
+                color: myColor.color1,
               ),
               Text(
                 widget._name,
-                style: myStyle.masterLevel16(),
+                style: myStyle.style16(),
               )
             ],
           ),

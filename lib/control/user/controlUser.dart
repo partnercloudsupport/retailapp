@@ -31,7 +31,7 @@ Future<bool> createByEmail(
     mySnackBar.show(
         scaffoldKey,
         myLanguage
-            .text(myLanguage.TextIndex.yourAccountWasSuccessfullyCreated));
+            .text(myLanguage.item.yourAccountWasSuccessfullyCreated));
 
     return true;
   } catch (e) {

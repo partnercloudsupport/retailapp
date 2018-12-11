@@ -46,7 +46,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.TextIndex.filterRequests)),
+      title: Text(myLanguage.text(myLanguage.item.filterRequests)),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.save),
@@ -60,7 +60,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.master)),
+            borderSide: BorderSide(color: myColor.color1)),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -71,12 +71,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     height: 10.0,
                   ),
                   Text(
-                    myLanguage.text(myLanguage.TextIndex.chooseAnEmployee),
-                    style: myStyle.dateLevel12(),
+                    myLanguage.text(myLanguage.item.chooseAnEmployee),
+                    style: myStyle.style12Color3(),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Text(_filterEmployee, style: myStyle.textEdit15()),
+                    child: Text(_filterEmployee, style: myStyle.style15()),
                   ),
                 ],
               ),
@@ -98,7 +98,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.master)),
+            borderSide: BorderSide(color: myColor.color1)),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -109,12 +109,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     height: 10.0,
                   ),
                   Text(
-                    myLanguage.text(myLanguage.TextIndex.chooseARequestType),
-                    style: myStyle.dateLevel12(),
+                    myLanguage.text(myLanguage.item.chooseARequestType),
+                    style: myStyle.style12Color3(),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Text(_filterType, style: myStyle.textEdit15()),
+                    child: Text(_filterType, style: myStyle.style15()),
                   ),
                 ],
               ),
@@ -139,7 +139,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             builder: (context) => selectWithFilterUI.UI(
                   controlEmployee.getAll(),
                   _chooseEmployee,
-                  myLanguage.text(myLanguage.TextIndex.chooseAnEmployee),
+                  myLanguage.text(myLanguage.item.chooseAnEmployee),
                   autofocus: false,
                 )));
   }
@@ -163,7 +163,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             builder: (context) => selectWithFilterUI.UI(
                   controlRequestType.getAll(),
                   _chooseRequestType,
-                  myLanguage.text(myLanguage.TextIndex.chooseARequestType),
+                  myLanguage.text(myLanguage.item.chooseARequestType),
                   autofocus: false,
                 )));
   }

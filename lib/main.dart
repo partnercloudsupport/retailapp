@@ -52,7 +52,7 @@ class _UIState extends State<UI> {
             )
           : _myAccountIsVaild ? homePageUI.UI(4) : userLoginUI.UI(),
       theme:
-          ThemeData(primarySwatch: Colors.blue, primaryColor: myColor.master),
+          ThemeData(primarySwatch: Colors.blue, primaryColor: myColor.color1),
       routes: <String, WidgetBuilder>{
         '/customerNewUI': (BuildContext context) => customerNewUI.UI(),
       },

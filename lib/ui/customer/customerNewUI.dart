@@ -59,8 +59,8 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.TextIndex.newContact),
-      style: myStyle.button2(),
+      myLanguage.text(myLanguage.item.newContact),
+      style: myStyle.style18Color2(),
     );
   }
 
@@ -86,11 +86,11 @@ class _UIState extends State<UI> {
     return TextFormField(
       textInputAction: TextInputAction.next,
       validator: (String v) => v.trim().isEmpty
-          ? myLanguage.text(myLanguage.TextIndex.youMustInsertText)
+          ? myLanguage.text(myLanguage.item.youMustInsertText)
           : null,
-      style: myStyle.textEdit15(),
+      style: myStyle.style15(),
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.TextIndex.name)),
+          labelText: myLanguage.text(myLanguage.item.name)),
       onSaved: (String v) => _name = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodePhones);
@@ -102,9 +102,9 @@ class _UIState extends State<UI> {
     return TextFormField(
       focusNode: _focusNodePhones,
       textInputAction: TextInputAction.next,
-      style: myStyle.textEdit15(),
+      style: myStyle.style15(),
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.TextIndex.phones)),
+          labelText: myLanguage.text(myLanguage.item.phones)),
       onSaved: (String v) => _phones = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodeAddress);
@@ -117,9 +117,9 @@ class _UIState extends State<UI> {
       focusNode: _focusNodeAddress,
       textInputAction: TextInputAction.next,
       maxLines: 2,
-      style: myStyle.textEdit15(),
+      style: myStyle.style15(),
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.TextIndex.address)),
+          labelText: myLanguage.text(myLanguage.item.address)),
       onSaved: (String v) => _address = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodeEmail);
@@ -132,12 +132,12 @@ class _UIState extends State<UI> {
       focusNode: _focusNodeEmail,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.TextIndex.email)),
-      style: myStyle.textEdit15(),
+          labelText: myLanguage.text(myLanguage.item.email)),
+      style: myStyle.style15(),
       validator: (v) => v.trim().isEmpty
           ? null
           : myString.isEmail(v) == false
-              ? myLanguage.text(myLanguage.TextIndex.emailIsInvalid)
+              ? myLanguage.text(myLanguage.item.emailIsInvalid)
               : null,
       keyboardType: TextInputType.emailAddress,
       onSaved: (v) => _email = v.trim(),
@@ -152,9 +152,9 @@ class _UIState extends State<UI> {
       focusNode: _focusNodeNote,
       textInputAction: TextInputAction.done,
       maxLines: 2,
-      style: myStyle.textEdit15(),
+      style: myStyle.style15(),
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.TextIndex.note)),
+          labelText: myLanguage.text(myLanguage.item.note)),
       onSaved: (String v) => _note = v,
     );
   }
@@ -167,11 +167,11 @@ class _UIState extends State<UI> {
           children: <Widget>[
             Icon(
               Icons.add_location,
-              color: myColor.master,
+              color: myColor.color1,
             ),
             Text(
-              myLanguage.text(myLanguage.TextIndex.location),
-              style: myStyle.button(),
+              myLanguage.text(myLanguage.item.location),
+              style: myStyle.style18(),
             )
           ],
         ),

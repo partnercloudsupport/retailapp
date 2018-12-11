@@ -26,8 +26,8 @@ class _UIState extends State<UI> {
         key: _scaffoldKey,
         appBar: AppBar(
           title: Text(
-            myLanguage.text(myLanguage.TextIndex.smartSecurity),
-            style: myStyle.mainTitle20(),
+            myLanguage.text(myLanguage.item.smartSecurity),
+            style: myStyle.style20Color2(),
           ),
         ),
         body: Container(
@@ -52,10 +52,10 @@ class _UIState extends State<UI> {
     return TextFormField(
       initialValue: userName,
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.TextIndex.yourName)),
-      style: myStyle.textEdit(),
+          labelText: myLanguage.text(myLanguage.item.yourName)),
+      style: myStyle.style20(),
       validator: (v) => v.isEmpty
-          ? myLanguage.text(myLanguage.TextIndex.youMustInsertYourName)
+          ? myLanguage.text(myLanguage.item.youMustInsertYourName)
           : null,
       keyboardType: TextInputType.emailAddress,
       onSaved: (v) => userName = v.trim(),
@@ -66,25 +66,25 @@ class _UIState extends State<UI> {
     return TextFormField(
       initialValue: '',
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.TextIndex.yourPassword)),
+          labelText: myLanguage.text(myLanguage.item.yourPassword)),
       validator: (v) {
         if (v.isEmpty)
           return myLanguage
-              .text(myLanguage.TextIndex.youMustInsertYourPassword);
+              .text(myLanguage.item.youMustInsertYourPassword);
 
         return null;
       },
       onSaved: (v) => _userPassword = v.trim(),
       obscureText: true,
-      style: myStyle.textEdit(),
+      style: myStyle.style20(),
     );
   }
 
   Widget _buildRaisedButtonLogin() {
     return RaisedButton(
       child: Text(
-        myLanguage.text(myLanguage.TextIndex.login),
-        style: myStyle.button(),
+        myLanguage.text(myLanguage.item.login),
+        style: myStyle.style18(),
       ),
       onPressed: _save,
     );
@@ -96,7 +96,7 @@ class _UIState extends State<UI> {
       return true;
     } else {
       mySnackBar.show(_scaffoldKey,
-          myLanguage.text(myLanguage.TextIndex.theDataIsIncorrect));
+          myLanguage.text(myLanguage.item.theDataIsIncorrect));
       return false;
     }
   }

@@ -5,7 +5,7 @@ void show(GlobalKey<ScaffoldState> scaffoldKey, String text) {
   scaffoldKey.currentState.showSnackBar(SnackBar(
     content: Text(
       text,
-      style: myStyle.textEdit(),
+      style: myStyle.style20(),
     ),
     backgroundColor: Colors.white,
     action: SnackBarAction(

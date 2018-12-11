@@ -15,7 +15,7 @@ Future<bool> save(GlobalKey<ScaffoldState> scaffoldKey, String customer,
         .collection(_name)
         .add(callerLogRow.Row(customer, noteIs, phone).toJson());
     mySnackBar.show(
-        scaffoldKey, myLanguage.text(myLanguage.TextIndex.saveSuccessfully));
+        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
   } catch (e) {
     mySnackBar.show(scaffoldKey, e.toString());

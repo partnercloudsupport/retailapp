@@ -48,7 +48,7 @@ class _UIState extends State<UI> {
     return FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: _new,
-      backgroundColor: myColor.master,
+      backgroundColor: myColor.color1,
     );
   }
 
@@ -71,7 +71,7 @@ class _UIState extends State<UI> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       dr['customer'],
-                      style: myStyle.masterLevel16_1(),
+                      style: myStyle.style16Italic(),
                     ),
                   ),
                   children: <Widget>[
@@ -81,12 +81,12 @@ class _UIState extends State<UI> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(dr['requiredImplementation'],
-                              style: myStyle.masterLevel16_1()),
+                              style: myStyle.style16Italic()),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(dr['employee'],
-                              style: myStyle.masterLevel16_1()),
+                              style: myStyle.style16Italic()),
                         ),
                         Padding(
                           padding:
@@ -96,7 +96,7 @@ class _UIState extends State<UI> {
                                 dr['appointment'].toString(),
                                 myDateTime.Types.ddMMyyyyhhmma),
                             textAlign: TextAlign.end,
-                            style: myStyle.dateLevel12(),
+                            style: myStyle.style12Color3(),
                           ),
                         ),
                         Row(
@@ -119,7 +119,7 @@ class _UIState extends State<UI> {
                             _builTextNote(dr),
                             Card(
                                 elevation: 2.0,
-                                color: myColor.master,
+                                color: myColor.color1,
                                 child: _buildListNote(dr)),
                           ],
                         )
@@ -136,7 +136,7 @@ class _UIState extends State<UI> {
     return IconButton(
       icon: Icon(
         Icons.style,
-        color: myColor.master,
+        color: myColor.color1,
       ),
       onPressed: () => {},
     );
@@ -146,7 +146,7 @@ class _UIState extends State<UI> {
     return IconButton(
       icon: Icon(
         Icons.edit,
-        color: myColor.master,
+        color: myColor.color1,
       ),
       onPressed: () => _edit(dr),
     );
@@ -188,7 +188,7 @@ class _UIState extends State<UI> {
               ? IconButton(
                   icon: Icon(
                     Icons.save,
-                    color: myColor.master,
+                    color: myColor.color1,
                   ),
                   onPressed: () => _saveNote(dr),
                 )
@@ -197,10 +197,10 @@ class _UIState extends State<UI> {
             child: TextField(
               controller: _noteController,
               textInputAction: TextInputAction.done,
-              style: myStyle.textEdit15(),
+              style: myStyle.style15(),
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  labelText: myLanguage.text(myLanguage.TextIndex.note)),
+                  labelText: myLanguage.text(myLanguage.item.note)),
               onChanged: (String v) {
                 setState(() {
                   _note = v;
@@ -239,11 +239,11 @@ class _UIState extends State<UI> {
           children: <Widget>[
             Text(
               dr['user'],
-              style: myStyle.dateLevel12(),
+              style: myStyle.style12Color3(),
             ),
             Text(
               dr['note'],
-              style: myStyle.masterLevel16(),
+              style: myStyle.style16(),
             ),
           ],
         ),
@@ -258,7 +258,7 @@ class _UIState extends State<UI> {
                       dr['dateTimeIs'].toString(),
                       myDateTime.Types.ddMMyyyyhhmma),
                   textAlign: TextAlign.end,
-                  style: myStyle.dateLevel12(),
+                  style: myStyle.style12Color3(),
                 ),
               ),
               Row(

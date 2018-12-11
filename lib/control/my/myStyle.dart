@@ -1,48 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 
-TextStyle textEdit() {
-  return TextStyle(fontSize: 20.0, color: myColor.master);
-}
-
-TextStyle textEdit2() {
-  return TextStyle(fontSize: 20.0, color: myColor.master2);
-}
-
-TextStyle textEdit15() {
-  return TextStyle(fontSize: 15.0, color: myColor.master);
-}
-
-TextStyle button() {
-  return TextStyle(fontSize: 18.0, color: myColor.master);
-}
-
-TextStyle button2() {
-  return TextStyle(fontSize: 18.0, color: myColor.master2);
-}
-
-TextStyle mainTitle() {
-  return TextStyle(fontSize: 20.0, color: myColor.master);
-}
-
-TextStyle mainTitle20() {
-  return TextStyle(fontSize: 20.0, color: myColor.master2);
-}
-
-TextStyle masterLevel16() {
-  return TextStyle(fontSize: 16.0, color: myColor.master);
-}
-
-TextStyle masterLevel16_1() {
+TextStyle style12Color3Italic() {
   return TextStyle(
-      fontSize: 16.0, color: myColor.master, fontStyle: FontStyle.italic);
+      fontSize: 12.0, color: myColor.color3, fontStyle: FontStyle.italic);
 }
 
-TextStyle dateLevel12() {
-  return TextStyle(fontSize: 12.0, color: myColor.dateLevel1);
+TextStyle style15() {
+  return TextStyle(fontSize: 15.0, color: myColor.color1);
 }
 
-TextStyle stylel12Italic() {
+TextStyle style16() {
+  return TextStyle(fontSize: 16.0, color: myColor.color1);
+}
+
+TextStyle style16Italic() {
   return TextStyle(
-      fontSize: 12.0, color: myColor.dateLevel1, fontStyle: FontStyle.italic);
+      fontSize: 16.0, color: myColor.color1, fontStyle: FontStyle.italic);
+}
+
+TextStyle style18() {
+  return TextStyle(fontSize: 18.0, color: myColor.color1);
+}
+
+TextStyle style18Color2() {
+  return TextStyle(fontSize: 18.0, color: myColor.color2);
+}
+
+TextStyle style20() {
+  return TextStyle(fontSize: 20.0, color: myColor.color1);
+}
+
+TextStyle style20Color2() {
+  return TextStyle(fontSize: 20.0, color: myColor.color2);
+}
+
+TextStyle style12Color3() {
+  return TextStyle(fontSize: 12.0, color: myColor.color3);
 }

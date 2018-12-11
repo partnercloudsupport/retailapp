@@ -58,7 +58,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom:
-                              BorderSide(width: 1.0, color: myColor.master))),
+                              BorderSide(width: 1.0, color: myColor.color1))),
                   padding: EdgeInsets.only(top: 25.0),
                   child: Row(
                     children: <Widget>[
@@ -67,7 +67,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         child: InkWell(
                           child: Icon(
                             Icons.arrow_back,
-                            color: myColor.master,
+                            color: myColor.color1,
                           ),
                           onTap: _filterReactive,
                         ),
@@ -75,13 +75,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       Flexible(
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.textEdit15(),
+                          style: myStyle.style15(),
                           controller: _textEditingController,
                           onChanged: (v) => _filterApply(v),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.TextIndex.search) +
+                                myLanguage.text(myLanguage.item.search) +
                                     '...',
                           ),
                         ),
@@ -93,7 +93,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                             : InkWell(
                                 child: Icon(
                                   Icons.clear,
-                                  color: myColor.master,
+                                  color: myColor.color1,
                                 ),
                                 onTap: _filterClear,
                               ),
@@ -105,7 +105,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     height: 1,
                     decoration: BoxDecoration(boxShadow: [
                       BoxShadow(
-                          color: myColor.master,
+                          color: myColor.color1,
                           blurRadius: 5.0,
                           offset: Offset(0.0, 5.0)),
                     ])),
@@ -121,7 +121,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return _filterActive
         ? null
         : AppBar(
-            title: Text(myLanguage.text(myLanguage.TextIndex.contacts)),
+            title: Text(myLanguage.text(myLanguage.item.contacts)),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
@@ -155,7 +155,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return ExpansionTile(
       title: Text(
         dr['name'],
-        style: myStyle.textEdit(),
+        style: myStyle.style20(),
       ),
       leading: dr['permission'].toString().isEmpty
           ? Icon(

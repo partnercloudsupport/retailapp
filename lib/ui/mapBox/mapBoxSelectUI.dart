@@ -52,7 +52,7 @@ class _UIState extends State<UI> {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.TextIndex.detectLocation)),
+      title: Text(myLanguage.text(myLanguage.item.detectLocation)),
       actions: _buildAppBarActions(),
     );
   }
@@ -62,7 +62,7 @@ class _UIState extends State<UI> {
       IconButton(
         icon: Icon(
           Icons.save,
-          color: myColor.master2,
+          color: myColor.color2,
         ),
         onPressed: _saveLocation,
       )
@@ -82,7 +82,7 @@ class _UIState extends State<UI> {
       point: _currentPoint,
       builder: (ctx) => Icon(
             Icons.location_on,
-            color: myColor.master,
+            color: myColor.color1,
           ),
     );
   }
