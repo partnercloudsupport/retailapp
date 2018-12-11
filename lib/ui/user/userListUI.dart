@@ -81,8 +81,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.item.search) +
-                                    '...',
+                                myLanguage.text(myLanguage.item.search) + '...',
                           ),
                         ),
                       ),
@@ -140,8 +139,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           child: ListView(
             children: v.data.documents.where((v) {
               return v['name'].toString().contains(_filter) ||
-                  v['permission'].toString().contains(_filter) ||
-                  v['password'].toString().contains(_filter);
+                  v['permission'].toString().contains(_filter);
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
             }).toList(),
@@ -157,14 +155,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         dr['name'],
         style: myStyle.style20(),
       ),
-      leading: dr['permission'].toString().isEmpty
-          ? Icon(
-              Icons.phone,
-              color: Colors.red,
-            )
-          : Text(
-              dr['password'],
-            ),
+      leading: Text(
+        dr['permission'],
+      ),
       children: <Widget>[
         Container(
           height: 150.0,

@@ -8,6 +8,7 @@ import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/ui/request/requestNoteListUI.dart'
     as requestNoteListUI;
 import 'package:retailapp/ui/request/requestEditUI.dart' as requestEditUI;
+import 'package:retailapp/control/my/myString.dart' as myString;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
@@ -61,8 +62,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.item.search) +
-                                    '...',
+                                myLanguage.text(myLanguage.item.search) + '...',
                           ),
                           onChanged: _searchApply,
                         ),
@@ -211,13 +211,24 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildNote(DocumentSnapshot dr) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 8.0),
       child: InkWell(
-        child: Text(
-          myLanguage.text(myLanguage.item.note) +
-              ' ' +
-              dr['notesCount'].toString(),
-          style: myStyle.style12Color3Italic(),
+        child: Row(
+          children: <Widget>[
+            Icon(
+              Icons.note_add,
+              color: myColor.color1,
+            ),
+            Text(
+              myLanguage.text(myLanguage.item.notes) +
+                  (dr['notesCount'] == 0
+                      ? ''
+                      : ' ' +
+                          myString
+                              .betweenBrackets(dr['notesCount'].toString())),
+              style: myStyle.style14(),
+            ),
+          ],
         ),
         onTap: () => Navigator.push(
             context,

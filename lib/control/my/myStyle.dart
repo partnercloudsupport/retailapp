@@ -6,12 +6,24 @@ TextStyle style12Color3Italic() {
       fontSize: 12.0, color: myColor.color3, fontStyle: FontStyle.italic);
 }
 
+TextStyle style12Color2() {
+  return TextStyle(fontSize: 12.0, color: myColor.color2);
+}
+
+TextStyle style14() {
+  return TextStyle(fontSize: 14.0, color: myColor.color1);
+}
+
 TextStyle style15() {
   return TextStyle(fontSize: 15.0, color: myColor.color1);
 }
 
 TextStyle style16() {
   return TextStyle(fontSize: 16.0, color: myColor.color1);
+}
+
+TextStyle style16Color2() {
+  return TextStyle(fontSize: 16.0, color: myColor.color2);
 }
 
 TextStyle style16Italic() {

@@ -5,6 +5,7 @@ import 'package:retailapp/control/my/mySharedPreferences.dart'
     as mySharedPreferences;
 import 'package:retailapp/ui/user/userLoginUI.dart' as userLoginUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+import 'package:retailapp/control/my/myString.dart' as myString;
 
 Widget buildDrawer(BuildContext bc) {
   return Drawer(
@@ -12,15 +13,15 @@ Widget buildDrawer(BuildContext bc) {
       children: <Widget>[
         UserAccountsDrawerHeader(
           accountName: Text(
-            'Samer Brees',
+            'Smart Security',
             style: myStyle.style20Color2(),
           ),
           accountEmail: Text(
-              controlUser.drNow.data['name'].toString() +
-                  ' (' +
-                  controlUser.drNow.data['permission'].toString() +
-                  ')',
-              style: myStyle.style20Color2()),
+              controlUser.drNow.data['name'] +
+                  ' ' +
+                  myString
+                      .betweenBrackets(controlUser.drNow.data['permission']),
+              style: myStyle.style16Color2()),
           currentAccountPicture: Container(
             height: 150.0,
             width: 150.0,
@@ -33,14 +34,14 @@ Widget buildDrawer(BuildContext bc) {
           ),
         ),
         ListTile(
-          title: Text('Language EN', style: myStyle.style20()),
+          title: Text('Language EN', style: myStyle.style16()),
           onTap: () {
             myLanguage.setLanguageEN();
           },
         ),
         Divider(),
         ListTile(
-          title: Text('Language AR', style: myStyle.style20()),
+          title: Text('Language AR', style: myStyle.style16()),
           onTap: () {
             myLanguage.setLanguageAR();
           },
@@ -48,7 +49,7 @@ Widget buildDrawer(BuildContext bc) {
         Divider(),
         ListTile(
           trailing: Icon(Icons.exit_to_app),
-          title: Text('Logout', style: myStyle.style20()),
+          title: Text('Logout', style: myStyle.style16()),
           onTap: () {
             mySharedPreferences.setUserPassword('');
             Navigator.pushAndRemoveUntil(
