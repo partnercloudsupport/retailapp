@@ -80,8 +80,8 @@ Stream<QuerySnapshot> getToday() {
   return Firestore.instance
       .collection(_name)
       .where('appointment',
-          isGreaterThanOrEqualTo: DateTime.utc(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day,-2))
+          isGreaterThanOrEqualTo: DateTime.utc(DateTime.now().year,
+              DateTime.now().month, DateTime.now().day, -2))
       .where(
         'appointment',
         isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
@@ -94,8 +94,8 @@ Stream<QuerySnapshot> getTomorrow() {
   return Firestore.instance
       .collection(_name)
       .where('appointment',
-          isGreaterThanOrEqualTo: DateTime.utc(
-                  DateTime.now().year, DateTime.now().month, DateTime.now().day,-2)
+          isGreaterThanOrEqualTo: DateTime.utc(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day, -2)
               .add(Duration(days: 1)))
       .where(
         'appointment',

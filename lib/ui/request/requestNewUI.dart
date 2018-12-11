@@ -247,9 +247,11 @@ class _UIState extends State<UI> {
         context,
         MaterialPageRoute(
             builder: (context) => selectWithFilterUI.UI(
-                controlEmployee.getAll(),
-                _chooseEmployee,
-                myLanguage.text(myLanguage.TextIndex.chooseAnEmployee))));
+                  controlEmployee.getAll(),
+                  _chooseEmployee,
+                  myLanguage.text(myLanguage.TextIndex.chooseAnEmployee),
+                  autofocus: false,
+                )));
   }
 
   void _chooseEmployee(String v) {
@@ -269,9 +271,11 @@ class _UIState extends State<UI> {
         context,
         MaterialPageRoute(
             builder: (context) => selectWithFilterUI.UI(
-                controlEmployee.getAll(),
-                _chooseSalseman,
-                myLanguage.text(myLanguage.TextIndex.chooseASalseman))));
+                  controlEmployee.getAll(),
+                  _chooseSalseman,
+                  myLanguage.text(myLanguage.TextIndex.chooseASalseman),
+                  autofocus: false,
+                )));
   }
 
   void _chooseSalseman(String v) {

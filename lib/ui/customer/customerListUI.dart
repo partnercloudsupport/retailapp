@@ -16,9 +16,9 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
-  bool _filterActive = false;
-  String _filter = '';
-  TextEditingController _filterController = TextEditingController(text: '');
+  bool _searchActive = false;
+  String _search = '';
+  TextEditingController _searchController = TextEditingController(text: '');
 
   AnimationController _ac;
 
@@ -51,7 +51,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildFilter() {
-    return _filterActive
+    return _searchActive
         ? SizeTransition(
             axis: Axis.horizontal,
             sizeFactor:
@@ -73,7 +73,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                             Icons.arrow_back,
                             color: myColor.master,
                           ),
-                          onTap: _filterReactive,
+                          onTap: _searchReactive,
                         ),
                       ),
                       Padding(
@@ -83,14 +83,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                             Icons.search,
                             color: myColor.master,
                           ),
-                          onTap: _filterApply,
+                          onTap: _searchApply,
                         ),
                       ),
                       Flexible(
                         child: TextField(
                           autofocus: true,
                           style: myStyle.textEdit15(),
-                          controller: _filterController,
+                          controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
@@ -101,14 +101,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: _filter.isEmpty == true
+                        child: _search.isEmpty == true
                             ? SizedBox(width: 0)
                             : InkWell(
                                 child: Icon(
                                   Icons.clear,
                                   color: myColor.master,
                                 ),
-                                onTap: _filterClear,
+                                onTap: _searchClear,
                               ),
                       ),
                     ],
@@ -131,14 +131,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildAppBar() {
-    return _filterActive
+    return _searchActive
         ? null
         : AppBar(
             title: Text(myLanguage.text(myLanguage.TextIndex.contacts)),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
-                onPressed: _filterReactive,
+                onPressed: _searchReactive,
               )
             ],
           );
@@ -156,7 +156,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       v['address'].toString() +
                       v['phones'].toString())
                   .toLowerCase()
-                  .contains(_filter);
+                  .contains(_search);
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
             }).toList(),
@@ -276,29 +276,29 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  void _filterReactive() {
+  void _searchReactive() {
     setState(() {
-      _filterActive = !_filterActive;
-      _filterController = TextEditingController(text: '');
-      _filterApply();
+      _searchActive = !_searchActive;
+      _searchController = TextEditingController(text: '');
+      _searchApply();
 
-      if (_filterActive) {
+      if (_searchActive) {
         _ac.reset();
         _ac.forward();
       }
     });
   }
 
-  void _filterApply() {
+  void _searchApply() {
     setState(() {
-      _filter = _filterController.text;
+      _search = _searchController.text;
     });
   }
 
-  void _filterClear() {
+  void _searchClear() {
     setState(() {
-      _filter = '';
-      _filterController = TextEditingController(text: '');
+      _search = '';
+      _searchController = TextEditingController(text: '');
     });
   }
 
@@ -331,6 +331,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _ac.dispose();
-    _filterController.dispose();
+    _searchController.dispose();
   }
 }

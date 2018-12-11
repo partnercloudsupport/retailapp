@@ -13,23 +13,27 @@ class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
   final int _statusIs;
   final int _stageIs;
-  final bool _filterActive;
-  UI(this._querySnapshot, this._statusIs, this._stageIs, this._filterActive);
+  final bool _searchActive;
+  final String filterByType;
+  final String filterByEmployee;
+
+  UI(this._querySnapshot, this._statusIs, this._stageIs, this._searchActive,
+      {this.filterByType = '', this.filterByEmployee = ''});
 
   @override
   UIState createState() => UIState();
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
-  String _filter = '';
-  TextEditingController _filterController = TextEditingController(text: '');
+  String _search = '';
+  TextEditingController _searchController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          _buildFilter(),
+          _buildSearch(),
           Expanded(child: _buildList()),
         ],
       ),
@@ -37,8 +41,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildFilter() {
-    return widget._filterActive
+  Widget _buildSearch() {
+    return widget._searchActive
         ? Column(
             children: <Widget>[
               Container(
@@ -53,27 +57,27 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         child: TextField(
                           autofocus: true,
                           style: myStyle.textEdit15(),
-                          controller: _filterController,
+                          controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
                                 myLanguage.text(myLanguage.TextIndex.search) +
                                     '...',
                           ),
-                          onChanged: _filterApply,
+                          onChanged: _searchApply,
                         ),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: _filter.isEmpty == true
+                      child: _search.isEmpty == true
                           ? SizedBox(width: 0)
                           : InkWell(
                               child: Icon(
                                 Icons.clear,
                                 color: myColor.master,
                               ),
-                              onTap: _filterClear,
+                              onTap: _searchClear,
                             ),
                     ),
                   ],
@@ -98,16 +102,22 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return StreamBuilder<QuerySnapshot>(
       stream: widget._querySnapshot,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
-        if (!v.hasData) return _buildTextLoading();
+        if (!v.hasData) return _buildLoading();
 
         return ListView(
           children: v.data.documents.where((v) {
-            return (v['customer'].toString() +
-                    v['typeIs'].toString() +
-                    v['requiredImplementation'].toString() +
-                    v['employee'].toString())
-                .toLowerCase()
-                .contains(_filter);
+            return (v['customer'] +
+                        v['typeIs'] +
+                        v['requiredImplementation'] +
+                        v['employee'])
+                    .toLowerCase()
+                    .contains(_search) &&
+                (widget.filterByType.isEmpty
+                    ? true
+                    : v['typeIs'] == widget.filterByType) &&
+                (widget.filterByEmployee.isEmpty
+                    ? true
+                    : v['employee'] == widget.filterByEmployee);
           }).map((DocumentSnapshot dr) {
             return _buildCard(dr);
           }).toList(),
@@ -116,15 +126,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: _new,
-      backgroundColor: myColor.master,
-    );
-  }
-
-  Widget _buildTextLoading() {
+  Widget _buildLoading() {
     return Center(
       child: CircularProgressIndicator(),
     );
@@ -138,7 +140,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 ExpansionTile(
-                  leading: Text(dr.documentID + dr['typeIs']),
+                  leading: Text(dr['typeIs']),
                   title: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -174,13 +176,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            _buildNoteButton(dr),
+                            _buildNote(dr),
                             Expanded(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   _buildPendingButton(dr),
-                                  _buildEditButton(dr),
+                                  _buildEdit(dr),
                                   _buildNeedInsertOrUpdate(dr),
                                 ],
                               ),
@@ -207,7 +209,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildNoteButton(DocumentSnapshot dr) {
+  Widget _buildNote(DocumentSnapshot dr) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -226,7 +228,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildEditButton(DocumentSnapshot dr) {
+  Widget _buildEdit(DocumentSnapshot dr) {
     return IconButton(
       icon: Icon(
         Icons.edit,
@@ -262,16 +264,24 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  void _filterApply(String v) {
+  Widget _buildFloatingActionButton() {
+    return FloatingActionButton(
+      child: Icon(Icons.add),
+      onPressed: _new,
+      backgroundColor: myColor.master,
+    );
+  }
+
+  void _searchApply(String v) {
     setState(() {
-      _filter = v;
+      _search = v;
     });
   }
 
-  void _filterClear() {
+  void _searchClear() {
     setState(() {
-      _filter = '';
-      _filterController = TextEditingController(text: '');
+      _search = '';
+      _searchController = TextEditingController(text: '');
     });
   }
 

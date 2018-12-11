@@ -61,7 +61,8 @@ enum TextIndex {
   chooseASalseman,
   chooseARequestType,
   notes,
-  editRequest
+  editRequest,
+  filterRequests
 }
 
 String languageApp = 'en-US';
@@ -69,12 +70,15 @@ String languageApp = 'en-US';
 
 String _textEN(TextIndex t) {
   switch (t) {
+    case TextIndex.filterRequests:
+      return 'Filter requests';
+      break;
     case TextIndex.editRequest:
       return 'Edit Request';
-      break;  
+      break;
     case TextIndex.notes:
       return 'Notes';
-      break;    
+      break;
     case TextIndex.chooseARequestType:
       return 'Choose a request type';
       break;
@@ -257,12 +261,15 @@ String _textEN(TextIndex t) {
 
 String _textAR(TextIndex t) {
   switch (t) {
+    case TextIndex.filterRequests:
+      return 'تصفية الطلبات';
+      break;
     case TextIndex.editRequest:
       return 'تعديل الطلب';
-      break; 
+      break;
     case TextIndex.notes:
       return 'الملاحظات';
-      break;  
+      break;
     case TextIndex.chooseARequestType:
       return 'اختيار نوع الطلب';
       break;

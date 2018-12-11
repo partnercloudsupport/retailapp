@@ -51,6 +51,20 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
+  Widget _buildAppBar() {
+    return _filterActive
+        ? null
+        : AppBar(
+            title: Text(myLanguage.text(myLanguage.TextIndex.notes)),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: _filterReactive,
+              )
+            ],
+          );
+  }
+
   Widget _buildFilter() {
     return _filterActive
         ? SizeTransition(
@@ -119,20 +133,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           )
         : SizedBox(
             height: 0,
-          );
-  }
-
-  Widget _buildAppBar() {
-    return _filterActive
-        ? null
-        : AppBar(
-            title: Text(myLanguage.text(myLanguage.TextIndex.notes)),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: _filterReactive,
-              )
-            ],
           );
   }
 
