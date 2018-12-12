@@ -4,6 +4,7 @@ import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 import 'package:retailapp/dataAccess/request/requestRow.dart' as requestRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 String _name = 'request';
 
@@ -52,14 +53,14 @@ Future<bool> edit(
     String typeIs) async {
   try {
     await Firestore.instance.collection(_name).document(key).updateData({
-      "customer": customer,
-      "employee": employee,
+      "customer": customer.trim().isEmpty ? '-' : customer,
+      "employee": employee.trim().isEmpty ? '-' : employee,
       "requiredImplementation": requiredImplementation,
       "appointment": appointment,
       "targetPrice": targetPrice,
       "stageIs": stageIs,
-      "salseman": salseman,
-      "typeIs": typeIs,
+      "salseman": salseman.trim().isEmpty ? '-' : salseman,
+      "typeIs": typeIs.trim().isEmpty ? '-' : typeIs,
       "needUpdate": true,
     });
 
@@ -68,6 +69,24 @@ Future<bool> edit(
   } catch (e) {
     mySnackBar.show(scaffoldKey, e.toString());
   }
+
+  return false;
+}
+
+Future<bool> win(
+    String key, String paidByEmployee, double amount, String deleteNote) async {
+  try {
+    await Firestore.instance.collection(_name).document(key).updateData({
+      "paidByEmployee": paidByEmployee.trim().isEmpty ? '-' : paidByEmployee,
+      "amount": amount,
+      "statusIs": 4,
+      "needDelete": true,
+      "deleteByUserID": controlUser.drNow.documentID,
+      "deleteNote": deleteNote,
+    });
+    controlLiveVersion.save(_name);
+    return true;
+  } catch (e) {}
 
   return false;
 }

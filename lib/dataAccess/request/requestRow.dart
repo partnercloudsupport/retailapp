@@ -22,9 +22,19 @@ class Row {
   String typeIs;
   bool needInsert;
   bool needUpdate;
+  bool needDelete;
+  int deleteByUserID;
+  String deleteNote;
 
-  Row(this.customer, this.employee, this.requiredImplementation,
-      this.appointment, this.targetPrice, this.stageIs, this.salseman,this.typeIs,
+  Row(
+      this.customer,
+      this.employee,
+      this.requiredImplementation,
+      this.appointment,
+      this.targetPrice,
+      this.stageIs,
+      this.salseman,
+      this.typeIs,
       {this.needInsert = true}) {
     this.customerID = 0;
     this.employeeID = 0;
@@ -39,6 +49,9 @@ class Row {
     this.statusIs = 0;
 
     this.needUpdate = !this.needInsert;
+    this.needDelete = false;
+    this.deleteByUserID = 0;
+    this.deleteNote = '';
   }
 
   Row.fromSnapshot(DocumentSnapshot dr) {
@@ -63,6 +76,9 @@ class Row {
     typeIs = dr["typeIs"];
     needInsert = dr["needInsert"];
     needUpdate = dr["needUpdate"];
+    needDelete = dr["needDelete"];
+    deleteByUserID = dr["deleteByUserID"];
+    deleteNote = dr["deleteNote"];
   }
 
   toJson() {
@@ -87,6 +103,9 @@ class Row {
       "typeIs": typeIs,
       "needInsert": needInsert,
       "needUpdate": needUpdate,
+      "needDelete": needDelete,
+      "deleteByUserID": deleteByUserID,
+      "deleteNote": deleteNote,
     };
   }
 }

@@ -16,6 +16,7 @@ import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
+import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 
 class UI extends StatefulWidget {
   final DocumentSnapshot dr;
@@ -216,7 +217,7 @@ class _UIState extends State<UI> {
         style: myStyle.style15(),
         decoration: InputDecoration(
             labelText: myLanguage.text(myLanguage.item.target)),
-        onSaved: (String v) => _targetPrice = double.parse(v),
+        onSaved: (String v) => _targetPrice = mydouble.to(v),
         focusNode: _focusNode2);
   }
 

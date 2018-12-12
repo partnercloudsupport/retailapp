@@ -62,14 +62,21 @@ enum item {
   chooseARequestType,
   notes,
   editRequest,
-  filterRequests
+  filterRequests,
+  requestCompleted,
+  amount
 }
-
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.amount:
+      return 'Amount';
+      break;    
+    case item.requestCompleted:
+      return 'Request completed';
+      break;
     case item.filterRequests:
       return 'Filter requests';
       break;
@@ -261,6 +268,12 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.amount:
+      return 'المبلغ';
+      break;   
+    case item.requestCompleted:
+      return 'اكتمال الطلب';
+      break;
     case item.filterRequests:
       return 'تصفية الطلبات';
       break;

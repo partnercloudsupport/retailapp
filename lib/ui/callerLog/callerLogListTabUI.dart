@@ -6,6 +6,7 @@ import 'package:retailapp/control/CallerLog/controlCallerLog.dart'
     as controlCallerLog;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> querySnapshot;
@@ -79,8 +80,7 @@ class _UIState extends State<UI> {
     return Center(
       child: super.widget.withFilterAction
           ? Text(
-              myLanguage
-                  .text(myLanguage.item.clickOnTheFilterButtonToLoadData),
+              myLanguage.text(myLanguage.item.clickOnTheFilterButtonToLoadData),
               style: myStyle.style20(),
             )
           : CircularProgressIndicator(),
@@ -121,11 +121,34 @@ class _UIState extends State<UI> {
                       style: myStyle.style12Color3(),
                     ),
                   ),
+                  _buildNewRequest(dr['noteIs']),
                 ],
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildNewRequest(String v) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              'Request',
+              style: myStyle.style14(),
+            ),
+            Icon(
+              Icons.add,
+              color: myColor.color1,
+            ),
+          ],
+        ),
+        onTap: () => _newRequest(v),
       ),
     );
   }
@@ -244,6 +267,15 @@ class _UIState extends State<UI> {
         _querySnapshot = controlCallerLog.getBetweenData(_fromDate, _toDate);
       });
     }
+  }
+
+  void _newRequest(String v) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => requestNewUI.UI(
+                  requiredImplementation: v,
+                )));
   }
 
   @override

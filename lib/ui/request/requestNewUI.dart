@@ -15,8 +15,14 @@ import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
+import 'package:retailapp/control/my/mydouble.dart' as mydouble;
+
+String _requiredImplementation = '';
 
 class UI extends StatefulWidget {
+  UI({String requiredImplementation}) {
+    _requiredImplementation = requiredImplementation;
+  }
   _UIState createState() => _UIState();
 }
 
@@ -28,7 +34,6 @@ class _UIState extends State<UI> {
 
   String _customer = '';
   String _employee = '';
-  String _requiredImplementation = '';
   DateTime _appointment = DateTime.now();
   String _salseman = '';
   double _targetPrice = 0;
@@ -80,7 +85,7 @@ class _UIState extends State<UI> {
             children: <Widget>[
               _buildCustomerChoose(),
               _buildEmployeeChoose(),
-              _buildrequiredImplementationFormField(),
+              _buildrequiredImplementation(),
               _buildAppointment(),
               _buildSalsemanChoose(),
               _buildTargetPrice(),
@@ -139,8 +144,9 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildrequiredImplementationFormField() {
+  Widget _buildrequiredImplementation() {
     return TextFormField(
+      initialValue: _requiredImplementation,
       textInputAction: TextInputAction.done,
       maxLines: 4,
       style: myStyle.style15(),
@@ -198,7 +204,7 @@ class _UIState extends State<UI> {
         style: myStyle.style15(),
         decoration:
             InputDecoration(labelText: myLanguage.text(myLanguage.item.target)),
-        onSaved: (String v) => _targetPrice = double.parse(v),
+        onSaved: (String v) => _targetPrice = mydouble.to(v),
         focusNode: _focusNode2);
   }
 

@@ -9,6 +9,7 @@ import 'package:retailapp/ui/request/requestNoteListUI.dart'
     as requestNoteListUI;
 import 'package:retailapp/ui/request/requestEditUI.dart' as requestEditUI;
 import 'package:retailapp/control/my/myString.dart' as myString;
+import 'package:retailapp/ui/request/requestWinUI.dart' as requestWinUI;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
@@ -181,7 +182,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  _buildPendingButton(dr),
+                                  _buildWin(dr),
                                   _buildEdit(dr),
                                   _buildNeedInsertOrUpdate(dr),
                                 ],
@@ -199,13 +200,25 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         : SizedBox();
   }
 
-  Widget _buildPendingButton(DocumentSnapshot dr) {
+  Widget _buildWin(DocumentSnapshot dr) {
+    return IconButton(
+      icon: Image.asset(
+        'lib/res/image/Win_001_32.png',
+        color: myColor.color1,
+        height: 24.0,
+        width: 24.0,
+      ),
+      onPressed: () => _win(dr),
+    );
+  }
+
+  Widget _buildEdit(DocumentSnapshot dr) {
     return IconButton(
       icon: Icon(
-        Icons.pause,
+        Icons.edit,
         color: myColor.color1,
       ),
-      onPressed: () => {},
+      onPressed: () => _edit(dr),
     );
   }
 
@@ -239,16 +252,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildEdit(DocumentSnapshot dr) {
-    return IconButton(
-      icon: Icon(
-        Icons.edit,
-        color: myColor.color1,
-      ),
-      onPressed: () => _edit(dr),
-    );
-  }
-
   Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -277,6 +280,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildFloatingActionButton() {
     return FloatingActionButton(
+      heroTag: UniqueKey(),
       child: Icon(Icons.add),
       onPressed: _new,
       backgroundColor: myColor.color1,
@@ -304,5 +308,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void _edit(DocumentSnapshot dr) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => requestEditUI.UI(dr)));
+  }
+
+  void _win(DocumentSnapshot dr) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => requestWinUI.UI(dr)));
   }
 }

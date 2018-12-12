@@ -100,8 +100,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.item.search) +
-                                    '...',
+                                myLanguage.text(myLanguage.item.search) + '...',
                           ),
                         ),
                       ),
@@ -156,6 +155,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     hintText: myLanguage.text(myLanguage.item.note),
                   ),
                   onChanged: _noteApply,
+                  maxLines: 2,
                 ),
               ),
               Padding(
@@ -224,6 +224,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             textAlign: TextAlign.end,
             style: myStyle.style12Color3(),
           ),
+          SizedBox(
+            width: 8.0,
+          ),
+          _buildStage(dr['stageIs']),
           _buildNeedInsertOrUpdate(dr),
         ],
       ),
@@ -253,6 +257,44 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 ),
               )
       ],
+    );
+  }
+
+  Widget _buildStage(int v) {
+    String t = 'lib/res/image/Prospect_001_32.png';
+
+    switch (v) {
+      case 1:
+        t = 'lib/res/image/Prospect_001_32.png';
+        break;
+      case 2:
+        t = 'lib/res/image/CallerID_003_32.png';
+        break;
+      case 3:
+        t = 'lib/res/image/Request_003_32.png';
+        break;
+      case 4:
+        t = 'lib/res/image/Quotation_002_32.png';
+        break;
+      case 5:
+        t = 'lib/res/image/Installation_001_32.png';
+        break;
+      case 6:
+        t = 'lib/res/image/MoneyCollection_001_32.png';
+        break;
+      case 7:
+        t = 'lib/res/image/Win_001_32.png';
+        break;
+      case 9:
+        t = 'lib/res/image/Close_004_32.png';
+        break;
+    }
+
+    return Image.asset(
+      t,
+      color: myColor.color1,
+      height: 16.0,
+      width: 16.0,
     );
   }
 
