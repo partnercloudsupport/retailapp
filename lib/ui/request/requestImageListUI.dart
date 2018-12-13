@@ -302,7 +302,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _new() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (c) => requestImageNewUI.UI()));
+        context,
+        MaterialPageRoute(
+            builder: (c) => requestImageNewUI.UI(widget.requestID)));
   }
 
   @override

@@ -10,3 +10,12 @@ bool isEmail(String em) {
 String betweenBrackets(String v) {
   return '(' + v + ')';
 }
+
+String getExtension(String v) {
+  return v.split('.').last;
+}
+
+String getExtensionWithDot(String v) {
+  String o = v.split('.').last;
+  return o.isEmpty ? '' : '.' + o;
+}

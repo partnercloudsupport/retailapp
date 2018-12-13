@@ -134,13 +134,13 @@ Stream<QuerySnapshot> getPending() {
 
 Future<bool> addSomeColumn() async {
   try {
-    Firestore.instance.collection('requestImage').snapshots().forEach((i) {
+    Firestore.instance.collection('request').snapshots().forEach((i) {
       i.documents.forEach((ii) async {
         await Firestore.instance
-            .collection('requestImage')
+            .collection('request')
             .document(ii.documentID)
             .updateData({
-          "note": 'we done this request',
+          "imageCount": 0,
         });
       });
     });

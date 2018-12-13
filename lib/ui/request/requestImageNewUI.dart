@@ -5,14 +5,18 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:flutter_multiple_image_picker/flutter_multiple_image_picker.dart';
+import 'package:retailapp/control/request/controlRequestImage.dart'
+    as controlRequestImage;
 
 class UI extends StatefulWidget {
+  final double _requestID;
+  UI(this._requestID);
+
   _UIState createState() => _UIState();
 }
 
 class _UIState extends State<UI> {
   final formKey = GlobalKey<FormState>();
-
   String _note = '';
   final FocusNode _focusNode1 = new FocusNode();
   List _images;
@@ -32,10 +36,12 @@ class _UIState extends State<UI> {
     return AppBar(
       title: _buildTitle(),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.save),
-          onPressed: _save,
-        )
+        _images != null
+            ? IconButton(
+                icon: Icon(Icons.save),
+                onPressed: _save,
+              )
+            : SizedBox()
       ],
     );
   }
@@ -49,30 +55,27 @@ class _UIState extends State<UI> {
 
   Widget _buildForm() {
     return Form(
-      child: ListView(
-        children: <Widget>[
-          Container(
-            child: _buildImage(),
-            height: 300,
-          ),
-          _buildLoadImage(),
-          _buildNote(),
-        ],
+      key: formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: <Widget>[
+            Container(
+              child: _buildImageList(),
+              height: 300,
+            ),
+            _buildLoadImage(),
+            _buildNote(),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildImage() {
+  Widget _buildImageList() {
     return _images != null
         ? ListView.builder(
-            itemBuilder: (BuildContext context, int index) => new ListTile(
-                  title: Container(
-                    child: Image.file(
-                      File(_images[index].toString()),
-                    ),
-                    height: 250,
-                  ),
-                ),
+            itemBuilder: _buildImage,
             itemCount: _images.length,
           )
         : Container(
@@ -84,20 +87,28 @@ class _UIState extends State<UI> {
           );
   }
 
-  Widget _buildLoadImage() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: RaisedButton.icon(
-          onPressed: _loadImage,
-          icon: Icon(
-            Icons.image,
-            color: myColor.color1,
-          ),
-          label: Text(
-            "Load Images",
-            style: myStyle.style16(),
-          )),
+  Widget _buildImage(BuildContext context, int i) {
+    return ListTile(
+      title: Container(
+        child: Image.file(
+          File(_images[i].toString()),
+        ),
+        height: 250,
+      ),
     );
+  }
+
+  Widget _buildLoadImage() {
+    return RaisedButton.icon(
+        onPressed: _loadImage,
+        icon: Icon(
+          Icons.image,
+          color: myColor.color1,
+        ),
+        label: Text(
+          "Load Images",
+          style: myStyle.style16(),
+        ));
   }
 
   Widget _buildNote() {
@@ -120,6 +131,8 @@ class _UIState extends State<UI> {
       setState(() {
         _images = resultList;
       });
+
+      FocusScopeNode().requestFocus(_focusNode1);
     } catch (e) {}
   }
 
@@ -134,19 +147,10 @@ class _UIState extends State<UI> {
 
   void _save() async {
     if (_saveValidator() == true) {
-      // if (await controlRequest.save(
-      //         scaffoldKey,
-      //         _customer,
-      //         _employee,
-      //         _requiredImplementation,
-      //         _appointment,
-      //         _targetPrice,
-      //         3,
-      //         _salseman,
-      //         _typeIs) ==
-      //     true) {
-      //   Navigator.pop(_context);
-      // }
+      _images.forEach((i) async {
+        await controlRequestImage.save(widget._requestID, _note, i);
+      });
+      Navigator.pop(context);
     }
   }
 }
