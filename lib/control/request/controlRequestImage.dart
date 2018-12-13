@@ -25,7 +25,7 @@ Future<bool> save(
     uploadTask.onComplete.whenComplete(() async {
       await Firestore.instance.collection(_name).add(requestImageRow.Row(
             name,
-            34,
+            requestID,
             note,
             await reference.getDownloadURL(),
           ).toJson());
