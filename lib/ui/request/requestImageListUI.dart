@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:retailapp/control/request/controlRequestNote.dart'
-    as controlRequestNote;
-
+import 'package:retailapp/control/request/controlRequestImage.dart'
+    as controlRequestImage;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/ui/all/imageZoom.dart' as imageZoom;
+import 'package:retailapp/ui/request/requestImageNewUI.dart'
+    as requestImageNewUI;
 
 class UI extends StatefulWidget {
   final double requestID;
@@ -19,8 +21,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   bool _filterActive = false;
   String _filter = '';
   TextEditingController _filterController = TextEditingController(text: '');
-  String _note = '';
-  TextEditingController _noteController = TextEditingController(text: '');
 
   AnimationController _ac;
 
@@ -42,11 +42,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           child: Column(
             children: <Widget>[
               _buildFilter(),
-              _buildNote(),
               _buildList(),
             ],
           ),
         ),
+        floatingActionButton: _buildFloatingActionButton(),
       ),
     );
   }
@@ -55,7 +55,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return _filterActive
         ? null
         : AppBar(
-            title: Text(myLanguage.text(myLanguage.item.timelineNotes)),
+            title: Text(myLanguage.text(myLanguage.item.timelineImages)),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
@@ -135,66 +135,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           );
   }
 
-  Widget _buildNote() {
-    return Column(
-      children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(width: 1.0, color: myColor.color1))),
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: <Widget>[
-              Flexible(
-                child: TextField(
-                  autofocus: true,
-                  style: myStyle.style15(),
-                  controller: _noteController,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: myLanguage.text(myLanguage.item.note),
-                  ),
-                  onChanged: _noteApply,
-                  maxLines: 2,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: _note.isEmpty == true
-                    ? SizedBox(width: 0)
-                    : InkWell(
-                        child: Icon(
-                          Icons.save,
-                          color: myColor.color1,
-                        ),
-                        onTap: _save,
-                      ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-            height: 1,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  color: myColor.color1,
-                  blurRadius: 5.0,
-                  offset: Offset(0.0, 5.0)),
-            ])),
-      ],
-    );
-  }
-
   Widget _buildList() {
     return StreamBuilder<QuerySnapshot>(
-      stream: controlRequestNote.getAll(),
+      stream: controlRequestImage.getAll(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return (v['user'].toString().toLowerCase().contains(_filter) ||
-                      v['note'].toString().toLowerCase().contains(_filter)) &&
+              return (v['user'].toString().toLowerCase().contains(_filter)) &&
                   v['requestID'] == widget.requestID;
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
@@ -206,32 +155,51 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildCard(DocumentSnapshot dr) {
-    return ListTile(
-      title: Text(
-        dr['note'],
-        style: myStyle.style20(),
-      ),
-      subtitle: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              dr['user'],
+    return Card(
+      child: ListTile(
+        title: _buildImage(dr),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Text(
+                dr['note'],
+              ),
             ),
-          ),
-          Text(
-            myDateTime.formatAndShortByFromString(
-                dr['dateTimeIs'].toString(), myDateTime.Types.ddMMyyyyhhmma),
-            textAlign: TextAlign.end,
-            style: myStyle.style12Color3(),
-          ),
-          SizedBox(
-            width: 8.0,
-          ),
-          _buildStage(dr['stageIs']),
-          _buildNeedInsertOrUpdate(dr),
-        ],
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    dr['user'],
+                  ),
+                ),
+                Text(
+                  myDateTime.formatAndShortByFromString(
+                      dr['dateTimeIs'].toString(),
+                      myDateTime.Types.ddMMyyyyhhmma),
+                  textAlign: TextAlign.end,
+                  style: myStyle.style12Color3(),
+                ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                _buildStage(dr['stageIs']),
+                _buildNeedInsertOrUpdate(dr),
+              ],
+            ),
+          ],
+        ),
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (c) => imageZoom.UI(dr['pathImage'])));
+        },
       ),
     );
+  }
+
+  Widget _buildImage(DocumentSnapshot dr) {
+    return Container(height: 200, child: Image.network(dr['pathImage']));
   }
 
   Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
@@ -298,6 +266,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
+  Widget _buildFloatingActionButton() {
+    return FloatingActionButton(
+      child: Icon(Icons.add),
+      onPressed: _new,
+      backgroundColor: myColor.color1,
+    );
+  }
+
   void _filterReactive() {
     setState(() {
       _filterActive = !_filterActive;
@@ -324,19 +300,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     });
   }
 
-  void _noteApply(String v) {
-    setState(() {
-      _note = v.toLowerCase();
-    });
-  }
-
-  void _save() {
-    controlRequestNote.save(widget.requestID, _note);
-
-    setState(() {
-      _note = '';
-      _noteController.clear();
-    });
+  void _new() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (c) => requestImageNewUI.UI()));
   }
 
   @override
@@ -344,6 +310,5 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     super.dispose();
     _ac.dispose();
     _filterController.dispose();
-    _noteController.dispose();
   }
 }

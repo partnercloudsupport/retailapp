@@ -64,16 +64,32 @@ enum item {
   editRequest,
   filterRequests,
   requestCompleted,
-  amount
+  amount,
+  timelineNotes,
+  timelineImages,
+  images,
+  newImage
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.newImage:
+      return 'New image';
+      break;
+    case item.images:
+      return 'Images';
+      break;
+    case item.timelineImages:
+      return 'Timeline images';
+      break;
+    case item.timelineNotes:
+      return 'Timeline notes';
+      break;
     case item.amount:
       return 'Amount';
-      break;    
+      break;
     case item.requestCompleted:
       return 'Request completed';
       break;
@@ -268,9 +284,21 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.newImage:
+      return 'صورة جديدة';
+      break;
+    case item.images:
+      return 'الصور';
+      break;
+    case item.timelineImages:
+      return 'صور الجدول الزمني';
+      break;
+    case item.timelineNotes:
+      return 'ملاحظات الجدول الزمني';
+      break;
     case item.amount:
       return 'المبلغ';
-      break;   
+      break;
     case item.requestCompleted:
       return 'اكتمال الطلب';
       break;

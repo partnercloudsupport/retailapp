@@ -159,6 +159,8 @@ class _UIState extends State<UI> {
   }
 
   void _save() async {
+//await controlRequest.addSomeColumn();
+
     if (_saveValidator() == true) {
       if (await controlRequest.win(
               widget.dr.documentID, _paidByEmployee, _amount, _deleteNote) ==
@@ -167,6 +169,4 @@ class _UIState extends State<UI> {
       }
     }
   }
-
-
 }

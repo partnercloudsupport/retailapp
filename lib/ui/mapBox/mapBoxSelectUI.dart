@@ -20,10 +20,13 @@ class UI extends StatefulWidget {
 class _UIState extends State<UI> {
   LatLng _myLocation;
 
+  MapController _map;
+
   @override
   void initState() {
     super.initState();
     initMyLocation();
+    _map = MapController();
   }
 
   void initMyLocation() async {
@@ -36,6 +39,7 @@ class _UIState extends State<UI> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: FlutterMap(
+        mapController: _map,
         options: MapOptions(
           onTap: (LatLng v) => _setNewLocation(v),
           center: _currentPoint,
@@ -103,6 +107,7 @@ class _UIState extends State<UI> {
   void _setMyLocation() {
     setState(() {
       _currentPoint = _myLocation;
+      _map.move(_currentPoint, 14);
     });
   }
 

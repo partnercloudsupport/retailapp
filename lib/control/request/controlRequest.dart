@@ -131,3 +131,22 @@ Stream<QuerySnapshot> getPending() {
       .where('statusIs', isEqualTo: 1)
       .snapshots();
 }
+
+Future<bool> addSomeColumn() async {
+  try {
+    Firestore.instance.collection('requestImage').snapshots().forEach((i) {
+      i.documents.forEach((ii) async {
+        await Firestore.instance
+            .collection('requestImage')
+            .document(ii.documentID)
+            .updateData({
+          "note": 'we done this request',
+        });
+      });
+    });
+
+    return true;
+  } catch (e) {}
+
+  return false;
+}

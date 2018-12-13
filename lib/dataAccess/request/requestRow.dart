@@ -16,6 +16,7 @@ class Row {
   double targetPrice;
   int stageIs;
   int notesCount;
+  int imageCount;
   int salsemanID;
   String salseman;
   int statusIs;
@@ -45,6 +46,7 @@ class Row {
     this.takeIn = DateTime.now();
     this.stageIs = 3;
     this.notesCount = 0;
+    this.imageCount = 0;
     this.salsemanID = 0;
     this.statusIs = 0;
 
@@ -70,6 +72,7 @@ class Row {
     targetPrice = dr["targetPrice"];
     stageIs = dr["stageIs"];
     notesCount = dr["notesCount"];
+    imageCount = dr["imageCount"];
     salsemanID = dr["salsemanID"];
     salseman = dr["salseman"];
     statusIs = dr["statusIs"];
@@ -97,6 +100,7 @@ class Row {
       "targetPrice": targetPrice,
       "stageIs": stageIs,
       "notesCount": notesCount,
+      "imageCount": imageCount,
       "salsemanID": salsemanID,
       "salseman": salseman,
       "statusIs": statusIs,

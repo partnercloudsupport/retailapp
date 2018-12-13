@@ -10,6 +10,8 @@ import 'package:retailapp/ui/request/requestNoteListUI.dart'
 import 'package:retailapp/ui/request/requestEditUI.dart' as requestEditUI;
 import 'package:retailapp/control/my/myString.dart' as myString;
 import 'package:retailapp/ui/request/requestWinUI.dart' as requestWinUI;
+import 'package:retailapp/ui/request/requestImageListUI.dart'
+    as requestImageListUI;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
@@ -178,6 +180,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             _buildNote(dr),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            _buildImage(dr),
                             Expanded(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -252,6 +258,32 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
+  Widget _buildImage(DocumentSnapshot dr) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: InkWell(
+        child: Row(
+          children: <Widget>[
+            Icon(
+              Icons.image,
+              color: myColor.color1,
+            ),
+            Text(
+              myLanguage.text(myLanguage.item.images) +
+                  (dr['imageCount'] == 0
+                      ? ''
+                      : ' ' +
+                          myString
+                              .betweenBrackets(dr['imageCount'].toString())),
+              style: myStyle.style14(),
+            ),
+          ],
+        ),
+        onTap: () => _imageZoom(dr),
+      ),
+    );
+  }
+
   Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -313,5 +345,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void _win(DocumentSnapshot dr) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => requestWinUI.UI(dr)));
+  }
+
+  void _imageZoom(DocumentSnapshot dr) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                requestImageListUI.UI(double.parse(dr.documentID.toString()))));
   }
 }
