@@ -3,6 +3,7 @@ import 'package:retailapp/dataAccess/request/requestNoteRow.dart'
     as requestNoteRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
+import 'package:uuid/uuid.dart';
 
 String _name = 'requestNote';
 
@@ -11,7 +12,10 @@ Future<bool> save(
   String note,
 ) async {
   try {
-    await Firestore.instance.collection(_name).add(requestNoteRow.Row(
+    await Firestore.instance
+        .collection(_name)
+        .document(Uuid().v1())
+        .setData(requestNoteRow.Row(
           requestID,
           note.trim().isEmpty ? '-' : note,
         ).toJson());

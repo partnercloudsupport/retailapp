@@ -152,9 +152,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return (v['name'].toString() +
-                      v['address'].toString() +
-                      v['phones'].toString())
+              return (v['name'] +
+                      v['address'] +
+                      v['phones'])
                   .toLowerCase()
                   .contains(_search);
             }).map((DocumentSnapshot dr) {

@@ -6,6 +6,7 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
 import 'package:retailapp/dataAccess/request/requestImageRow.dart'
     as requestImageRow;
 import 'package:retailapp/control/my/myString.dart' as myString;
+import 'package:uuid/uuid.dart';
 
 String _name = 'requestImage';
 
@@ -15,15 +16,16 @@ Future<bool> save(
   String pathImage,
 ) async {
   try {
-    String name =
-        DateTime.now().toString() + myString.getExtensionWithDot(pathImage);
+
+    String id = Uuid().v1();
+    String name = id + myString.getExtensionWithDot(pathImage);
     StorageReference reference =
         FirebaseStorage.instance.ref().child(_name + '/' + name);
 
     StorageUploadTask uploadTask = reference.putFile(File(pathImage));
 
     uploadTask.onComplete.whenComplete(() async {
-      await Firestore.instance.collection(_name).add(requestImageRow.Row(
+      await Firestore.instance.collection(_name).document(id).setData(requestImageRow.Row(
             name,
             requestID,
             note,

@@ -143,7 +143,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return (v['user'].toString().toLowerCase().contains(_filter)) &&
+              return (v['user'] + v['note']).toLowerCase().contains(_filter) &&
                   v['requestID'] == widget.requestID;
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
