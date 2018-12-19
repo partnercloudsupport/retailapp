@@ -7,6 +7,8 @@ import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
+import 'package:retailapp/control/my/mySharedPreferences.dart'
+    as mySharedPreferences;
 
 String _filterEmployee = '';
 String _filterType = '';
@@ -137,7 +139,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         context,
         MaterialPageRoute(
             builder: (context) => selectWithFilterUI.UI(
-                  controlEmployee.getAll(),
+                  controlEmployee.getShowInSchedule(),
                   _chooseEmployee,
                   myLanguage.text(myLanguage.item.chooseAnEmployee),
                   autofocus: false,
@@ -180,7 +182,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     });
   }
 
-  void _save() {
+  void _save() async {
+    await mySharedPreferences.setRequestFilterEmployee(_filterEmployee);
+
     widget._save(_filterType, _filterEmployee);
     Navigator.pop(context);
   }

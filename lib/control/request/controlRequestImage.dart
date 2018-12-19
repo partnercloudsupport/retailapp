@@ -20,7 +20,7 @@ Future<bool> save(
     String id = Uuid().v1();
     String name = id + myString.getExtensionWithDot(pathImage);
     StorageReference reference =
-        FirebaseStorage.instance.ref().child(_name + '/' + name);
+        FirebaseStorage.instance.ref().child(_name + '/' + id);
 
     StorageUploadTask uploadTask = reference.putFile(File(pathImage));
 

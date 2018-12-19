@@ -48,6 +48,13 @@ Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
 }
 
+Stream<QuerySnapshot> getShowInSchedule() {
+  return Firestore.instance
+      .collection(_name)
+      .where('showInSchedule', isEqualTo: true)
+      .snapshots();
+}
+
 Future<String> getKey(String v) async {
   try {
     QuerySnapshot dr = await Firestore.instance

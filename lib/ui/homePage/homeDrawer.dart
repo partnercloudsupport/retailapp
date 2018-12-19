@@ -5,7 +5,6 @@ import 'package:retailapp/control/my/mySharedPreferences.dart'
     as mySharedPreferences;
 import 'package:retailapp/ui/user/userLoginUI.dart' as userLoginUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/control/my/myString.dart' as myString;
 
 Widget buildDrawer(BuildContext bc) {
   return Drawer(
@@ -16,11 +15,7 @@ Widget buildDrawer(BuildContext bc) {
             'Smart Security',
             style: myStyle.style20Color2(),
           ),
-          accountEmail: Text(
-              controlUser.drNow.data['name'] +
-                  ' ' +
-                  myString
-                      .betweenBrackets(controlUser.drNow.data['permission']),
+          accountEmail: Text(controlUser.drNow.data['name'],
               style: myStyle.style16Color2()),
           currentAccountPicture: Container(
             height: 150.0,

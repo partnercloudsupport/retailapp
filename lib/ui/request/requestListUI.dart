@@ -7,7 +7,7 @@ import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
 import 'package:retailapp/ui/request/requestFilterUI.dart' as requestFilterUI;
 
 String _filterByType = '';
-String _filterByEmployee = '';
+String filterByEmployee = '';
 
 class UI extends StatefulWidget {
   @override
@@ -42,7 +42,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               3,
               _searchActive,
               filterByType: _filterByType,
-              filterByEmployee: _filterByEmployee,
+              filterByEmployee: filterByEmployee,
             ),
             requestListTabUI.UI(
               controlRequest.getTomorrow(),
@@ -50,7 +50,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               3,
               _searchActive,
               filterByType: _filterByType,
-              filterByEmployee: _filterByEmployee,
+              filterByEmployee: filterByEmployee,
             ),
             requestListTabUI.UI(
               controlRequest.getAll(),
@@ -58,7 +58,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               3,
               _searchActive,
               filterByType: _filterByType,
-              filterByEmployee: _filterByEmployee,
+              filterByEmployee: filterByEmployee,
             ),
             requestListTabUI.UI(
               controlRequest.getPending(),
@@ -66,7 +66,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               0,
               _searchActive,
               filterByType: _filterByType,
-              filterByEmployee: _filterByEmployee,
+              filterByEmployee: filterByEmployee,
             ),
           ],
         ),
@@ -116,12 +116,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return IconButton(
       icon: Icon(
         Icons.filter_list,
-        color: _filterByType.isNotEmpty || _filterByEmployee.isNotEmpty
+        color: _filterByType.isNotEmpty || filterByEmployee.isNotEmpty
             ? Colors.white
             : Colors.grey,
-        size: _filterByType.isNotEmpty || _filterByEmployee.isNotEmpty
-            ? 32
-            : null,
+        size:
+            _filterByType.isNotEmpty || filterByEmployee.isNotEmpty ? 32 : null,
       ),
       onPressed: _filterOpen,
     );
@@ -138,13 +137,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         context,
         MaterialPageRoute(
             builder: (context) => requestFilterUI.UI(
-                _filterApply, _filterByEmployee, _filterByType)));
+                _filterApply, filterByEmployee, _filterByType)));
   }
 
-  void _filterApply(String filterByType, String filterByEmployee) {
+  void _filterApply(String _filterByType, String _filterByEmployee) {
     setState(() {
-      _filterByType = filterByType;
-      _filterByEmployee = filterByEmployee;
+      _filterByType = _filterByType;
+     filterByEmployee = _filterByEmployee;
     });
   }
 

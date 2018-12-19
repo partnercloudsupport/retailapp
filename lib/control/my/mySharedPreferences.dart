@@ -29,3 +29,13 @@ Future<Null> setUserPassword(String v) async {
   final SharedPreferences sp = await SharedPreferences.getInstance();
   sp.setString('userPassword', v);
 }
+
+Future<String> getRequestFilterEmployee() async {
+  final SharedPreferences sp = await SharedPreferences.getInstance();
+  return sp.getString('RequestFilterEmployee') ?? '';
+}
+
+Future<Null> setRequestFilterEmployee(String v) async {
+  final SharedPreferences sp = await SharedPreferences.getInstance();
+  sp.setString('RequestFilterEmployee', v);
+}

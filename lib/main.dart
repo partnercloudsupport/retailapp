@@ -7,6 +7,7 @@ import 'package:retailapp/ui/user/userLoginUI.dart' as userLoginUI;
 import 'package:retailapp/control/my/mySharedPreferences.dart'
     as mySharedPreferences;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 
 void main() {
   runApp(UI());
@@ -27,6 +28,8 @@ class _UIState extends State<UI> {
   void _initState() async {
     myLanguage.setLanguage(await mySharedPreferences.getLanguageApp());
     userLoginUI.userName = await mySharedPreferences.getUserName();
+    requestListUI.filterByEmployee =
+        await mySharedPreferences.getRequestFilterEmployee();
 
     bool myAccountIsVaild = await controlUser.signInByAuto(
         await mySharedPreferences.getUserName(),

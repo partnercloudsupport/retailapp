@@ -265,7 +265,7 @@ class _UIState extends State<UI> {
         context,
         MaterialPageRoute(
             builder: (context) => selectWithFilterUI.UI(
-                controlEmployee.getAll(),
+                controlEmployee.getShowInSchedule(),
                 _chooseEmployee,
                 myLanguage.text(myLanguage.item.chooseAnEmployee))));
   }
@@ -287,7 +287,7 @@ class _UIState extends State<UI> {
         context,
         MaterialPageRoute(
             builder: (context) => selectWithFilterUI.UI(
-                controlEmployee.getAll(),
+                controlEmployee.getShowInSchedule(),
                 _chooseSalseman,
                 myLanguage.text(myLanguage.item.chooseASalseman))));
   }

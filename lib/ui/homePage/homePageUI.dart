@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/ui/callerLog/callerLogListUI.dart' as callerLogListUI;
 import 'package:retailapp/ui/customer/customerListUI.dart' as customerListUI;
-import 'package:retailapp/ui/user/userListUI.dart' as userListUI;
 import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 
-int _currentIndex = 4;
+int _currentIndex = 1;
 
 class UI extends StatefulWidget {
   UI(_currentIndex);
@@ -21,7 +20,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
+    _tabController = TabController(length: 3, initialIndex: 0, vsync: this);
     openUI(_currentIndex);
   }
 
@@ -47,29 +46,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             title: Text('Contacts')),
         BottomNavigationBarItem(
             icon: Icon(
-              Icons.save_alt,
-            ),
-            title: Text('Sales')),
-        BottomNavigationBarItem(
-            icon: Icon(
               Icons.remove_from_queue,
             ),
             title: Text('Request')),
         BottomNavigationBarItem(
             icon: Icon(
-              Icons.report,
-            ),
-            title: Text('Report')),
-        BottomNavigationBarItem(
-            icon: Icon(
               Icons.call,
             ),
             title: Text('Caller Log')),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings,
-            ),
-            title: Text('Settings')),
       ],
     );
   }
@@ -83,12 +67,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           _ui = customerListUI.UI();
           break;
         case 1:
-          _ui = userListUI.UI();
-          break;
-        case 2:
           _ui = requestListUI.UI();
           break;
-        case 4:
+        case 2:
           _ui = callerLogListUI.UI();
           break;
 

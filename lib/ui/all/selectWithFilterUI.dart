@@ -62,8 +62,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     onChanged: (v) => _filterApply(v),
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText:
-                          myLanguage.text(myLanguage.item.search) + '...',
+                      hintText: myLanguage.text(myLanguage.item.search) + '...',
                     ),
                   ),
                 ),
@@ -103,7 +102,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return v['name'].toString().contains(_filter);
+              return v['name']
+                  .toString()
+                  .toLowerCase()
+                  .contains(_filter.toLowerCase());
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
             }).toList(),
