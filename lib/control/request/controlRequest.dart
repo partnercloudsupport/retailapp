@@ -134,14 +134,17 @@ Stream<QuerySnapshot> getPending() {
 
 Future<bool> addSomeColumn() async {
   try {
-    Firestore.instance.collection('request').snapshots().forEach((i) {
-      i.documents.forEach((ii) async {
-        await Firestore.instance
-            .collection('request')
-            .document(ii.documentID)
-            .updateData({
-          "imageCount": 0,
-        });
+    var i = await Firestore.instance.collection('request').getDocuments();
+
+    i.documents.forEach((ii) async {
+      await Firestore.instance
+          .collection('request')
+          .document(ii.documentID)
+          .updateData({
+        "needDelete": false,
+        "deleteByUserID": 0,
+        "deleteNote": '',
+        "imageCount": 0,
       });
     });
 

@@ -27,8 +27,8 @@ class _UIState extends State<UI> {
   double _amount = 0;
   String _deleteNote = '';
 
-  final FocusNode _focusNode1 = new FocusNode();
-  final FocusNode _focusNode2 = new FocusNode();
+  final FocusNode _focusNode1 = FocusNode();
+  final FocusNode _focusNode2 = FocusNode();
 
   @override
   Widget build(BuildContext context) {
