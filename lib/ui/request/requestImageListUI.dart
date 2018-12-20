@@ -207,7 +207,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         dr['needInsert'] == false
-            ? Container()
+            ? _buildDelete(dr)
             : Padding(
                 padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
                 child: Icon(
@@ -216,7 +216,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 ),
               ),
         dr['needUpdate'] == false
-            ? Container()
+            ? SizedBox()
             : Padding(
                 padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
                 child: Icon(
@@ -266,12 +266,29 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
+  Widget _buildDelete(DocumentSnapshot dr) {
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+        child: Icon(
+          Icons.delete,
+          color: Colors.red,
+        ),
+      ),
+      onLongPress: () => _delete(dr),
+    );
+  }
+
   Widget _buildFloatingActionButton() {
     return FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: _new,
       backgroundColor: myColor.color1,
     );
+  }
+
+  void _delete(DocumentSnapshot dr) {
+    controlRequestImage.delete(dr.documentID);
   }
 
   void _filterReactive() {

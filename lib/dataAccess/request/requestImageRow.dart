@@ -13,6 +13,8 @@ class Row {
   String pathImage;
   bool needInsert;
   bool needUpdate;
+  bool needDelete;
+  int deleteByUserID;
 
   Row(this.name, this.requestID, this.note, this.pathImage,
       {this.needInsert = true}) {
@@ -21,6 +23,8 @@ class Row {
     this.stageIs = 3;
     this.dateTimeIs = DateTime.now();
     this.needUpdate = !this.needInsert;
+    this.needDelete = false;
+    this.deleteByUserID = 0;
   }
 
   Row.fromSnapshot(DataSnapshot snapshot) {
@@ -35,6 +39,8 @@ class Row {
     pathImage = snapshot.value["pathImage"];
     needInsert = snapshot.value["needInsert"];
     needUpdate = snapshot.value["needUpdate"];
+    needDelete = snapshot.value["needDelete"];
+    deleteByUserID = snapshot.value["deleteByUserID"];
   }
 
   toJson() {
@@ -49,6 +55,8 @@ class Row {
       "pathImage": pathImage,
       "needInsert": needInsert,
       "needUpdate": needUpdate,
+      "needDelete": needDelete,
+      "deleteByUserID": deleteByUserID,
     };
   }
 }
