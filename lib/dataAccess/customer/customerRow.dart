@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class Row {
   String key;
@@ -18,16 +17,16 @@ class Row {
     this.needUpdate = !this.needInsert;
   }
 
-  Row.fromSnapshot(DataSnapshot snapshot) {
-    key = snapshot.key;
-    name = snapshot.value["name"];
-    phones = snapshot.value["phones"];
-    address = snapshot.value["address"];
-    email = snapshot.value["email"];
-    note = snapshot.value["note"];
-    mapLocation = snapshot.value["mapLocation"];
-    needInsert = snapshot.value["needInsert"];
-    needUpdate = snapshot.value["needUpdate"];
+  Row.fromSnapshot(DocumentSnapshot snapshot) {
+    key = snapshot.documentID;
+    name = snapshot["name"];
+    phones = snapshot["phones"];
+    address = snapshot["address"];
+    email = snapshot["email"];
+    note = snapshot["note"];
+    mapLocation = snapshot["mapLocation"];
+    needInsert = snapshot["needInsert"];
+    needUpdate = snapshot["needUpdate"];
   }
 
   toJson() {

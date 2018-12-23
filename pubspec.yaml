@@ -63,6 +63,7 @@ flutter:
     - lib/res/image/Quotation_002_32.png
     - lib/res/image/Request_003_32.png
     - lib/res/image/Win_001_32.png
+    - lib/res/image/My_Diary_001_32.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

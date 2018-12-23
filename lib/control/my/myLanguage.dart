@@ -68,13 +68,17 @@ enum item {
   timelineNotes,
   timelineImages,
   images,
-  newImage
+  newImage,
+  myDiaries
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.myDiaries:
+      return 'My diaries';
+      break;    
     case item.newImage:
       return 'New image';
       break;
@@ -226,7 +230,7 @@ String _textEN(item t) {
       return 'Today';
       break;
     case item.callerLog:
-      return 'Caller Log';
+      return 'Caller log';
       break;
     case item.youMustInsertText:
       return 'You must insert text';
@@ -284,6 +288,9 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.myDiaries:
+      return 'يومياتي';
+      break;   
     case item.newImage:
       return 'صورة جديدة';
       break;
