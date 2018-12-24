@@ -207,24 +207,20 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         dr['needInsert'] == false
-            ? _buildDelete(dr)
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.red,
-                ),
-              ),
-        dr['needUpdate'] == false
-            ? SizedBox()
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
-                child: Icon(
-                  Icons.update,
-                  color: Colors.red,
-                ),
-              )
+            ? _buildNeedDelete(dr)
+            : _buildNeedAction(Icons.add),
+        dr['needUpdate'] == false ? SizedBox() : _buildNeedAction(Icons.update)
       ],
+    );
+  }
+
+  Widget _buildNeedAction(IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+      child: Icon(
+        icon,
+        color: Colors.red,
+      ),
     );
   }
 
@@ -266,7 +262,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildDelete(DocumentSnapshot dr) {
+  Widget _buildNeedDelete(DocumentSnapshot dr) {
     return InkWell(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),

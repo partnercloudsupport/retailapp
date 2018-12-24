@@ -76,16 +76,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           onTap: _searchReactive,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: InkWell(
-                          child: Icon(
-                            Icons.search,
-                            color: myColor.color1,
-                          ),
-                          onTap: _searchApply,
-                        ),
-                      ),
                       Flexible(
                         child: TextField(
                           autofocus: true,
@@ -94,9 +84,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.item.search) +
-                                    '...',
+                                myLanguage.text(myLanguage.item.search) + '...',
                           ),
+                          onChanged: _searchApply,
                         ),
                       ),
                       Padding(
@@ -152,8 +142,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return (v['customer'] +
-                      v['note'])
+              return (v['customer'] + v['note'])
                   .toLowerCase()
                   .contains(_search);
             }).map((DocumentSnapshot dr) {
@@ -167,6 +156,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildCard(DocumentSnapshot dr) {
     return ExpansionTile(
+      leading: Text(
+        dr['amountF'],
+      ),
       title: Text(
         dr['customer'],
         style: myStyle.style20(),
@@ -176,13 +168,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           children: <Widget>[
             Column(
               children: <Widget>[
-                dr['note'].toString().isEmpty
-                    ? SizedBox()
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:
-                            Text(dr['note'], style: myStyle.style16Italic()),
-                      ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(dr['note'], style: myStyle.style16Italic()),
+                ),
               ],
             ),
           ],
@@ -191,11 +180,18 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             _buildViewMapButton(dr),
+            Icon(Icons.timer , color: myColor.grey,),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(dr['durationHourF'],
+                  style: myStyle.style12Color3Italic()),
+            ),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   _buildEditButton(dr),
+                  _buildTypeIs(dr['typeIs']),
                   _buildNeedInsertOrUpdate(dr),
                 ],
               ),
@@ -230,25 +226,58 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        dr['needInsert'] == false
-            ? Container()
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.red,
-                ),
-              ),
+        dr['needInsert'] == false ? Container() : _buildNeedAction(Icons.add),
         dr['needUpdate'] == false
             ? Container()
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
-                child: Icon(
-                  Icons.update,
-                  color: Colors.red,
-                ),
-              )
+            : _buildNeedAction(Icons.update),
+        _buildNeedDelete(dr),
       ],
+    );
+  }
+
+  Widget _buildNeedAction(IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+      child: Icon(
+        icon,
+        color: Colors.red,
+      ),
+    );
+  }
+
+  Widget _buildNeedDelete(DocumentSnapshot dr) {
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+        child: Icon(
+          Icons.delete,
+          color: Colors.red,
+        ),
+      ),
+      onLongPress: () => _delete(dr),
+    );
+  }
+
+  Widget _buildTypeIs(int v) {
+    String t = 'lib/res/image/Prospect_001_32.png';
+
+    switch (v) {
+      case 0:
+        t = 'lib/res/image/Company_002_32.png';
+        break;
+      case 1:
+        t = 'lib/res/image/CallerID_003_32.png';
+        break;
+      case 2:
+        t = 'lib/res/image/Outdoor_001_32.png';
+        break;
+    }
+
+    return Image.asset(
+      t,
+      color: myColor.color1,
+      height: 16.0,
+      width: 16.0,
     );
   }
 
@@ -264,7 +293,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     setState(() {
       _searchActive = !_searchActive;
       _searchController = TextEditingController(text: '');
-      _searchApply();
+      _searchApply('');
 
       if (_searchActive) {
         _ac.reset();
@@ -273,9 +302,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     });
   }
 
-  void _searchApply() {
+  void _searchApply(String v) {
     setState(() {
-      _search = _searchController.text;
+      _search = v;
     });
   }
 
@@ -302,6 +331,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         MaterialPageRoute(
             builder: (BuildContext context) => mapGoogleViewUI.UI(
                 dr.data['customer'], dr.data['note'], dr.data['mapLocation'])));
+  }
+
+  void _delete(DocumentSnapshot dr) {
+    controlMyDiary.delete(dr.documentID);
   }
 
   @override

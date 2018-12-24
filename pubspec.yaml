@@ -57,13 +57,15 @@ flutter:
   assets:
     - lib/res/image/CallerID_003_32.png
     - lib/res/image/Close_004_32.png
+    - lib/res/image/Company_002_32.png
     - lib/res/image/Installation_001_32.png
     - lib/res/image/MoneyCollection_001_32.png
+    - lib/res/image/My_Diary_001_32.png
+    - lib/res/image/Outdoor_001_32.png
     - lib/res/image/Prospect_001_32.png
     - lib/res/image/Quotation_002_32.png
     - lib/res/image/Request_003_32.png
     - lib/res/image/Win_001_32.png
-    - lib/res/image/My_Diary_001_32.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 
