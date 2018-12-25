@@ -8,6 +8,7 @@ import 'package:retailapp/control/myDiary/controlMyDiary.dart'
 import 'package:retailapp/ui/customer/customerEditUI.dart' as customerEditUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
+import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 
 class UI extends StatefulWidget {
   @override
@@ -325,11 +326,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _new() {
-    controlMyDiary.save(
-        'love', DateTime.now(), DateTime.now(), 'note', 12, 0, 1);
-
-    // Navigator.push(
-    //     context, MaterialPageRoute(builder: (context) => customerNewUI.UI()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => myDiaryNewUI.UI()));
   }
 
   void _edit(DocumentSnapshot dr) {

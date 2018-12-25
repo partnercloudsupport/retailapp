@@ -69,16 +69,40 @@ enum item {
   timelineImages,
   images,
   newImage,
-  myDiaries
+  myDiaries,
+  newADailyEvent,
+  weTalkedAbout,
+  resultingAmount,
+  type,
+  from,
+  to
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.to:
+      return 'To';
+      break;
+    case item.from:
+      return 'From';
+      break;
+    case item.type:
+      return 'Type';
+      break;
+    case item.resultingAmount:
+      return 'Resulting amount';
+      break;
+    case item.weTalkedAbout:
+      return 'We talked about';
+      break;
+    case item.newADailyEvent:
+      return 'new a daily event';
+      break;
     case item.myDiaries:
       return 'My diaries';
-      break;    
+      break;
     case item.newImage:
       return 'New image';
       break;
@@ -288,9 +312,27 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.to:
+      return 'إلى';
+      break;
+    case item.from:
+      return 'من';
+      break;
+    case item.type:
+      return 'النوع';
+      break;
+    case item.resultingAmount:
+      return 'المبلغ الناتج';
+      break;
+    case item.weTalkedAbout:
+      return 'تحدثنا عن';
+      break;
+    case item.newADailyEvent:
+      return 'حدث جديد يوميا';
+      break;
     case item.myDiaries:
       return 'يومياتي';
-      break;   
+      break;
     case item.newImage:
       return 'صورة جديدة';
       break;

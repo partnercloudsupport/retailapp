@@ -9,13 +9,13 @@ import 'package:retailapp/control/my/myLocation.dart' as myLocation;
 String _name = 'myDiary';
 
 Future<bool> save(String customer, DateTime beginDate, DateTime endDate,
-    String note, double amount, int typeIs, int saveFrom) async {
+    String note, double amount, int typeIs) async {
   try {
     GeoPoint mapLocation = await myLocation.getByGeoPoint();
 
     await Firestore.instance.collection(_name).document(Uuid().v1()).setData(
         myDiaryRow.Row(customer, beginDate, endDate, note, amount, typeIs,
-                mapLocation, saveFrom)
+                mapLocation, 1)
             .toJson());
 
     controlLiveVersion.save(_name);

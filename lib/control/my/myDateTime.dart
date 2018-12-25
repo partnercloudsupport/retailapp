@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 enum Types { hhmma, kkmm, ddMMyyyy, ddMMyyyykk, ddMMyyyykkmm, ddMMyyyyhhmma }
@@ -41,6 +42,16 @@ String format(DateTime v, {String format = 'dd-MM-yyyy – hh:mm a'}) {
 String formatBy(DateTime v, Types t) {
   try {
     return DateFormat(_castTypesFormat(t)).format(v).toString();
+  } catch (e) {
+    return '';
+  }
+}
+
+String formatTimeOfDayBy(TimeOfDay v, Types t) {
+  try {
+    return DateFormat(_castTypesFormat(t))
+        .format(DateTime.utc(2019, 1, 1, v.hour, v.minute))
+        .toString();
   } catch (e) {
     return '';
   }
@@ -108,5 +119,3 @@ String getStringFromNow(String format, {int extraDays = 0}) {
 DateTime fixDateToDay(DateTime v) {
   return v == null ? DateTime.now() : v;
 }
-
-
