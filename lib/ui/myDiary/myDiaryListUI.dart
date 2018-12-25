@@ -326,7 +326,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _new() {
     controlMyDiary.save(
-        null, 'love', DateTime.now(), DateTime.now(), 'note', 11, 0, 1);
+        'love', DateTime.now(), DateTime.now(), 'note', 12, 0, 1);
 
     // Navigator.push(
     //     context, MaterialPageRoute(builder: (context) => customerNewUI.UI()));

@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/dataAccess/myDiary/myDiaryRow.dart' as myDiaryRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
@@ -11,15 +8,8 @@ import 'package:retailapp/control/my/myLocation.dart' as myLocation;
 
 String _name = 'myDiary';
 
-Future<bool> save(
-    GlobalKey<ScaffoldState> scaffoldKey,
-    String customer,
-    DateTime beginDate,
-    DateTime endDate,
-    String note,
-    double amount,
-    int typeIs,
-    int saveFrom) async {
+Future<bool> save(String customer, DateTime beginDate, DateTime endDate,
+    String note, double amount, int typeIs, int saveFrom) async {
   try {
     GeoPoint mapLocation = await myLocation.getByGeoPoint();
 
@@ -29,18 +19,14 @@ Future<bool> save(
             .toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show(
-        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
+
     return true;
-  } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
-  }
+  } catch (e) {}
 
   return false;
 }
 
 Future<bool> edit(
-    GlobalKey<ScaffoldState> scaffoldKey,
     String key,
     String customer,
     DateTime beginDate,
@@ -59,12 +45,8 @@ Future<bool> edit(
             .toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show(
-        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
-  } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
-  }
+  } catch (e) {}
 
   return false;
 }
