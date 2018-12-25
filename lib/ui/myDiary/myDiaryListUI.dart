@@ -5,7 +5,6 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
 import 'package:retailapp/ui/customer/customerEditUI.dart' as customerEditUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
@@ -179,19 +178,26 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            _buildViewMapButton(dr),
-            Icon(Icons.timer , color: myColor.grey,),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(dr['durationHourF'],
-                  style: myStyle.style12Color3Italic()),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.timer,
+                    color: myColor.grey,
+                  ),
+                  Text(dr['durationHourF'],
+                      style: myStyle.style12Color3Italic()),
+                ],
+              ),
             ),
+            _buildTypeIs(dr['typeIs']),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+                  _buildViewMapButton(dr),
                   _buildEditButton(dr),
-                  _buildTypeIs(dr['typeIs']),
                   _buildNeedInsertOrUpdate(dr),
                 ],
               ),
@@ -248,7 +254,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   Widget _buildNeedDelete(DocumentSnapshot dr) {
     return InkWell(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+        padding: const EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 5.0),
         child: Icon(
           Icons.delete,
           color: Colors.red,
@@ -273,11 +279,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         break;
     }
 
-    return Image.asset(
-      t,
-      color: myColor.color1,
-      height: 16.0,
-      width: 16.0,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Image.asset(
+        t,
+        color: myColor.grey,
+        height: 16.0,
+        width: 16.0,
+      ),
     );
   }
 
@@ -316,8 +325,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _new() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => customerNewUI.UI()));
+    controlMyDiary.save(
+        null, 'love', DateTime.now(), DateTime.now(), 'note', 11, 0, 1);
+
+    // Navigator.push(
+    //     context, MaterialPageRoute(builder: (context) => customerNewUI.UI()));
   }
 
   void _edit(DocumentSnapshot dr) {

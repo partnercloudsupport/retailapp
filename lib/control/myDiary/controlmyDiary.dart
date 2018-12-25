@@ -7,6 +7,7 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 import 'package:uuid/uuid.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+import 'package:retailapp/control/my/myLocation.dart' as myLocation;
 
 String _name = 'myDiary';
 
@@ -18,9 +19,10 @@ Future<bool> save(
     String note,
     double amount,
     int typeIs,
-    GeoPoint mapLocation,
     int saveFrom) async {
   try {
+    GeoPoint mapLocation = await myLocation.getByGeoPoint();
+
     await Firestore.instance.collection(_name).document(Uuid().v1()).setData(
         myDiaryRow.Row(customer, beginDate, endDate, note, amount, typeIs,
                 mapLocation, saveFrom)
@@ -46,9 +48,10 @@ Future<bool> edit(
     String note,
     double amount,
     int typeIs,
-    GeoPoint mapLocation,
     int saveFrom) async {
   try {
+    GeoPoint mapLocation = await myLocation.getByGeoPoint();
+
     await Firestore.instance.collection(_name).document(key).updateData(
         myDiaryRow.Row(customer, beginDate, endDate, note, amount, typeIs,
                 mapLocation, saveFrom,

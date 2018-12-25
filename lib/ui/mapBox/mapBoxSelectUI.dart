@@ -4,7 +4,7 @@ import 'package:latlong/latlong.dart';
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/control/mapBox/controlMapBox.dart' as controlMapBox;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:location/location.dart';
+import 'package:retailapp/control/my/myLocation.dart' as myLocation;
 
 LatLng _currentPoint;
 void Function(LatLng) _save;
@@ -25,13 +25,7 @@ class _UIState extends State<UI> {
   @override
   void initState() {
     super.initState();
-    initMyLocation();
     _map = MapController();
-  }
-
-  void initMyLocation() async {
-    Map<String, double> location = await Location().getLocation();
-    _myLocation = LatLng(location['latitude'], location['longitude']);
   }
 
   @override
@@ -104,7 +98,9 @@ class _UIState extends State<UI> {
     });
   }
 
-  void _setMyLocation() {
+  void _setMyLocation() async {
+    _myLocation = await myLocation.getByLatLng();
+
     setState(() {
       _currentPoint = _myLocation;
       _map.move(_currentPoint, 14);

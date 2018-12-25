@@ -30,8 +30,8 @@ class Row {
     this.customerID = 0;
     this.userID = int.parse(controlUser.drNow.documentID);
     this.user = controlUser.drNow.data['name'];
-    this.durationHourF = '';
-    this.amountF = '';
+    this.durationHourF = '...';
+    this.amountF = this.amount.toString() + r' $';
   }
 
   Row.fromSnapshot(DocumentSnapshot dr) {
