@@ -8,6 +8,8 @@ import 'package:retailapp/control/my/myLocation.dart' as myLocation;
 
 String _name = 'myDiary';
 
+enum TypeIs { showroom, outgoingCall, visitCustomer }
+
 Future<bool> save(String customer, DateTime beginDate, DateTime endDate,
     String note, double amount, int typeIs) async {
   try {
@@ -73,4 +75,20 @@ Stream<QuerySnapshot> getByMe() {
       .collection(_name)
       .where('userID', isEqualTo: controlUser.drNow.documentID)
       .snapshots();
+}
+
+TypeIs typeIsCast(int i) {
+  switch (i) {
+    case 0:
+      return TypeIs.showroom;
+      break;
+    case 1:
+      return TypeIs.outgoingCall;
+      break;
+    case 2:
+      return TypeIs.visitCustomer;
+      break;
+    default:
+      return TypeIs.showroom;
+  }
 }

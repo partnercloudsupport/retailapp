@@ -75,13 +75,29 @@ enum item {
   resultingAmount,
   type,
   from,
-  to
+  to,
+  showroom,
+  outgoingCall,
+  visitCustomer,
+  editADailyEvent
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.editADailyEvent:
+      return 'Edit a daily event';
+      break;
+    case item.visitCustomer:
+      return 'Visit customer';
+      break;
+    case item.outgoingCall:
+      return 'Outgoing call';
+      break;
+    case item.showroom:
+      return 'Showroom';
+      break;
     case item.to:
       return 'To';
       break;
@@ -312,6 +328,18 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.editADailyEvent:
+      return 'تعديل الحدث اليومي';
+      break;
+    case item.visitCustomer:
+      return 'زيارة الزبون';
+      break;
+    case item.outgoingCall:
+      return 'مكالمة صادرة';
+      break;
+    case item.showroom:
+      return 'صالة عرض';
+      break;
     case item.to:
       return 'إلى';
       break;
@@ -328,7 +356,7 @@ String _textAR(item t) {
       return 'تحدثنا عن';
       break;
     case item.newADailyEvent:
-      return 'حدث جديد يوميا';
+      return 'حدث يومي جديد';
       break;
     case item.myDiaries:
       return 'يومياتي';

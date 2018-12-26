@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:retailapp/control/my/myStyle.dart' as myStyle;
@@ -12,6 +13,8 @@ import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 
 class UI extends StatefulWidget {
+  final DocumentSnapshot dr;
+  UI(this.dr);
   _UIState createState() => _UIState();
 }
 
@@ -26,6 +29,17 @@ class _UIState extends State<UI> {
   controlMyDiary.TypeIs _typeIs = controlMyDiary.TypeIs.visitCustomer;
 
   final FocusNode _focusNode1 = new FocusNode();
+
+  @override
+  void initState() {
+    _customer = widget.dr['customer'];
+    _beginTime = TimeOfDay.fromDateTime(widget.dr['beginDate']);
+    _endTime = TimeOfDay.fromDateTime(widget.dr['endDate']);
+    _note = widget.dr['note'];
+    _amount = widget.dr['amount'];
+    _typeIs = controlMyDiary.typeIsCast(widget.dr['typeIs']);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +66,7 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.item.newADailyEvent),
+      myLanguage.text(myLanguage.item.editADailyEvent),
       style: myStyle.style18Color2(),
     );
   }
@@ -148,6 +162,7 @@ class _UIState extends State<UI> {
 
   Widget _buildAmount() {
     return TextFormField(
+        initialValue: _amount.toStringAsFixed(0),
         keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: [
           WhitelistingTextInputFormatter(myRegExp.number1To9999999),
@@ -267,8 +282,15 @@ class _UIState extends State<UI> {
       _endDate = DateTime.utc(_beginDate.year, _beginDate.month, _beginDate.day,
           _endTime.hour, _endTime.minute);
 
-      if (await controlMyDiary.save(
-              _customer, _beginDate, _endDate, _note, _amount, _typeIs.index) ==
+      if (await controlMyDiary.edit(
+              widget.dr.documentID,
+              _customer,
+              _beginDate,
+              _endDate,
+              _note,
+              _amount,
+              _typeIs.index,
+              widget.dr.data['saveFrom']) ==
           true) {
         Navigator.pop(context);
       }

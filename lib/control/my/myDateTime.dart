@@ -116,6 +116,14 @@ String getStringFromNow(String format, {int extraDays = 0}) {
   }
 }
 
-DateTime fixDateToDay(DateTime v) {
+DateTime toMe(DateTime v) {
   return v == null ? DateTime.now() : v;
+}
+
+DateTime getLess(DateTime v, DateTime v1) {
+  return v.isBefore(v1) ? v : v1;
+}
+
+DateTime getBiggest(DateTime v, DateTime v1) {
+  return v.isAfter(v1) ? v : v1;
 }

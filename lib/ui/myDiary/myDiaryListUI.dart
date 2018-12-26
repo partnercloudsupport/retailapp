@@ -5,7 +5,7 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-import 'package:retailapp/ui/customer/customerEditUI.dart' as customerEditUI;
+import 'package:retailapp/ui/myDiary/myDiaryEditUI.dart' as myDiaryEditUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
@@ -331,8 +331,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _edit(DocumentSnapshot dr) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => customerEditUI.UI(dr)));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => myDiaryEditUI.UI(dr)));
   }
 
   void _viewMap(DocumentSnapshot dr) {

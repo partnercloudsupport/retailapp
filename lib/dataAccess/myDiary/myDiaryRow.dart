@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 
 class Row {
   String key;
@@ -24,12 +25,16 @@ class Row {
   Row(this.customer, this.beginDate, this.endDate, this.note, this.amount,
       this.typeIs, this.mapLocation, this.saveFrom,
       {this.needInsert = true}) {
+    DateTime fixDate = beginDate;
+    beginDate = myDateTime.getLess(beginDate, endDate);
+    endDate = myDateTime.getBiggest(fixDate, endDate);
+
     this.needUpdate = !this.needInsert;
     this.needDelete = false;
     this.deleteByUserID = 0;
     this.customerID = 0;
-    this.userID = int.parse(controlUser.drNow.documentID);
-    this.user = controlUser.drNow.data['name'];
+    this.userID = 1; //int.parse(controlUser.drNow.documentID);
+    this.user = 's'; // controlUser.drNow.data['name'];
     this.durationHourF = '...';
     this.amountF = this.amount.toString() + r' $';
   }

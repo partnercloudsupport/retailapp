@@ -86,8 +86,8 @@ Stream<QuerySnapshot> getAllBeforeLastWeek() {
 }
 
 Stream<QuerySnapshot> getBetweenData(DateTime fromDate, DateTime toDate) {
-  fromDate = myDateTime.fixDateToDay(fromDate);
-  toDate = myDateTime.fixDateToDay(toDate);
+  fromDate = myDateTime.toMe(fromDate);
+  toDate = myDateTime.toMe(toDate);
 
   if (fromDate.isAfter(toDate)) {
     DateTime v = fromDate;
