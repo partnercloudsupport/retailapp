@@ -23,8 +23,10 @@ class Row {
   int saveFrom;
 
   Row(this.customer, this.beginDate, this.endDate, this.note, this.amount,
-      this.typeIs, this.mapLocation, this.saveFrom,
-      {this.needInsert = true}) {
+      this.typeIs,
+      {this.mapLocation = const GeoPoint(1, 1),
+      this.saveFrom = 0,
+      this.needInsert = true}) {
     DateTime fixDate = beginDate;
     beginDate = myDateTime.getLess(beginDate, endDate);
     endDate = myDateTime.getBiggest(fixDate, endDate);
@@ -33,10 +35,10 @@ class Row {
     this.needDelete = false;
     this.deleteByUserID = 0;
     this.customerID = 0;
-    this.userID = 1; //int.parse(controlUser.drNow.documentID);
-    this.user = 's'; // controlUser.drNow.data['name'];
+    this.userID = int.parse(controlUser.drNow.documentID);
+    this.user = controlUser.drNow.data['name'];
     this.durationHourF = '...';
-    this.amountF = this.amount.toString() + r' $';
+    this.amountF = this.amount.toStringAsFixed(0) + r' $';
   }
 
   Row.fromSnapshot(DocumentSnapshot dr) {
@@ -79,6 +81,21 @@ class Row {
       "typeIs": typeIs,
       "mapLocation": mapLocation,
       "saveFrom": saveFrom,
+    };
+  }
+
+  dynamic toJsonEdit() {
+    return {
+      "needUpdate": needUpdate,
+      "customer": customer,
+      "userID": userID,
+      "user": user,
+      "beginDate": beginDate,
+      "endDate": endDate,
+      "note": note,
+      "amount": amount,
+      "amountF": amountF,
+      "typeIs": typeIs,
     };
   }
 }

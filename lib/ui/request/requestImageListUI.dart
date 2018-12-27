@@ -207,7 +207,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         dr['needInsert'] == false
-            ? _buildNeedDelete(dr)
+            ? _buildDelete(dr)
             : _buildNeedAction(Icons.add),
         dr['needUpdate'] == false ? SizedBox() : _buildNeedAction(Icons.update)
       ],
@@ -262,7 +262,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildNeedDelete(DocumentSnapshot dr) {
+  Widget _buildDelete(DocumentSnapshot dr) {
     return InkWell(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),

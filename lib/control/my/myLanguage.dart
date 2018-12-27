@@ -79,13 +79,29 @@ enum item {
   showroom,
   outgoingCall,
   visitCustomer,
-  editADailyEvent
+  editADailyEvent,
+  delete,
+  areYouSureYouWantToDelete,
+  yes,
+  no
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+     case item.no:
+      return 'No';
+      break;   
+     case item.yes:
+      return 'Yes';
+      break;   
+    case item.areYouSureYouWantToDelete:
+      return 'Are you sure you want to delete';
+      break;
+    case item.delete:
+      return 'Delete';
+      break;
     case item.editADailyEvent:
       return 'Edit a daily event';
       break;
@@ -328,6 +344,18 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+     case item.no:
+      return 'لا';
+      break;  
+     case item.yes:
+      return 'نعم';
+      break;   
+    case item.areYouSureYouWantToDelete:
+      return 'هل أنت متأكد أنك تريد حذف';
+      break;
+    case item.delete:
+      return 'حذف';
+      break;
     case item.editADailyEvent:
       return 'تعديل الحدث اليومي';
       break;

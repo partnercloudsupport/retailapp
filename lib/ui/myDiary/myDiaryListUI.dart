@@ -136,7 +136,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildList() {
     return StreamBuilder<QuerySnapshot>(
-      stream: controlMyDiary.getAll(),
+      stream: controlMyDiary.getByMe(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return Flexible(
@@ -164,15 +164,17 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         style: myStyle.style20(),
       ),
       children: <Widget>[
-        Row(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(dr['note'], style: myStyle.style16Italic()),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  dr['note'],
+                  style: myStyle.style16Italic(),
                 ),
-              ],
+              ),
             ),
           ],
         ),
@@ -233,11 +235,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        dr['needInsert'] == false ? Container() : _buildNeedAction(Icons.add),
-        dr['needUpdate'] == false
-            ? Container()
-            : _buildNeedAction(Icons.update),
-        _buildNeedDelete(dr),
+        dr['needInsert'] == false ? SizedBox() : _buildNeedAction(Icons.add),
+        dr['needUpdate'] == false ? SizedBox() : _buildNeedAction(Icons.update),
+        dr['needDelete'] == false ? SizedBox() : _buildNeedAction(Icons.update),
+        _buildDelete(dr),
       ],
     );
   }
@@ -252,7 +253,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildNeedDelete(DocumentSnapshot dr) {
+  Widget _buildDelete(DocumentSnapshot dr) {
     return InkWell(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 5.0),
@@ -343,8 +344,61 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 dr.data['customer'], dr.data['note'], dr.data['mapLocation'])));
   }
 
-  void _delete(DocumentSnapshot dr) {
-    controlMyDiary.delete(dr.documentID);
+  void _delete(DocumentSnapshot dr) async {
+    if (await _deleteAskDialog() == 'Yes') {
+      controlMyDiary.delete(dr.documentID);
+    }
+  }
+
+  Future<String> _deleteAskDialog() async {
+    var sd = SimpleDialog(
+      title: Directionality(
+        textDirection: myLanguage.rtl(),
+        child: Text(myLanguage.text(myLanguage.item.delete),
+            style: myStyle.style20Color4()),
+      ),
+      titlePadding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
+      contentPadding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+      children: <Widget>[
+        Center(
+          child: Text(
+            myLanguage.text(myLanguage.item.areYouSureYouWantToDelete),
+            style: myStyle.style18(),
+          ),
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        SizedBox(
+          height: 2,
+          child: Container(
+            color: myColor.color1,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: <Widget>[
+              SimpleDialogOption(
+                child: Text(myLanguage.text(myLanguage.item.no),
+                    style: myStyle.style16Italic()),
+                onPressed: () => Navigator.pop(context, 'No'),
+              ),
+              Expanded(
+                child: Text(''),
+              ),
+              SimpleDialogOption(
+                child: Text(myLanguage.text(myLanguage.item.yes),
+                    style: myStyle.style16Color4()),
+                onPressed: () => Navigator.pop(context, 'Yes'),
+              ),
+            ],
+          ),
+        )
+      ],
+    ).build(context);
+
+    return await showDialog(context: context, builder: (BuildContext bc) => sd);
   }
 
   @override

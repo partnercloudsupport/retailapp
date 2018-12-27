@@ -282,15 +282,8 @@ class _UIState extends State<UI> {
       _endDate = DateTime.utc(_beginDate.year, _beginDate.month, _beginDate.day,
           _endTime.hour, _endTime.minute);
 
-      if (await controlMyDiary.edit(
-              widget.dr.documentID,
-              _customer,
-              _beginDate,
-              _endDate,
-              _note,
-              _amount,
-              _typeIs.index,
-              widget.dr.data['saveFrom']) ==
+      if (await controlMyDiary.edit(widget.dr.documentID, _customer, _beginDate,
+              _endDate, _note, _amount, _typeIs.index) ==
           true) {
         Navigator.pop(context);
       }

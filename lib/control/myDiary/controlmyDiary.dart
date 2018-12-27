@@ -17,7 +17,7 @@ Future<bool> save(String customer, DateTime beginDate, DateTime endDate,
 
     await Firestore.instance.collection(_name).document(Uuid().v1()).setData(
         myDiaryRow.Row(customer, beginDate, endDate, note, amount, typeIs,
-                mapLocation, 1)
+                mapLocation: mapLocation, saveFrom: 1)
             .toJson());
 
     controlLiveVersion.save(_name);
@@ -28,23 +28,13 @@ Future<bool> save(String customer, DateTime beginDate, DateTime endDate,
   return false;
 }
 
-Future<bool> edit(
-    String key,
-    String customer,
-    DateTime beginDate,
-    DateTime endDate,
-    String note,
-    double amount,
-    int typeIs,
-    int saveFrom) async {
+Future<bool> edit(String key, String customer, DateTime beginDate,
+    DateTime endDate, String note, double amount, int typeIs) async {
   try {
-    GeoPoint mapLocation = await myLocation.getByGeoPoint();
-
     await Firestore.instance.collection(_name).document(key).updateData(
         myDiaryRow.Row(customer, beginDate, endDate, note, amount, typeIs,
-                mapLocation, saveFrom,
                 needInsert: false)
-            .toJson());
+            .toJsonEdit());
 
     controlLiveVersion.save(_name);
     return true;
@@ -71,9 +61,11 @@ Stream<QuerySnapshot> getAll() {
 }
 
 Stream<QuerySnapshot> getByMe() {
+  int userID = int.parse(controlUser.drNow.documentID);
+
   return Firestore.instance
       .collection(_name)
-      .where('userID', isEqualTo: controlUser.drNow.documentID)
+      .where('userID', isEqualTo: userID)
       .snapshots();
 }
 
