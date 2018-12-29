@@ -211,7 +211,10 @@ class _UIState extends State<UI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => customerSelectUI.UI(_chooseCustomer)));
+            builder: (context) => customerSelectUI.UI(
+                  _chooseCustomer,
+                  withNew: true,
+                )));
   }
 
   void _chooseCustomer(String v) {

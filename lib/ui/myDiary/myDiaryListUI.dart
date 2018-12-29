@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-import 'package:retailapp/ui/myDiary/myDiaryEditUI.dart' as myDiaryEditUI;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
-import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
+import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/ui/myDiary/myDiaryListTabUI.dart' as myDiaryListTabUI;
+import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
 
 class UI extends StatefulWidget {
   @override
@@ -17,17 +12,14 @@ class UI extends StatefulWidget {
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
   bool _searchActive = false;
-  String _search = '';
-  TextEditingController _searchController = TextEditingController(text: '');
+  String _searchText = '';
 
-  AnimationController _ac;
+  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-
-    _ac =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
   }
 
   @override
@@ -37,374 +29,81 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       child: Scaffold(
         drawer: homeDrawer.buildDrawer(context),
         appBar: _buildAppBar(),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              _buildFilter(),
-              _buildList(),
-            ],
-          ),
+        resizeToAvoidBottomPadding: false,
+        body: TabBarView(
+          controller: _tabController,
+          children: <Widget>[
+            myDiaryListTabUI.UI(controlMyDiary.getToday(), _searchActive,
+                _searchText, _searchSetText),
+            myDiaryListTabUI.UI(controlMyDiary.getYesterday(), _searchActive,
+                _searchText, _searchSetText),
+            myDiaryListTabUI.UI(controlMyDiary.getLastWeek(), _searchActive,
+                _searchText, _searchSetText),
+            myDiaryListTabUI.UI(
+              controlMyDiary.getAll(),
+              _searchActive,
+              _searchText,
+              _searchSetText,
+            )
+          ],
         ),
-        floatingActionButton: _buildFloatingActionButton(),
       ),
     );
-  }
-
-  Widget _buildFilter() {
-    return _searchActive
-        ? SizeTransition(
-            axis: Axis.horizontal,
-            sizeFactor:
-                CurvedAnimation(parent: _ac, curve: Curves.fastOutSlowIn),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom:
-                              BorderSide(width: 1.0, color: myColor.color1))),
-                  padding: EdgeInsets.only(top: 25.0),
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: InkWell(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: myColor.color1,
-                          ),
-                          onTap: _searchReactive,
-                        ),
-                      ),
-                      Flexible(
-                        child: TextField(
-                          autofocus: true,
-                          style: myStyle.style15(),
-                          controller: _searchController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText:
-                                myLanguage.text(myLanguage.item.search) + '...',
-                          ),
-                          onChanged: _searchApply,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: _search.isEmpty == true
-                            ? SizedBox(width: 0)
-                            : InkWell(
-                                child: Icon(
-                                  Icons.clear,
-                                  color: myColor.color1,
-                                ),
-                                onTap: _searchClear,
-                              ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    height: 1,
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                          color: myColor.color1,
-                          blurRadius: 5.0,
-                          offset: Offset(0.0, 5.0)),
-                    ])),
-              ],
-            ),
-          )
-        : SizedBox(
-            height: 0,
-          );
   }
 
   Widget _buildAppBar() {
-    return _searchActive
-        ? null
-        : AppBar(
-            title: Text(myLanguage.text(myLanguage.item.myDiaries)),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: _searchReactive,
-              )
-            ],
-          );
-  }
-
-  Widget _buildList() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: controlMyDiary.getByMe(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
-        if (!v.hasData) return Center(child: CircularProgressIndicator());
-        return Flexible(
-          child: ListView(
-            children: v.data.documents.where((v) {
-              return (v['customer'] + v['note'])
-                  .toLowerCase()
-                  .contains(_search);
-            }).map((DocumentSnapshot dr) {
-              return _buildCard(dr);
-            }).toList(),
+    return AppBar(
+      title: Text(myLanguage.text(myLanguage.item.myDiaries)),
+      bottom: TabBar(
+        controller: _tabController,
+        tabs: <Tab>[
+          Tab(
+            text: myLanguage.text(myLanguage.item.today),
           ),
-        );
-      },
-    );
-  }
-
-  Widget _buildCard(DocumentSnapshot dr) {
-    return ExpansionTile(
-      leading: Text(
-        dr['amountF'],
+          Tab(
+            text: myLanguage.text(myLanguage.item.yesterday),
+          ),
+          Tab(
+            text: myLanguage.text(myLanguage.item.lastWeek),
+          ),
+          Tab(
+            text: myLanguage.text(myLanguage.item.all),
+          ),
+        ],
       ),
-      title: Text(
-        dr['customer'],
-        style: myStyle.style20(),
-      ),
-      children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  dr['note'],
-                  style: myStyle.style16Italic(),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.timer,
-                    color: myColor.grey,
-                  ),
-                  Text(dr['durationHourF'],
-                      style: myStyle.style12Color3Italic()),
-                ],
-              ),
-            ),
-            _buildTypeIs(dr['typeIs']),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  _buildViewMapButton(dr),
-                  _buildEditButton(dr),
-                  _buildNeedInsertOrUpdate(dr),
-                ],
-              ),
-            )
-          ],
-        )
+      actions: <Widget>[
+        _buildSeach(),
       ],
     );
   }
 
-  Widget _buildViewMapButton(DocumentSnapshot dr) {
+  Widget _buildSeach() {
     return IconButton(
       icon: Icon(
-        Icons.location_on,
-        color: myColor.color1,
+        Icons.search,
+        color: _searchActive ? Colors.white : Colors.grey,
+        size: _searchActive ? 32 : null,
       ),
-      onPressed: () => _viewMap(dr),
-    );
-  }
-
-  Widget _buildEditButton(DocumentSnapshot dr) {
-    return IconButton(
-      icon: Icon(
-        Icons.edit,
-        color: myColor.color1,
-      ),
-      onPressed: () => _edit(dr),
-    );
-  }
-
-  Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        dr['needInsert'] == false ? SizedBox() : _buildNeedAction(Icons.add),
-        dr['needUpdate'] == false ? SizedBox() : _buildNeedAction(Icons.update),
-        dr['needDelete'] == false ? SizedBox() : _buildNeedAction(Icons.update),
-        _buildDelete(dr),
-      ],
-    );
-  }
-
-  Widget _buildNeedAction(IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
-      child: Icon(
-        icon,
-        color: Colors.red,
-      ),
-    );
-  }
-
-  Widget _buildDelete(DocumentSnapshot dr) {
-    return InkWell(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 5.0),
-        child: Icon(
-          Icons.delete,
-          color: Colors.red,
-        ),
-      ),
-      onLongPress: () => _delete(dr),
-    );
-  }
-
-  Widget _buildTypeIs(int v) {
-    String t = 'lib/res/image/Prospect_001_32.png';
-
-    switch (v) {
-      case 0:
-        t = 'lib/res/image/Company_002_32.png';
-        break;
-      case 1:
-        t = 'lib/res/image/CallerID_003_32.png';
-        break;
-      case 2:
-        t = 'lib/res/image/Outdoor_001_32.png';
-        break;
-    }
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Image.asset(
-        t,
-        color: myColor.grey,
-        height: 16.0,
-        width: 16.0,
-      ),
-    );
-  }
-
-  Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: _new,
-      backgroundColor: myColor.color1,
+      onPressed: _searchReactive,
     );
   }
 
   void _searchReactive() {
     setState(() {
       _searchActive = !_searchActive;
-      _searchController = TextEditingController(text: '');
-      _searchApply('');
-
-      if (_searchActive) {
-        _ac.reset();
-        _ac.forward();
-      }
+      _searchText = _searchText;
     });
   }
 
-  void _searchApply(String v) {
+  void _searchSetText(String v) {
     setState(() {
-      _search = v;
+      _searchText = v;
     });
-  }
-
-  void _searchClear() {
-    setState(() {
-      _search = '';
-      _searchController = TextEditingController(text: '');
-    });
-  }
-
-  void _new() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => myDiaryNewUI.UI()));
-  }
-
-  void _edit(DocumentSnapshot dr) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => myDiaryEditUI.UI(dr)));
-  }
-
-  void _viewMap(DocumentSnapshot dr) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => mapGoogleViewUI.UI(
-                dr.data['customer'], dr.data['note'], dr.data['mapLocation'])));
-  }
-
-  void _delete(DocumentSnapshot dr) async {
-    if (await _deleteAskDialog() == 'Yes') {
-      controlMyDiary.delete(dr.documentID);
-    }
-  }
-
-  Future<String> _deleteAskDialog() async {
-    var sd = SimpleDialog(
-      title: Directionality(
-        textDirection: myLanguage.rtl(),
-        child: Text(myLanguage.text(myLanguage.item.delete),
-            style: myStyle.style20Color4()),
-      ),
-      titlePadding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
-      contentPadding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
-      children: <Widget>[
-        Center(
-          child: Text(
-            myLanguage.text(myLanguage.item.areYouSureYouWantToDelete),
-            style: myStyle.style18(),
-          ),
-        ),
-        SizedBox(
-          height: 40,
-        ),
-        SizedBox(
-          height: 2,
-          child: Container(
-            color: myColor.color1,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: <Widget>[
-              SimpleDialogOption(
-                child: Text(myLanguage.text(myLanguage.item.no),
-                    style: myStyle.style16Italic()),
-                onPressed: () => Navigator.pop(context, 'No'),
-              ),
-              Expanded(
-                child: Text(''),
-              ),
-              SimpleDialogOption(
-                child: Text(myLanguage.text(myLanguage.item.yes),
-                    style: myStyle.style16Color4()),
-                onPressed: () => Navigator.pop(context, 'Yes'),
-              ),
-            ],
-          ),
-        )
-      ],
-    ).build(context);
-
-    return await showDialog(context: context, builder: (BuildContext bc) => sd);
   }
 
   @override
   void dispose() {
+    _tabController.dispose();
     super.dispose();
-    _ac.dispose();
-    _searchController.dispose();
   }
 }

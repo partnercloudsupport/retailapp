@@ -34,7 +34,9 @@ class _UIState extends State<UI> {
   void initState() {
     _customer = widget.dr['customer'];
     _beginTime = TimeOfDay.fromDateTime(widget.dr['beginDate']);
+    _beginTime = _beginTime.replacing(hour: _beginTime.hour - 2);
     _endTime = TimeOfDay.fromDateTime(widget.dr['endDate']);
+    _endTime = _endTime.replacing(hour: _endTime.hour - 2);
     _note = widget.dr['note'];
     _amount = widget.dr['amount'];
     _typeIs = controlMyDiary.typeIsCast(widget.dr['typeIs']);

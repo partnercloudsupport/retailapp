@@ -5,6 +5,7 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
 import 'package:uuid/uuid.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLocation.dart' as myLocation;
+import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 
 String _name = 'myDiary';
 
@@ -57,15 +58,95 @@ Future<bool> delete(String key) async {
 }
 
 Stream<QuerySnapshot> getAll() {
-  return Firestore.instance.collection(_name).snapshots();
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('beginDate', descending: true)
+      .snapshots();
 }
 
-Stream<QuerySnapshot> getByMe() {
-  int userID = int.parse(controlUser.drNow.documentID);
+Stream<QuerySnapshot> getToday() {
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('beginDate', descending: true)
+      .where('beginDate',
+          isGreaterThanOrEqualTo: DateTime.utc(DateTime.now().year,
+              DateTime.now().month, DateTime.now().day, -2))
+      .where(
+        'beginDate',
+        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
+            DateTime.now().month, DateTime.now().day, 22, 60, 60),
+      )
+      .snapshots();
+}
+
+Stream<QuerySnapshot> getYesterday() {
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('beginDate', descending: true)
+      .where('beginDate',
+          isGreaterThanOrEqualTo: DateTime.utc(
+                  DateTime.now().year, DateTime.now().month, DateTime.now().day)
+              .add(Duration(days: -1)))
+      .where(
+        'beginDate',
+        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
+                DateTime.now().month, DateTime.now().day, 24, 60, 60)
+            .add(Duration(days: -1)),
+      )
+      .snapshots();
+}
+
+Stream<QuerySnapshot> getLastWeek() {
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('beginDate', descending: true)
+      .where('beginDate',
+          isGreaterThanOrEqualTo: DateTime.utc(
+                  DateTime.now().year, DateTime.now().month, DateTime.now().day)
+              .add(Duration(days: -9)))
+      .where(
+        'beginDate',
+        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
+                DateTime.now().month, DateTime.now().day, 24, 60, 60)
+            .add(Duration(days: -2)),
+      )
+      .snapshots();
+}
+
+Stream<QuerySnapshot> getAllBeforeLastWeek() {
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('beginDate', descending: true)
+      .where(
+        'beginDate',
+        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
+                DateTime.now().month, DateTime.now().day, 24, 60, 60)
+            .add(Duration(days: -9)),
+      )
+      .snapshots();
+}
+
+Stream<QuerySnapshot> getBetweenData(DateTime fromDate, DateTime toDate) {
+  fromDate = myDateTime.toMe(fromDate);
+  toDate = myDateTime.toMe(toDate);
+
+  if (fromDate.isAfter(toDate)) {
+    DateTime v = fromDate;
+    fromDate = toDate;
+    toDate = v;
+  }
 
   return Firestore.instance
       .collection(_name)
-      .where('userID', isEqualTo: userID)
+      .orderBy('beginDate', descending: true)
+      .where('beginDate',
+          isGreaterThanOrEqualTo:
+              DateTime.utc(fromDate.year, fromDate.month, fromDate.day))
+      .where(
+        'beginDate',
+        isLessThanOrEqualTo:
+            DateTime.utc(toDate.year, toDate.month, toDate.day, 24, 60, 60),
+      )
       .snapshots();
 }
 

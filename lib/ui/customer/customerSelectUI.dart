@@ -5,10 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
 
 class UI extends StatefulWidget {
   final void Function(String) _save;
-  UI(this._save);
+  final bool withNew;
+  UI(this._save, {this.withNew = false});
 
   @override
   UIState createState() => UIState();
@@ -31,6 +33,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             _buildList(),
           ],
         ),
+        floatingActionButton: _buildFloatingActionButton(),
       ),
     );
   }
@@ -69,8 +72,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     controller: _textEditingController,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText:
-                          myLanguage.text(myLanguage.item.search) + '...',
+                      hintText: myLanguage.text(myLanguage.item.search) + '...',
                     ),
                   ),
                 ),
@@ -142,6 +144,16 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
+  Widget _buildFloatingActionButton() {
+    return widget.withNew
+        ? FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: _new,
+            backgroundColor: myColor.color1,
+          )
+        : SizedBox();
+  }
+
   void _filterApply() {
     setState(() {
       _filter = _textEditingController.text;
@@ -153,5 +165,16 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       _filter = '';
       _textEditingController = TextEditingController(text: '');
     });
+  }
+
+  void _new() {
+    Navigator.pop(context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => customerNewUI.UI(
+                  withdoAfterSave: widget.withNew,
+                  doAfterSave: widget._save,
+                )));
   }
 }
