@@ -28,7 +28,7 @@ class Row {
       this.saveFrom = 0,
       this.needInsert = true}) {
     DateTime fixDate = beginDate;
-    beginDate = myDateTime.getLess(beginDate, endDate);
+    beginDate = myDateTime.getLess(fixDate, endDate);
     endDate = myDateTime.getBiggest(fixDate, endDate);
 
     this.needUpdate = !this.needInsert;

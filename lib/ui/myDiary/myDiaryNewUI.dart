@@ -271,12 +271,13 @@ class _UIState extends State<UI> {
   void _save() async {
     if (_saveValidator() == true) {
       DateTime _beginDate = DateTime.now();
+
       _beginDate = DateTime.utc(_beginDate.year, _beginDate.month,
-          _beginDate.day, _beginTime.hour - 2, _beginTime.minute);
+          _beginDate.day, _beginTime.hour, _beginTime.minute);
 
       DateTime _endDate = DateTime.now();
-      _endDate = DateTime.utc(_beginDate.year, _beginDate.month, _beginDate.day,
-          _endTime.hour - 2, _endTime.minute);
+      _endDate = DateTime.utc(_endDate.year, _endDate.month, _endDate.day,
+          _endTime.hour, _endTime.minute);
 
       if (await controlMyDiary.save(scaffoldKey, _customer, _beginDate,
               _endDate, _note, _amount, _typeIs.index) ==
