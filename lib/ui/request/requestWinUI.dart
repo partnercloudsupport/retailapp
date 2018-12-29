@@ -20,6 +20,8 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
   BuildContext _context;
   final formKey = GlobalKey<FormState>();
 
@@ -36,6 +38,7 @@ class _UIState extends State<UI> {
     return Directionality(
       textDirection: myLanguage.rtl(),
       child: Scaffold(
+        key: scaffoldKey,
         appBar: _buildAppBar(),
         body: _buildForm(),
       ),
@@ -162,8 +165,8 @@ class _UIState extends State<UI> {
 //await controlRequest.addSomeColumn();
 
     if (_saveValidator() == true) {
-      if (await controlRequest.win(
-              widget.dr.documentID, _paidByEmployee, _amount, _deleteNote) ==
+      if (await controlRequest.win(scaffoldKey, widget.dr.documentID,
+              _paidByEmployee, _amount, _deleteNote) ==
           true) {
         Navigator.pop(_context);
       }

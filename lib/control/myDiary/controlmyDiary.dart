@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:retailapp/dataAccess/myDiary/myDiaryRow.dart' as myDiaryRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
@@ -6,14 +7,23 @@ import 'package:uuid/uuid.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLocation.dart' as myLocation;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
+import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 
 String _name = 'myDiary';
 
 enum TypeIs { showroom, outgoingCall, visitCustomer }
 
-Future<bool> save(String customer, DateTime beginDate, DateTime endDate,
-    String note, double amount, int typeIs) async {
+Future<bool> save(
+    GlobalKey<ScaffoldState> scaffoldKey,
+    String customer,
+    DateTime beginDate,
+    DateTime endDate,
+    String note,
+    double amount,
+    int typeIs) async {
   try {
+    if (await myLocation.checkAll(scaffoldKey) == false) return false;
     GeoPoint mapLocation = await myLocation.getByGeoPoint();
 
     await Firestore.instance.collection(_name).document(Uuid().v1()).setData(
@@ -22,15 +32,25 @@ Future<bool> save(String customer, DateTime beginDate, DateTime endDate,
             .toJson());
 
     controlLiveVersion.save(_name);
-
+    mySnackBar
+        .showInHomePage(myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
-  } catch (e) {}
+  } catch (e) {
+    mySnackBar.show(scaffoldKey, e.toString());
+  }
 
   return false;
 }
 
-Future<bool> edit(String key, String customer, DateTime beginDate,
-    DateTime endDate, String note, double amount, int typeIs) async {
+Future<bool> edit(
+    GlobalKey<ScaffoldState> scaffoldKey,
+    String key,
+    String customer,
+    DateTime beginDate,
+    DateTime endDate,
+    String note,
+    double amount,
+    int typeIs) async {
   try {
     await Firestore.instance.collection(_name).document(key).updateData(
         myDiaryRow.Row(customer, beginDate, endDate, note, amount, typeIs,
@@ -39,12 +59,14 @@ Future<bool> edit(String key, String customer, DateTime beginDate,
 
     controlLiveVersion.save(_name);
     return true;
-  } catch (e) {}
+  } catch (e) {
+    mySnackBar.show(scaffoldKey, e.toString());
+  }
 
   return false;
 }
 
-Future<bool> delete(String key) async {
+Future<bool> delete(GlobalKey<ScaffoldState> scaffoldKey, String key) async {
   try {
     await Firestore.instance.collection(_name).document(key).updateData({
       "needDelete": true,
@@ -52,7 +74,9 @@ Future<bool> delete(String key) async {
     });
     controlLiveVersion.save(_name);
     return true;
-  } catch (e) {}
+  } catch (e) {
+    mySnackBar.show(scaffoldKey, e.toString());
+  }
 
   return false;
 }
@@ -70,11 +94,11 @@ Stream<QuerySnapshot> getToday() {
       .orderBy('beginDate', descending: true)
       .where('beginDate',
           isGreaterThanOrEqualTo: DateTime.utc(DateTime.now().year,
-              DateTime.now().month, DateTime.now().day, -2))
+              DateTime.now().month, DateTime.now().day))
       .where(
         'beginDate',
         isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
-            DateTime.now().month, DateTime.now().day, 22, 60, 60),
+            DateTime.now().month, DateTime.now().day, 24, 60, 60),
       )
       .snapshots();
 }

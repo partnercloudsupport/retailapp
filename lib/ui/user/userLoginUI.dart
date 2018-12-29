@@ -14,8 +14,9 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
-  final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _userPassword = '';
 
   @override
@@ -23,7 +24,7 @@ class _UIState extends State<UI> {
     return Directionality(
       textDirection: myLanguage.rtl(),
       child: Scaffold(
-        key: _scaffoldKey,
+        key: scaffoldKey,
         appBar: AppBar(
           title: Text(
             myLanguage.text(myLanguage.item.smartSecurity),
@@ -51,8 +52,8 @@ class _UIState extends State<UI> {
   Widget _buildTextFormFieldName() {
     return TextFormField(
       initialValue: userName,
-      decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.yourName)),
+      decoration:
+          InputDecoration(labelText: myLanguage.text(myLanguage.item.yourName)),
       style: myStyle.style20(),
       validator: (v) => v.isEmpty
           ? myLanguage.text(myLanguage.item.youMustInsertYourName)
@@ -69,8 +70,7 @@ class _UIState extends State<UI> {
           labelText: myLanguage.text(myLanguage.item.yourPassword)),
       validator: (v) {
         if (v.isEmpty)
-          return myLanguage
-              .text(myLanguage.item.youMustInsertYourPassword);
+          return myLanguage.text(myLanguage.item.youMustInsertYourPassword);
 
         return null;
       },
@@ -95,8 +95,8 @@ class _UIState extends State<UI> {
       _formKey.currentState.save();
       return true;
     } else {
-      mySnackBar.show(_scaffoldKey,
-          myLanguage.text(myLanguage.item.theDataIsIncorrect));
+      mySnackBar.show(
+          scaffoldKey, myLanguage.text(myLanguage.item.theDataIsIncorrect));
       return false;
     }
   }
@@ -105,8 +105,8 @@ class _UIState extends State<UI> {
     if (_validatorSave()) {
       try {
         if (await controlUser.signInByEmail(
-                'samerbrees@gmail.com', '12345678', _scaffoldKey) &&
-            await controlUser.signIn(userName, _userPassword, _scaffoldKey)) {
+                scaffoldKey, 'samerbrees@gmail.com', '12345678') &&
+            await controlUser.signIn(scaffoldKey, userName, _userPassword)) {
           await mySharedPreferences.setUserName(userName);
           await mySharedPreferences.setUserPassword(_userPassword);
           _formKey.currentState.reset();

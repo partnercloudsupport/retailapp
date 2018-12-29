@@ -19,7 +19,9 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
-  final formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String _customer = '';
   TimeOfDay _beginTime = TimeOfDay.now();
@@ -34,9 +36,9 @@ class _UIState extends State<UI> {
   void initState() {
     _customer = widget.dr['customer'];
     _beginTime = TimeOfDay.fromDateTime(widget.dr['beginDate']);
-    _beginTime = _beginTime.replacing(hour: _beginTime.hour - 2);
+    _beginTime = _beginTime.replacing(hour: _beginTime.hour);
     _endTime = TimeOfDay.fromDateTime(widget.dr['endDate']);
-    _endTime = _endTime.replacing(hour: _endTime.hour - 2);
+    _endTime = _endTime.replacing(hour: _endTime.hour);
     _note = widget.dr['note'];
     _amount = widget.dr['amount'];
     _typeIs = controlMyDiary.typeIsCast(widget.dr['typeIs']);
@@ -48,6 +50,7 @@ class _UIState extends State<UI> {
     return Directionality(
       textDirection: myLanguage.rtl(),
       child: Scaffold(
+        key: scaffoldKey,
         appBar: _buildAppBar(),
         body: _buildForm(),
       ),
@@ -171,6 +174,11 @@ class _UIState extends State<UI> {
         ],
         style: myStyle.style15(),
         decoration: InputDecoration(
+            prefix: Text(r'$ ', style: myStyle.style14()),
+            suffix: Text(
+              'USD',
+              style: myStyle.style14(),
+            ),
             labelText: myLanguage.text(myLanguage.item.resultingAmount)),
         onSaved: (String v) => _amount = mydouble.to(v));
   }
@@ -278,14 +286,14 @@ class _UIState extends State<UI> {
     if (_saveValidator() == true) {
       DateTime _beginDate = DateTime.now();
       _beginDate = DateTime.utc(_beginDate.year, _beginDate.month,
-          _beginDate.day, _beginTime.hour, _beginTime.minute);
+          _beginDate.day, _beginTime.hour - 2, _beginTime.minute);
 
       DateTime _endDate = DateTime.now();
       _endDate = DateTime.utc(_beginDate.year, _beginDate.month, _beginDate.day,
-          _endTime.hour, _endTime.minute);
+          _endTime.hour - 2, _endTime.minute);
 
-      if (await controlMyDiary.edit(widget.dr.documentID, _customer, _beginDate,
-              _endDate, _note, _amount, _typeIs.index) ==
+      if (await controlMyDiary.edit(scaffoldKey, widget.dr.documentID,
+              _customer, _beginDate, _endDate, _note, _amount, _typeIs.index) ==
           true) {
         Navigator.pop(context);
       }

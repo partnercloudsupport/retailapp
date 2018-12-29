@@ -17,10 +17,9 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
   BuildContext _context;
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   String _name = '';
   String _phones = '';
   String _address = '';

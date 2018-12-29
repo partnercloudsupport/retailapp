@@ -23,6 +23,8 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
   bool _searchActive = false;
   String _searchText;
   TextEditingController _searchController;
@@ -42,6 +44,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: Column(
         children: <Widget>[
           _buildSearch(),
@@ -309,7 +312,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _delete(DocumentSnapshot dr) async {
     if (await _deleteAskDialog() == 'Yes') {
-      controlMyDiary.delete(dr.documentID);
+      controlMyDiary.delete(scaffoldKey, dr.documentID);
     }
   }
 

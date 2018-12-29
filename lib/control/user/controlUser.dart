@@ -8,7 +8,7 @@ import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 DocumentSnapshot drNow;
 
 Future<bool> signInByEmail(
-    String email, String password, GlobalKey<ScaffoldState> scaffoldKey) async {
+    GlobalKey<ScaffoldState> scaffoldKey, String email, String password) async {
   try {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
@@ -23,15 +23,13 @@ Future<bool> signInByEmail(
 }
 
 Future<bool> createByEmail(
-    String email, String password, GlobalKey<ScaffoldState> scaffoldKey) async {
+    GlobalKey<ScaffoldState> scaffoldKey, String email, String password) async {
   try {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
 
-    mySnackBar.show(
-        scaffoldKey,
-        myLanguage
-            .text(myLanguage.item.yourAccountWasSuccessfullyCreated));
+    mySnackBar.show(scaffoldKey,
+        myLanguage.text(myLanguage.item.yourAccountWasSuccessfullyCreated));
 
     return true;
   } catch (e) {
@@ -41,7 +39,9 @@ Future<bool> createByEmail(
   return false;
 }
 
-Future<bool> signOutByEmail(GlobalKey<ScaffoldState> scaffoldKey) async {
+Future<bool> signOutByEmail(
+  GlobalKey<ScaffoldState> scaffoldKey,
+) async {
   try {
     await FirebaseAuth.instance.signOut();
 
@@ -53,7 +53,7 @@ Future<bool> signOutByEmail(GlobalKey<ScaffoldState> scaffoldKey) async {
 }
 
 Future<bool> signIn(
-    String name, String password, GlobalKey<ScaffoldState> scaffoldKey) async {
+    GlobalKey<ScaffoldState> scaffoldKey, String name, String password) async {
   try {
     QuerySnapshot dr = await Firestore.instance
         .collection('user')
@@ -78,7 +78,8 @@ Future<bool> signIn(
   return false;
 }
 
-Future<bool> signInByAuto(String name, String password) async {
+Future<bool> signInByAuto(
+    GlobalKey<ScaffoldState> scaffoldKey, String name, String password) async {
   try {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: 'samerbrees@gmail.com', password: '12345678');
@@ -93,7 +94,9 @@ Future<bool> signInByAuto(String name, String password) async {
     drNow = dr.documents.first;
 
     return (dr.documents.length == 1);
-  } catch (e) {}
+  } catch (e) {
+    mySnackBar.show(scaffoldKey, e.toString());
+  }
 
   return false;
 }

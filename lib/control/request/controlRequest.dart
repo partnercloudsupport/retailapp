@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 import 'package:retailapp/dataAccess/request/requestRow.dart' as requestRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -73,8 +73,8 @@ Future<bool> edit(
   return false;
 }
 
-Future<bool> win(
-    String key, String paidByEmployee, double amount, String deleteNote) async {
+Future<bool> win(GlobalKey<ScaffoldState> scaffoldKey, String key,
+    String paidByEmployee, double amount, String deleteNote) async {
   try {
     await Firestore.instance.collection(_name).document(key).updateData({
       "paidByEmployee": paidByEmployee.trim().isEmpty ? '-' : paidByEmployee,
@@ -86,7 +86,9 @@ Future<bool> win(
     });
     controlLiveVersion.save(_name);
     return true;
-  } catch (e) {}
+  } catch (e) {
+    mySnackBar.show(scaffoldKey, e.toString());
+  }
 
   return false;
 }

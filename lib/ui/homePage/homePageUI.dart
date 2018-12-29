@@ -8,6 +8,8 @@ import 'package:retailapp/control/my/myColor.dart' as myColor;
 
 int _currentIndex = 1;
 
+final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
 class UI extends StatefulWidget {
   UI(_currentIndex);
 
@@ -17,7 +19,6 @@ class UI extends StatefulWidget {
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
   TabController _tabController;
-
   Widget _ui = callerLogListUI.UI();
 
   @override
@@ -30,6 +31,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       resizeToAvoidBottomPadding: false,
       body: _ui,
       bottomNavigationBar: _buildBottomNavigationBar(),

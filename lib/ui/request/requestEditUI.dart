@@ -25,10 +25,10 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
-  BuildContext _context;
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
+  BuildContext _context;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String _customer = '';
   String _employee = '';
@@ -162,8 +162,8 @@ class _UIState extends State<UI> {
       textInputAction: TextInputAction.done,
       maxLines: 4,
       style: myStyle.style15(),
-      decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.subject)),
+      decoration:
+          InputDecoration(labelText: myLanguage.text(myLanguage.item.subject)),
       onSaved: (String v) => _requiredImplementation = v,
       focusNode: _focusNode1,
     );
@@ -215,8 +215,8 @@ class _UIState extends State<UI> {
         initialValue: _targetPrice.toStringAsFixed(0),
         textInputAction: TextInputAction.done,
         style: myStyle.style15(),
-        decoration: InputDecoration(
-            labelText: myLanguage.text(myLanguage.item.target)),
+        decoration:
+            InputDecoration(labelText: myLanguage.text(myLanguage.item.target)),
         onSaved: (String v) => _targetPrice = mydouble.to(v),
         focusNode: _focusNode2);
   }

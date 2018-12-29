@@ -27,10 +27,10 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
-  BuildContext _context;
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
+  BuildContext _context;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String _customer = '';
   String _employee = '';

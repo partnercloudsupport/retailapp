@@ -83,19 +83,27 @@ enum item {
   delete,
   areYouSureYouWantToDelete,
   yes,
-  no
+  no,
+  weNeedPermissionForYourLocation,
+  weNeedYouToEnableYourLocation
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
-     case item.no:
+    case item.weNeedYouToEnableYourLocation:
+      return 'We need you to enable your location';
+      break;
+    case item.weNeedPermissionForYourLocation:
+      return 'We need permission for your location';
+      break;
+    case item.no:
       return 'No';
-      break;   
-     case item.yes:
+      break;
+    case item.yes:
       return 'Yes';
-      break;   
+      break;
     case item.areYouSureYouWantToDelete:
       return 'Are you sure you want to delete';
       break;
@@ -344,12 +352,18 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
-     case item.no:
+    case item.weNeedYouToEnableYourLocation:
+      return 'نحن بحاجة منك تمكين موقعك';
+      break;
+    case item.weNeedPermissionForYourLocation:
+      return 'نحن بحاجة إلى إذن لموقعك';
+      break;
+    case item.no:
       return 'لا';
-      break;  
-     case item.yes:
+      break;
+    case item.yes:
       return 'نعم';
-      break;   
+      break;
     case item.areYouSureYouWantToDelete:
       return 'هل أنت متأكد أنك تريد حذف';
       break;

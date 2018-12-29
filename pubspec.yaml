@@ -21,7 +21,6 @@ dependencies:
   intl: ^0.15.7
   shared_preferences: 0.4.3
   flutter_map: ^0.3.0
-  location: ^1.4.1
   google_maps_flutter: ^0.0.3+3
   firebase_storage: ^1.0.4
   datetime_picker_formfield: ^0.1.7
@@ -29,7 +28,9 @@ dependencies:
   flutter_multiple_image_picker: ^0.0.1
   uuid: ^1.0.3
   flutter_masked_text: ^0.7.0
-  
+  geolocator: ^2.1.1
+
+  #location: ^1.4.1
   #multi_image_picker: ^2.2.55
   #image_picker: ^0.4.10
     

@@ -20,10 +20,8 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   BuildContext _context;
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   String _name = _dr['name'];
   String _phones = _dr['phones'];
   String _address = _dr['address'];
@@ -104,8 +102,8 @@ class _UIState extends State<UI> {
           ? myLanguage.text(myLanguage.item.youMustInsertText)
           : null,
       style: myStyle.style15(),
-      decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.name)),
+      decoration:
+          InputDecoration(labelText: myLanguage.text(myLanguage.item.name)),
       onSaved: (String v) => _name = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodePhones);
@@ -119,8 +117,8 @@ class _UIState extends State<UI> {
       focusNode: _focusNodePhones,
       textInputAction: TextInputAction.next,
       style: myStyle.style15(),
-      decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.phones)),
+      decoration:
+          InputDecoration(labelText: myLanguage.text(myLanguage.item.phones)),
       onSaved: (String v) => _phones = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodeAddress);
@@ -135,8 +133,8 @@ class _UIState extends State<UI> {
       textInputAction: TextInputAction.next,
       maxLines: 2,
       style: myStyle.style15(),
-      decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.address)),
+      decoration:
+          InputDecoration(labelText: myLanguage.text(myLanguage.item.address)),
       onSaved: (String v) => _address = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodeEmail);
@@ -148,8 +146,8 @@ class _UIState extends State<UI> {
     return TextFormField(
       focusNode: _focusNodeEmail,
       textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.email)),
+      decoration:
+          InputDecoration(labelText: myLanguage.text(myLanguage.item.email)),
       style: myStyle.style15(),
       validator: (v) => v.trim().isEmpty
           ? null
@@ -171,8 +169,8 @@ class _UIState extends State<UI> {
       textInputAction: TextInputAction.done,
       maxLines: 2,
       style: myStyle.style15(),
-      decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.note)),
+      decoration:
+          InputDecoration(labelText: myLanguage.text(myLanguage.item.note)),
       onSaved: (String v) => _note = v,
     );
   }

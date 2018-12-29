@@ -1,28 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
-import 'package:retailapp/dataAccess/callerLog/callerLogRow.dart'
-    as callerLogRow;
 
 String _name = 'callerLog';
-
-Future<bool> save(GlobalKey<ScaffoldState> scaffoldKey, String customer,
-    String noteIs, String phone) async {
-  try {
-    await Firestore.instance
-        .collection(_name)
-        .add(callerLogRow.Row(customer, noteIs, phone).toJson());
-    mySnackBar.show(
-        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
-    return true;
-  } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
-  }
-
-  return false;
-}
 
 Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
