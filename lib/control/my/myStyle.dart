@@ -14,6 +14,10 @@ TextStyle style14() {
   return TextStyle(fontSize: 14.0, color: myColor.color1);
 }
 
+TextStyle style14color4() {
+  return TextStyle(fontSize: 14.0, color: myColor.color4);
+}
+
 TextStyle style15() {
   return TextStyle(fontSize: 15.0, color: myColor.color1);
 }

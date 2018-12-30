@@ -85,13 +85,17 @@ enum item {
   yes,
   no,
   weNeedPermissionForYourLocation,
-  weNeedYouToEnableYourLocation
+  weNeedYouToEnableYourLocation,
+  youMustChooseAValue
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.youMustChooseAValue:
+      return 'You must choose a value';
+      break;
     case item.weNeedYouToEnableYourLocation:
       return 'We need you to enable your location';
       break;
@@ -352,6 +356,9 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.youMustChooseAValue:
+      return 'يجب عليك اختيار قيمة';
+      break;
     case item.weNeedYouToEnableYourLocation:
       return 'نحن بحاجة منك تمكين موقعك';
       break;

@@ -19,7 +19,7 @@ class UI extends StatefulWidget {
 
 class _UIState extends State<UI> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  bool _customerValid = true;
   String _customer = '';
   TimeOfDay _beginTime = TimeOfDay.now();
   TimeOfDay _endTime = TimeOfDay.now();
@@ -85,14 +85,29 @@ class _UIState extends State<UI> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              myLanguage.text(myLanguage.item.chooseACustomer),
-              style: myStyle.style12Color3(),
+            Row(
+              children: <Widget>[
+                Text('*', style: myStyle.style16Color4()),
+                SizedBox(
+                  width: 7,
+                ),
+                Text(
+                  myLanguage.text(myLanguage.item.chooseACustomer),
+                  style: myStyle.style12Color3(),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Text(_customer, style: myStyle.style15()),
             ),
+            _customerValid
+                ? SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    child: Text(
+                        myLanguage.text(myLanguage.item.youMustChooseAValue),
+                        style: myStyle.style14color4()))
           ],
         ),
       ),
@@ -229,6 +244,7 @@ class _UIState extends State<UI> {
     setState(() {
       _customer = v;
     });
+    _saveValidator();
   }
 
   void _chooseBeginTime() async {
@@ -260,16 +276,15 @@ class _UIState extends State<UI> {
   }
 
   bool _saveValidator() {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
-      return true;
-    } else {
-      return false;
-    }
+    setState(() {
+      _customerValid = _customer.trim().isNotEmpty;
+    });
+    return _customerValid;
   }
 
   void _save() async {
     if (_saveValidator() == true) {
+      formKey.currentState.save();
       DateTime _beginDate = DateTime.now();
 
       _beginDate = DateTime.utc(_beginDate.year, _beginDate.month,
