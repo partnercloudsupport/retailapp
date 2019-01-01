@@ -9,6 +9,7 @@ import 'package:retailapp/control/my/myLocation.dart' as myLocation;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myPermission.dart' as myPermission;
 
 String _name = 'myDiary';
 
@@ -23,7 +24,10 @@ Future<bool> save(
     double amount,
     int typeIs) async {
   try {
-    if (await myLocation.checkAll(scaffoldKey) == false) return false;
+    if (await myPermission.checkPermissionThenrequest(
+            scaffoldKey, myPermission.MyPermissionGroup.location) ==
+        false) return false;
+
     GeoPoint mapLocation = await myLocation.getByGeoPoint();
 
     await Firestore.instance.collection(_name).document(Uuid().v1()).setData(
