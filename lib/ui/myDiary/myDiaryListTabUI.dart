@@ -303,7 +303,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     });
   }
 
-  void _new() {
+  void _new() async {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => myDiaryNewUI.UI()));
   }

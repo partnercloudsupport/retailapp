@@ -92,7 +92,6 @@ Future<bool> signInByAuto(
         .first;
 
     drNow = dr.documents.first;
-
     return (dr.documents.length == 1);
   } catch (e) {
     mySnackBar.show1(scaffoldKey, e.toString());
