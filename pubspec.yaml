@@ -29,7 +29,8 @@ dependencies:
   uuid: ^1.0.3
   flutter_masked_text: ^0.7.0
   geolocator: ^2.1.1
-
+  super_tooltip: ^0.9.0
+  
   #location: ^1.4.1
   #multi_image_picker: ^2.2.55
   #image_picker: ^0.4.10

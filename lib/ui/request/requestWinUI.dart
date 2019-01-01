@@ -96,7 +96,7 @@ class _UIState extends State<UI> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_paidByEmployee, style: myStyle.style15()),
+              child: Text(_paidByEmployee, style: myStyle.style15Color1()),
             ),
           ],
         ),
@@ -112,9 +112,14 @@ class _UIState extends State<UI> {
         WhitelistingTextInputFormatter(myRegExp.number1To9999999),
       ],
       textInputAction: TextInputAction.next,
-      style: myStyle.style15(),
-      decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.amount)),
+      style: myStyle.style15Color1(),
+      decoration: InputDecoration(
+          prefix: Text(r'$ ', style: myStyle.style14Color1()),
+          suffix: Text(
+            'USD',
+            style: myStyle.style14Color1(),
+          ),
+          labelText: myLanguage.text(myLanguage.item.amount)),
       onSaved: (String v) => _amount = mydouble.to(v),
       focusNode: _focusNode1,
       onFieldSubmitted: (v) => FocusScope.of(context).requestFocus(_focusNode2),
@@ -125,7 +130,7 @@ class _UIState extends State<UI> {
     return TextFormField(
       textInputAction: TextInputAction.done,
       maxLines: 3,
-      style: myStyle.style15(),
+      style: myStyle.style15Color1(),
       decoration:
           InputDecoration(labelText: myLanguage.text(myLanguage.item.note)),
       onSaved: (String v) => _deleteNote = v,

@@ -10,19 +10,19 @@ TextStyle style12Color2() {
   return TextStyle(fontSize: 12.0, color: myColor.color2);
 }
 
-TextStyle style14() {
+TextStyle style14Color1() {
   return TextStyle(fontSize: 14.0, color: myColor.color1);
 }
 
-TextStyle style14color4() {
+TextStyle style14Color4() {
   return TextStyle(fontSize: 14.0, color: myColor.color4);
 }
 
-TextStyle style15() {
+TextStyle style15Color1() {
   return TextStyle(fontSize: 15.0, color: myColor.color1);
 }
 
-TextStyle style16() {
+TextStyle style16Color1() {
   return TextStyle(fontSize: 16.0, color: myColor.color1);
 }
 
@@ -34,12 +34,12 @@ TextStyle style16Color4() {
   return TextStyle(fontSize: 16.0, color: myColor.color4);
 }
 
-TextStyle style16Italic() {
+TextStyle style16Color1Italic() {
   return TextStyle(
       fontSize: 16.0, color: myColor.color1, fontStyle: FontStyle.italic);
 }
 
-TextStyle style18() {
+TextStyle style18Color1() {
   return TextStyle(fontSize: 18.0, color: myColor.color1);
 }
 
@@ -51,7 +51,7 @@ TextStyle style18Color4() {
   return TextStyle(fontSize: 18.0, color: myColor.color4);
 }
 
-TextStyle style20() {
+TextStyle style20Color1() {
   return TextStyle(fontSize: 20.0, color: myColor.color1);
 }
 

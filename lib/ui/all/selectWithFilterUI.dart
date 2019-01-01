@@ -57,7 +57,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     autofocus: widget.autofocus,
-                    style: myStyle.style15(),
+                    style: myStyle.style15Color1(),
                     controller: _textEditingController,
                     onChanged: (v) => _filterApply(v),
                     decoration: InputDecoration(
@@ -123,7 +123,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       },
       title: Text(
         dr['name'],
-        style: myStyle.style20(),
+        style: myStyle.style20Color1(),
       ),
     );
   }

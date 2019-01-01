@@ -61,7 +61,7 @@ class _UIState extends State<UI> {
               ),
               Text(
                 widget._name,
-                style: myStyle.style16(),
+                style: myStyle.style16Color1(),
               )
             ],
           ),

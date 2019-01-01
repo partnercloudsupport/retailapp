@@ -33,10 +33,10 @@ Future<bool> save(
 
     controlLiveVersion.save(_name);
     mySnackBar
-        .showInHomePage(myLanguage.text(myLanguage.item.saveSuccessfully));
+        .showInHomePage1(myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -60,7 +60,7 @@ Future<bool> edit(
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -75,7 +75,7 @@ Future<bool> delete(GlobalKey<ScaffoldState> scaffoldKey, String key) async {
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -93,8 +93,8 @@ Stream<QuerySnapshot> getToday() {
       .collection(_name)
       .orderBy('beginDate', descending: true)
       .where('beginDate',
-          isGreaterThanOrEqualTo: DateTime.utc(DateTime.now().year,
-              DateTime.now().month, DateTime.now().day))
+          isGreaterThanOrEqualTo: DateTime.utc(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day))
       .where(
         'beginDate',
         isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,

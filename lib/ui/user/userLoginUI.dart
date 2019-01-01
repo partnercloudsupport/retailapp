@@ -54,7 +54,7 @@ class _UIState extends State<UI> {
       initialValue: userName,
       decoration:
           InputDecoration(labelText: myLanguage.text(myLanguage.item.yourName)),
-      style: myStyle.style20(),
+      style: myStyle.style20Color1(),
       validator: (v) => v.isEmpty
           ? myLanguage.text(myLanguage.item.youMustInsertYourName)
           : null,
@@ -76,7 +76,7 @@ class _UIState extends State<UI> {
       },
       onSaved: (v) => _userPassword = v.trim(),
       obscureText: true,
-      style: myStyle.style20(),
+      style: myStyle.style20Color1(),
     );
   }
 
@@ -84,7 +84,7 @@ class _UIState extends State<UI> {
     return RaisedButton(
       child: Text(
         myLanguage.text(myLanguage.item.login),
-        style: myStyle.style18(),
+        style: myStyle.style18Color1(),
       ),
       onPressed: _save,
     );
@@ -95,7 +95,7 @@ class _UIState extends State<UI> {
       _formKey.currentState.save();
       return true;
     } else {
-      mySnackBar.show(
+      mySnackBar.show1(
           scaffoldKey, myLanguage.text(myLanguage.item.theDataIsIncorrect));
       return false;
     }

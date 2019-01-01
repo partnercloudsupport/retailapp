@@ -60,7 +60,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.style15(),
+                          style: myStyle.style15Color1(),
                           controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -148,7 +148,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       dr['customer'],
-                      style: myStyle.style16Italic(),
+                      style: myStyle.style16Color1Italic(),
                     ),
                   ),
                   children: <Widget>[
@@ -158,12 +158,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(dr['requiredImplementation'],
-                              style: myStyle.style16Italic()),
+                              style: myStyle.style16Color1Italic()),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(dr['employee'],
-                              style: myStyle.style16Italic()),
+                              style: myStyle.style16Color1Italic()),
                         ),
                         Padding(
                           padding:
@@ -245,7 +245,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       : ' ' +
                           myString
                               .betweenBrackets(dr['notesCount'].toString())),
-              style: myStyle.style14(),
+              style: myStyle.style14Color1(),
             ),
           ],
         ),
@@ -275,7 +275,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       : ' ' +
                           myString
                               .betweenBrackets(dr['imageCount'].toString())),
-              style: myStyle.style14(),
+              style: myStyle.style14Color1(),
             ),
           ],
         ),

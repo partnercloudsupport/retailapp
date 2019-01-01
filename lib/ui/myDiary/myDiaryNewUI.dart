@@ -99,7 +99,7 @@ class _UIState extends State<UI> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_customer, style: myStyle.style15()),
+              child: Text(_customer, style: myStyle.style15Color1()),
             ),
             _customerValid
                 ? SizedBox()
@@ -107,7 +107,7 @@ class _UIState extends State<UI> {
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                     child: Text(
                         myLanguage.text(myLanguage.item.youMustChooseAValue),
-                        style: myStyle.style14color4()))
+                        style: myStyle.style14Color4()))
           ],
         ),
       ),
@@ -143,7 +143,7 @@ class _UIState extends State<UI> {
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
                   myDateTime.formatTimeOfDayBy(time, myDateTime.Types.hhmma),
-                  style: myStyle.style15()),
+                  style: myStyle.style15Color1()),
             ),
           ],
         ),
@@ -156,7 +156,7 @@ class _UIState extends State<UI> {
     return TextFormField(
       initialValue: _note,
       maxLines: 4,
-      style: myStyle.style15(),
+      style: myStyle.style15Color1(),
       decoration: InputDecoration(
           labelText: myLanguage.text(myLanguage.item.weTalkedAbout)),
       onSaved: (String v) => _note = v,
@@ -170,12 +170,12 @@ class _UIState extends State<UI> {
         inputFormatters: [
           WhitelistingTextInputFormatter(myRegExp.number1To9999999),
         ],
-        style: myStyle.style15(),
+        style: myStyle.style15Color1(),
         decoration: InputDecoration(
-            prefix: Text(r'$ ', style: myStyle.style14()),
+            prefix: Text(r'$ ', style: myStyle.style14Color1()),
             suffix: Text(
               'USD',
-              style: myStyle.style14(),
+              style: myStyle.style14Color1(),
             ),
             labelText: myLanguage.text(myLanguage.item.resultingAmount)),
         onSaved: (String v) => _amount = mydouble.to(v));
@@ -222,7 +222,7 @@ class _UIState extends State<UI> {
           ),
           Text(
             _text,
-            style: myStyle.style15(),
+            style: myStyle.style15Color1(),
           ),
         ],
       ),

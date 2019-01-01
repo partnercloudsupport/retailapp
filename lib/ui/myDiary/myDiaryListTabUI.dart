@@ -9,6 +9,7 @@ import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
@@ -70,7 +71,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.style15(),
+                          style: myStyle.style15Color1(),
                           controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -118,10 +119,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return ListView(
           children: v.data.documents.where((v) {
-            return (v['customer'] + v['note'])
+            return (v['customer'] + v['note'] + v['user'])
                     .toLowerCase()
                     .contains(_searchText) &&
-                v['userID'].toString() == controlUser.drNow.documentID;
+                (v['userID'].toString() == controlUser.drNow.documentID ||
+                    controlUser.drNow.data['name'] == 'admin');
           }).map((DocumentSnapshot dr) {
             return _buildCard(dr);
           }).toList(),
@@ -137,8 +139,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       ),
       title: Text(
         dr['customer'],
-        style: myStyle.style20(),
+        style: myStyle.style20Color1(),
       ),
+      trailing: controlUser.drNow.data['name'] == 'admin'
+          ? Text(
+              dr['user'],
+            )
+          : null,
       children: <Widget>[
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -148,7 +155,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   dr['note'],
-                  style: myStyle.style16Italic(),
+                  style: myStyle.style16Color1Italic(),
                 ),
               ),
             ),
@@ -229,8 +236,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
+  Key fff = UniqueKey();
   Widget _buildDelete(DocumentSnapshot dr) {
     return InkWell(
+      key: fff,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 5.0),
         child: Icon(
@@ -238,6 +247,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           color: Colors.red,
         ),
       ),
+      onTap: () => mySuperTooltip.show4(context,
+          myLanguage.text(myLanguage.item.pressForALongTimeToDeleteIt)),
       onLongPress: () => _delete(dr),
     );
   }
@@ -329,7 +340,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         Center(
           child: Text(
             myLanguage.text(myLanguage.item.areYouSureYouWantToDelete),
-            style: myStyle.style18(),
+            style: myStyle.style18Color1(),
           ),
         ),
         SizedBox(
@@ -347,7 +358,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             children: <Widget>[
               SimpleDialogOption(
                 child: Text(myLanguage.text(myLanguage.item.no),
-                    style: myStyle.style16Italic()),
+                    style: myStyle.style16Color1Italic()),
                 onPressed: () => Navigator.pop(context, 'No'),
               ),
               Expanded(

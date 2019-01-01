@@ -107,7 +107,7 @@ class _UIState extends State<UI> {
         ),
         label: Text(
           "Load Images",
-          style: myStyle.style16(),
+          style: myStyle.style16Color1(),
         ));
   }
 
@@ -116,7 +116,7 @@ class _UIState extends State<UI> {
       initialValue: _note,
       textInputAction: TextInputAction.done,
       maxLines: 4,
-      style: myStyle.style15(),
+      style: myStyle.style15Color1(),
       decoration:
           InputDecoration(labelText: myLanguage.text(myLanguage.item.note)),
       onSaved: (String v) => _note = v,

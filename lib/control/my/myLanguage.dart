@@ -86,13 +86,21 @@ enum item {
   no,
   weNeedPermissionForYourLocation,
   weNeedYouToEnableYourLocation,
-  youMustChooseAValue
+  youMustChooseAValue,
+  pressForALongTimeToDeleteIt,
+  ok
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.ok:
+      return 'Ok';
+      break;
+    case item.pressForALongTimeToDeleteIt:
+      return 'Press for a long time to delete it';
+      break;
     case item.youMustChooseAValue:
       return 'You must choose a value';
       break;
@@ -356,6 +364,12 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.ok:
+      return 'حسناً';
+      break;
+    case item.pressForALongTimeToDeleteIt:
+      return 'اضغط لفترة طويلة لحذفها';
+      break;
     case item.youMustChooseAValue:
       return 'يجب عليك اختيار قيمة';
       break;

@@ -94,7 +94,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       Flexible(
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.style15(),
+                          style: myStyle.style15Color1(),
                           controller: _filterController,
                           onChanged: (v) => _filterApply(v),
                           decoration: InputDecoration(

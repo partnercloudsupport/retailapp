@@ -34,7 +34,7 @@ Future<bool> save(
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -67,7 +67,7 @@ Future<bool> edit(
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -87,7 +87,7 @@ Future<bool> win(GlobalKey<ScaffoldState> scaffoldKey, String key,
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;

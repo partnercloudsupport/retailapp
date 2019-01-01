@@ -16,11 +16,11 @@ Future<bool> save(GlobalKey<ScaffoldState> scaffoldKey, String name) async {
         .add(requestTypeRow.Row(name).toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show(
+    mySnackBar.show1(
         scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -35,11 +35,11 @@ Future<bool> edit(
         .updateData(requestTypeRow.Row(name, needInsert: false).toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show(
+    mySnackBar.show1(
         scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;

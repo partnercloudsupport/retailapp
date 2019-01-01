@@ -109,7 +109,7 @@ class _UIState extends State<UI> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_customer, style: myStyle.style15()),
+              child: Text(_customer, style: myStyle.style15Color1()),
             ),
           ],
         ),
@@ -135,7 +135,7 @@ class _UIState extends State<UI> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_employee, style: myStyle.style15()),
+              child: Text(_employee, style: myStyle.style15Color1()),
             ),
           ],
         ),
@@ -149,7 +149,7 @@ class _UIState extends State<UI> {
       initialValue: _requiredImplementation,
       textInputAction: TextInputAction.done,
       maxLines: 4,
-      style: myStyle.style15(),
+      style: myStyle.style15Color1(),
       decoration:
           InputDecoration(labelText: myLanguage.text(myLanguage.item.subject)),
       onSaved: (String v) => _requiredImplementation = v,
@@ -185,7 +185,7 @@ class _UIState extends State<UI> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_salseman, style: myStyle.style15()),
+              child: Text(_salseman, style: myStyle.style15Color1()),
             ),
           ],
         ),
@@ -201,7 +201,7 @@ class _UIState extends State<UI> {
           WhitelistingTextInputFormatter(myRegExp.number1To9999999),
         ],
         textInputAction: TextInputAction.done,
-        style: myStyle.style15(),
+        style: myStyle.style15Color1(),
         decoration:
             InputDecoration(labelText: myLanguage.text(myLanguage.item.target)),
         onSaved: (String v) => _targetPrice = mydouble.to(v),
@@ -225,7 +225,7 @@ class _UIState extends State<UI> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_typeIs, style: myStyle.style15()),
+              child: Text(_typeIs, style: myStyle.style15Color1()),
             ),
           ],
         ),

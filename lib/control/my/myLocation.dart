@@ -16,15 +16,15 @@ Future<bool> checkAll(
   bool v = (status == GeolocationStatus.granted);
 
   if (status == GeolocationStatus.denied)
-    mySnackBar.show(scaffoldKey,
+    mySnackBar.show4(scaffoldKey,
         myLanguage.text(myLanguage.item.weNeedPermissionForYourLocation));
   else if (status == GeolocationStatus.disabled)
-    mySnackBar.show(scaffoldKey,
+    mySnackBar.show4(scaffoldKey,
         myLanguage.text(myLanguage.item.weNeedYouToEnableYourLocation));
   else if (status == GeolocationStatus.restricted)
-    mySnackBar.show(scaffoldKey, status.toString());
+    mySnackBar.show4(scaffoldKey, status.toString());
   else if (status == GeolocationStatus.unknown)
-    mySnackBar.show(scaffoldKey, status.toString());
+    mySnackBar.show4(scaffoldKey, status.toString());
 
   return v;
 }

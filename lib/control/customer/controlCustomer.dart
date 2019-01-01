@@ -22,11 +22,11 @@ Future<bool> save(
             .toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show(
+    mySnackBar.show1(
         scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -48,11 +48,11 @@ Future<bool> edit(
             .toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show(
+    mySnackBar.show1(
         scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;

@@ -15,7 +15,7 @@ Future<bool> signInByEmail(
 
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
     print(e.toString());
   }
 
@@ -28,12 +28,12 @@ Future<bool> createByEmail(
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
 
-    mySnackBar.show(scaffoldKey,
+    mySnackBar.show1(scaffoldKey,
         myLanguage.text(myLanguage.item.yourAccountWasSuccessfullyCreated));
 
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -47,7 +47,7 @@ Future<bool> signOutByEmail(
 
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
   return false;
 }
@@ -65,14 +65,14 @@ Future<bool> signIn(
     drNow = dr.documents.first;
 
     if (dr.documents.length != 1) {
-      mySnackBar.show(scaffoldKey, 'Not find this user');
+      mySnackBar.show1(scaffoldKey, 'Not find this user');
 
       return false;
     }
 
     return true;
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -95,7 +95,7 @@ Future<bool> signInByAuto(
 
     return (dr.documents.length == 1);
   } catch (e) {
-    mySnackBar.show(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;

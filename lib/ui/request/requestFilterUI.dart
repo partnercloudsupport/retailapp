@@ -78,7 +78,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Text(_filterEmployee, style: myStyle.style15()),
+                    child: Text(_filterEmployee, style: myStyle.style15Color1()),
                   ),
                 ],
               ),
@@ -116,7 +116,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Text(_filterType, style: myStyle.style15()),
+                    child: Text(_filterType, style: myStyle.style15Color1()),
                   ),
                 ],
               ),

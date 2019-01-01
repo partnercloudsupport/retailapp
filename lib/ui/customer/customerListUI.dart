@@ -89,7 +89,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       Flexible(
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.style15(),
+                          style: myStyle.style15Color1(),
                           controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -170,7 +170,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return ExpansionTile(
       title: Text(
         dr['name'],
-        style: myStyle.style20(),
+        style: myStyle.style20Color1(),
       ),
       leading: dr['phones'].toString().isEmpty
           ? Icon(
@@ -183,23 +183,25 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                dr['address'].toString().isEmpty
-                    ? SizedBox()
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(dr['address'],
-                            style: myStyle.style16Italic()),
-                      ),
-                dr['note'].toString().isEmpty
-                    ? SizedBox()
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:
-                            Text(dr['note'], style: myStyle.style16Italic()),
-                      ),
-              ],
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  dr['address'].toString().isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(dr['address'],
+                              style: myStyle.style16Color1Italic()),
+                        ),
+                  dr['note'].toString().isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                              Text(dr['note'], style: myStyle.style16Color1Italic()),
+                        ),
+                ],
+              ),
             ),
           ],
         ),

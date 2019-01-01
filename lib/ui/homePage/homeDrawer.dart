@@ -29,14 +29,14 @@ Widget buildDrawer(BuildContext bc) {
           ),
         ),
         ListTile(
-          title: Text('Language EN', style: myStyle.style16()),
+          title: Text('Language EN', style: myStyle.style16Color1()),
           onTap: () {
             myLanguage.setLanguageEN();
           },
         ),
         Divider(),
         ListTile(
-          title: Text('Language AR', style: myStyle.style16()),
+          title: Text('Language AR', style: myStyle.style16Color1()),
           onTap: () {
             myLanguage.setLanguageAR();
           },
@@ -44,7 +44,7 @@ Widget buildDrawer(BuildContext bc) {
         Divider(),
         ListTile(
           trailing: Icon(Icons.exit_to_app),
-          title: Text('Logout', style: myStyle.style16()),
+          title: Text('Logout', style: myStyle.style16Color1()),
           onTap: () {
             mySharedPreferences.setUserPassword('');
             Navigator.pushAndRemoveUntil(

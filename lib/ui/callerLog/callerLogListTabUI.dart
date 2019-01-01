@@ -81,7 +81,7 @@ class _UIState extends State<UI> {
       child: super.widget.withFilterAction
           ? Text(
               myLanguage.text(myLanguage.item.clickOnTheFilterButtonToLoadData),
-              style: myStyle.style20(),
+              style: myStyle.style20Color1(),
             )
           : CircularProgressIndicator(),
     );
@@ -98,7 +98,7 @@ class _UIState extends State<UI> {
             ),
             title: Text(
               dr['customer'],
-              style: myStyle.style20(),
+              style: myStyle.style20Color1(),
             ),
             children: <Widget>[
               Column(
@@ -108,7 +108,7 @@ class _UIState extends State<UI> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       dr['noteIs'],
-                      style: myStyle.style15(),
+                      style: myStyle.style15Color1(),
                     ),
                   ),
                   Padding(
@@ -140,7 +140,7 @@ class _UIState extends State<UI> {
           children: <Widget>[
             Text(
               'Request',
-              style: myStyle.style14(),
+              style: myStyle.style14Color1(),
             ),
             Icon(
               Icons.add,
@@ -158,7 +158,7 @@ class _UIState extends State<UI> {
       title: Directionality(
         textDirection: myLanguage.rtl(),
         child: Text(myLanguage.text(myLanguage.item.filterSettings),
-            style: myStyle.style20()),
+            style: myStyle.style20Color1()),
       ),
       titlePadding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
       contentPadding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
@@ -172,12 +172,12 @@ class _UIState extends State<UI> {
               children: <Widget>[
                 Text(
                   myLanguage.text(myLanguage.item.fromDate) + ':',
-                  style: myStyle.style20(),
+                  style: myStyle.style20Color1(),
                 ),
                 RaisedButton(
                   child: Text(
                       myDateTime.formatBy(_fromDate, myDateTime.Types.ddMMyyyy),
-                      style: myStyle.style20()),
+                      style: myStyle.style20Color1()),
                   onPressed: _selectFromDate,
                 ),
                 Padding(
@@ -185,12 +185,12 @@ class _UIState extends State<UI> {
                 ),
                 Text(
                   myLanguage.text(myLanguage.item.toDate) + ':',
-                  style: myStyle.style20(),
+                  style: myStyle.style20Color1(),
                 ),
                 RaisedButton(
                   child: Text(
                       myDateTime.formatBy(_toDate, myDateTime.Types.ddMMyyyy),
-                      style: myStyle.style20()),
+                      style: myStyle.style20Color1()),
                   onPressed: _selectToDate,
                 )
               ],
@@ -203,7 +203,7 @@ class _UIState extends State<UI> {
             children: <Widget>[
               SimpleDialogOption(
                 child: Text(myLanguage.text(myLanguage.item.cancel),
-                    style: myStyle.style16Italic()),
+                    style: myStyle.style16Color1Italic()),
                 onPressed: () => Navigator.pop(_bc, 'Cancel'),
               ),
               Expanded(
@@ -211,7 +211,7 @@ class _UIState extends State<UI> {
               ),
               SimpleDialogOption(
                 child: Text(myLanguage.text(myLanguage.item.search),
-                    style: myStyle.style16()),
+                    style: myStyle.style16Color1()),
                 onPressed: () => Navigator.pop(_bc, 'Ok'),
               ),
             ],
