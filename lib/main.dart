@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
@@ -29,9 +28,6 @@ class _UIState extends State<UI> {
   }
 
   void _initState() async {
-    await Firestore.instance
-        .settings(timestampsInSnapshotsEnabled: true);
-
     myLanguage.setLanguage(await mySharedPreferences.getLanguageApp());
     userLoginUI.userName = await mySharedPreferences.getUserName();
     requestListUI.filterByEmployee =
