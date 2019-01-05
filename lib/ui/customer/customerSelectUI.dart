@@ -6,6 +6,8 @@ import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
+import 'package:retailapp/control/permission/controlPermission.dart'
+    as controlPermission;
 
 class UI extends StatefulWidget {
   final void Function(String) _save;
@@ -17,9 +19,23 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  bool customerInsert = controlPermission.drNow.data['customerInsert'];
   String _filter = '';
   TextEditingController _textEditingController =
       TextEditingController(text: '');
+
+  @override
+  void initState() {
+    initStateMe();
+    super.initState();
+  }
+
+  void initStateMe() async {
+    await controlPermission.getMe();
+    setState(() {
+      customerInsert = controlPermission.drNow.data['customerInsert'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +161,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildFloatingActionButton() {
-    return widget.withNew
+    return widget.withNew && customerInsert
         ? FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: _new,

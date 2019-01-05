@@ -4,7 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/permission/controlPermission.dart'
+    as controlPermission;
 
+String _name = 'user';
 DocumentSnapshot drNow;
 
 Future<bool> signInByEmail(
@@ -15,8 +18,7 @@ Future<bool> signInByEmail(
 
     return true;
   } catch (e) {
-  //  mySnackBar.show1(scaffoldKey, e.toString());
-    print(e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -33,7 +35,7 @@ Future<bool> createByEmail(
 
     return true;
   } catch (e) {
-  //  mySnackBar.show1(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -56,50 +58,68 @@ Future<bool> signIn(
     GlobalKey<ScaffoldState> scaffoldKey, String name, String password) async {
   try {
     QuerySnapshot dr = await Firestore.instance
-        .collection('user')
+        .collection(_name)
         .where('name', isEqualTo: name)
         .where('password', isEqualTo: password)
         .snapshots()
         .first;
 
+    if (dr.documents.length != 1) {
+      mySnackBar.show1(scaffoldKey,
+          myLanguage.text(myLanguage.item.yourNameOrPasswordIsNotCorrect));
+
+      return false;
+    }
     drNow = dr.documents.first;
 
-    if (dr.documents.length != 1) {
-    //  mySnackBar.show1(scaffoldKey, 'Not find this user');
+    if (await controlPermission.getMe() ==
+        false) {
+      mySnackBar.show1(scaffoldKey,
+          myLanguage.text(myLanguage.item.weCantGetPermissionForYou));
 
       return false;
     }
 
     return true;
   } catch (e) {
-  //  mySnackBar.show1(scaffoldKey, e.toString());
+    mySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
 }
 
-Future<bool> signInByAuto(
-    GlobalKey<ScaffoldState> scaffoldKey, String name, String password) async {
+Future<bool> signInByAuto(String name, String password) async {
   try {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: 'samerbrees@gmail.com', password: '12345678');
 
     QuerySnapshot dr = await Firestore.instance
-        .collection('user')
+        .collection(_name)
         .where('name', isEqualTo: name)
         .where('password', isEqualTo: password)
         .snapshots()
         .first;
 
     drNow = dr.documents.first;
-    return (dr.documents.length == 1);
-  } catch (e) {
-   // mySnackBar.show1(scaffoldKey, e.toString());
-  }
+    return (dr.documents.length == 1 &&
+        await controlPermission.getMe());
+  } catch (e) {}
+
+  return false;
+}
+
+Future<bool> getMe() async {
+  try {
+    drNow = await Firestore.instance
+        .collection(_name)
+        .document(drNow.documentID)
+        .get();
+    return drNow.exists;
+  } catch (e) {}
 
   return false;
 }
 
 Stream<QuerySnapshot> getAll() {
-  return Firestore.instance.collection('user').snapshots();
+  return Firestore.instance.collection(_name).snapshots();
 }

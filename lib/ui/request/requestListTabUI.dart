@@ -12,6 +12,7 @@ import 'package:retailapp/control/my/myString.dart' as myString;
 import 'package:retailapp/ui/request/requestWinUI.dart' as requestWinUI;
 import 'package:retailapp/ui/request/requestImageListUI.dart'
     as requestImageListUI;
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
@@ -29,8 +30,25 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  String _followUpEmployeeRequest = controlUser
+      .drNow.data['followUpEmployeeRequest']
+      .toString()
+      .toLowerCase();
+
   String _search = '';
   TextEditingController _searchController = TextEditingController(text: '');
+
+  @override
+  void initState() {
+    super.initState();
+    controlUser.getMe();
+    setState(() {
+      _followUpEmployeeRequest = controlUser
+          .drNow.data['followUpEmployeeRequest']
+          .toString()
+          .toLowerCase();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +137,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     ? true
                     : v['typeIs'] == widget.filterByType) &&
                 (widget.filterByEmployee.isEmpty
-                    ? true
-                    : v['employee'] == widget.filterByEmployee);
+                    ? _followUpEmployeeRequest
+                        .contains(v['employee'].toString().toLowerCase())
+                    : (v['employee'] == widget.filterByEmployee) &&
+                        _followUpEmployeeRequest
+                            .contains(v['employee'].toString().toLowerCase()));
           }).map((DocumentSnapshot dr) {
             return _buildCard(dr);
           }).toList(),

@@ -9,6 +9,8 @@ import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
 import 'package:retailapp/ui/customer/customerEditUI.dart' as customerEditUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
+import 'package:retailapp/control/permission/controlPermission.dart'
+    as controlPermission;
 
 class UI extends StatefulWidget {
   @override
@@ -16,18 +18,23 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  bool _customerInsert = controlPermission.drNow.data['customerInsert'];
+  bool _customerEdit = controlPermission.drNow.data['customerEdit'];
   bool _searchActive = false;
   String _search = '';
   TextEditingController _searchController = TextEditingController(text: '');
-
   AnimationController _ac;
 
   @override
   void initState() {
     super.initState();
-
     _ac =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    controlPermission.getMe();
+    setState(() {
+      _customerInsert = controlPermission.drNow.data['customerInsert'];
+      _customerEdit = controlPermission.drNow.data['customerEdit'];
+    });
   }
 
   @override
@@ -94,8 +101,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.item.search) +
-                                    '...',
+                                myLanguage.text(myLanguage.item.search) + '...',
                           ),
                         ),
                       ),
@@ -152,9 +158,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return (v['name'] +
-                      v['address'] +
-                      v['phones'])
+              return (v['name'] + v['address'] + v['phones'])
                   .toLowerCase()
                   .contains(_search);
             }).map((DocumentSnapshot dr) {
@@ -197,8 +201,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       ? SizedBox()
                       : Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child:
-                              Text(dr['note'], style: myStyle.style16Color1Italic()),
+                          child: Text(dr['note'],
+                              style: myStyle.style16Color1Italic()),
                         ),
                 ],
               ),
@@ -235,13 +239,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildEditButton(DocumentSnapshot dr) {
-    return IconButton(
-      icon: Icon(
-        Icons.edit,
-        color: myColor.color1,
-      ),
-      onPressed: () => _edit(dr),
-    );
+    return _customerEdit
+        ? IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: myColor.color1,
+            ),
+            onPressed: () => _edit(dr),
+          )
+        : SizedBox();
   }
 
   Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
@@ -271,11 +277,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: _new,
-      backgroundColor: myColor.color1,
-    );
+    return _customerInsert
+        ? FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: _new,
+            backgroundColor: myColor.color1,
+          )
+        : null;
   }
 
   void _searchReactive() {

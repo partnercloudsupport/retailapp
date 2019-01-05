@@ -9,8 +9,6 @@ import 'package:retailapp/control/my/mySharedPreferences.dart'
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 
-final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
 void main() {
   runApp(UI());
 }
@@ -34,7 +32,6 @@ class _UIState extends State<UI> {
         await mySharedPreferences.getRequestFilterEmployee();
 
     bool myAccountIsVaild = await controlUser.signInByAuto(
-        scaffoldKey,
         await mySharedPreferences.getUserName(),
         await mySharedPreferences.getUserPassword());
 

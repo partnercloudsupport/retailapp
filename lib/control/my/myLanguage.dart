@@ -91,12 +91,20 @@ enum item {
   ok,
   weNeedPermissionForYour,
   weNeedYouToEnableYour,
+  yourNameOrPasswordIsNotCorrect,
+  weCantGetPermissionForYou
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.weCantGetPermissionForYou:
+      return 'we can\'t get permission for you';
+      break;
+    case item.yourNameOrPasswordIsNotCorrect:
+      return 'Your name or password is not correct';
+      break;
     case item.weNeedYouToEnableYour:
       return 'We need you to enable your';
       break;
@@ -372,6 +380,12 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.weCantGetPermissionForYou:
+      return 'لا يمكننا الحصول على إذن لك';
+      break;
+    case item.yourNameOrPasswordIsNotCorrect:
+      return 'اسمك أو كلمة المرور غير صحيح';
+      break;
     case item.weNeedYouToEnableYour:
       return 'نحن بحاجة منك تمكين';
       break;

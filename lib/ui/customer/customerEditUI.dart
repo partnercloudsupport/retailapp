@@ -8,6 +8,8 @@ import 'package:retailapp/control/customer/controlCustomer.dart'
 import 'package:retailapp/control/my/myString.dart' as myString;
 import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/permission/controlPermission.dart'
+    as controlPermission;
 
 DocumentSnapshot _dr;
 
@@ -20,6 +22,7 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
+  bool customerEditPhone = controlPermission.drNow.data['customerEditPhone'];
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   BuildContext _context;
   String _name = _dr['name'];
@@ -29,9 +32,7 @@ class _UIState extends State<UI> {
   String _note = _dr['note'];
   LatLng _mapLocation;
   GeoPoint _mapLocationBase = _dr['mapLocation'];
-
   final formKey = GlobalKey<FormState>();
-
   final FocusNode _focusNodePhones = new FocusNode();
   final FocusNode _focusNodeAddress = new FocusNode();
   final FocusNode _focusNodeEmail = new FocusNode();
@@ -39,9 +40,17 @@ class _UIState extends State<UI> {
 
   @override
   void initState() {
+    initStateMe();
     _mapLocation =
         LatLng(_mapLocationBase.latitude, _mapLocationBase.longitude);
     super.initState();
+  }
+
+  void initStateMe() async {
+    await controlPermission.getMe();
+    setState(() {
+      customerEditPhone = controlPermission.drNow.data['customerEditPhone'];
+    });
   }
 
   @override
@@ -112,18 +121,20 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildPhonesFormField() {
-    return TextFormField(
-      initialValue: _phones,
-      focusNode: _focusNodePhones,
-      textInputAction: TextInputAction.next,
-      style: myStyle.style15Color1(),
-      decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.phones)),
-      onSaved: (String v) => _phones = v,
-      onFieldSubmitted: (v) {
-        FocusScope.of(context).requestFocus(_focusNodeAddress);
-      },
-    );
+    return customerEditPhone
+        ? TextFormField(
+            initialValue: _phones,
+            focusNode: _focusNodePhones,
+            textInputAction: TextInputAction.next,
+            style: myStyle.style15Color1(),
+            decoration: InputDecoration(
+                labelText: myLanguage.text(myLanguage.item.phones)),
+            onSaved: (String v) => _phones = v,
+            onFieldSubmitted: (v) {
+              FocusScope.of(context).requestFocus(_focusNodeAddress);
+            },
+          )
+        : SizedBox();
   }
 
   Widget _buildAddressFormField() {
@@ -211,7 +222,7 @@ class _UIState extends State<UI> {
               scaffoldKey,
               _dr.documentID,
               _name,
-              _phones,
+              customerEditPhone ? _phones : _dr.data['phones'],
               _address,
               _email,
               _note,
