@@ -41,4 +41,26 @@ class Row {
       "needUpdate": needUpdate,
     };
   }
+
+  toJsonEditLocation(GeoPoint mapLocation) {
+    return {
+      "mapLocation": mapLocation,
+      "needUpdate": true,
+    };
+  }
+}
+
+class EditMapLocation {
+  String key;
+  GeoPoint mapLocation;
+  bool needUpdate = true;
+
+  EditMapLocation(this.mapLocation);
+
+  toJson() {
+    return {
+      "mapLocation": mapLocation,
+      "needUpdate": needUpdate,
+    };
+  }
 }

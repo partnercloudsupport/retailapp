@@ -92,13 +92,25 @@ enum item {
   weNeedPermissionForYour,
   weNeedYouToEnableYour,
   yourNameOrPasswordIsNotCorrect,
-  weCantGetPermissionForYou
+  weCantGetPermissionForYou,
+  edit,
+  win,
+  view
 }
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.view:
+      return 'View';
+      break;
+    case item.win:
+      return 'Win';
+      break;
+    case item.edit:
+      return 'Edit';
+      break;
     case item.weCantGetPermissionForYou:
       return 'we can\'t get permission for you';
       break;
@@ -380,6 +392,15 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.view:
+      return 'عرض';
+      break;
+    case item.win:
+      return 'فوز';
+      break;
+    case item.edit:
+      return 'تعديل';
+      break;
     case item.weCantGetPermissionForYou:
       return 'لا يمكننا الحصول على إذن لك';
       break;

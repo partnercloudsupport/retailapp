@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong/latlong.dart';
 import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
@@ -13,6 +14,11 @@ import 'package:retailapp/ui/request/requestWinUI.dart' as requestWinUI;
 import 'package:retailapp/ui/request/requestImageListUI.dart'
     as requestImageListUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
+import 'package:retailapp/control/customer/controlCustomer.dart'
+    as controlCustomer;
+import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
+import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
@@ -124,24 +130,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       stream: widget._querySnapshot,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return _buildLoading();
-
         return ListView(
           children: v.data.documents.where((v) {
-            return (v['customer'] +
-                        v['typeIs'] +
-                        v['requiredImplementation'] +
-                        v['employee'])
-                    .toLowerCase()
-                    .contains(_search) &&
-                (widget.filterByType.isEmpty
-                    ? true
-                    : v['typeIs'] == widget.filterByType) &&
-                (widget.filterByEmployee.isEmpty
-                    ? _followUpEmployeeRequest
-                        .contains(v['employee'].toString().toLowerCase())
-                    : (v['employee'] == widget.filterByEmployee) &&
-                        _followUpEmployeeRequest
-                            .contains(v['employee'].toString().toLowerCase()));
+            return cardValid(v);
           }).map((DocumentSnapshot dr) {
             return _buildCard(dr);
           }).toList(),
@@ -197,25 +188,20 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                             style: myStyle.style12Color3(),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            _buildNote(dr),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            _buildImage(dr),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  _buildWin(dr),
-                                  _buildEdit(dr),
-                                  _buildNeedInsertOrUpdate(dr),
-                                ],
-                              ),
-                            )
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Wrap(
+                            alignment: WrapAlignment.spaceBetween,
+                            children: <Widget>[
+                              _buildNote(dr),
+                              _buildImage(dr),
+                              _buildViewMap(dr),
+                              _buildEditMap(dr),
+                              _buildWin(dr),
+                              _buildEdit(dr),
+                              _buildNeedInsertOrUpdate(dr)
+                            ],
+                          ),
                         ),
                       ],
                     )
@@ -227,81 +213,125 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         : SizedBox();
   }
 
-  Widget _buildWin(DocumentSnapshot dr) {
-    return IconButton(
-      icon: Image.asset(
-        'lib/res/image/Win_001_32.png',
-        color: myColor.color1,
-        height: 24.0,
-        width: 24.0,
-      ),
-      onPressed: () => _win(dr),
-    );
-  }
-
-  Widget _buildEdit(DocumentSnapshot dr) {
-    return IconButton(
-      icon: Icon(
-        Icons.edit,
-        color: myColor.color1,
-      ),
-      onPressed: () => _edit(dr),
-    );
-  }
-
   Widget _buildNote(DocumentSnapshot dr) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: InkWell(
-        child: Row(
-          children: <Widget>[
-            Icon(
-              Icons.note_add,
-              color: myColor.color1,
-            ),
-            Text(
-              myLanguage.text(myLanguage.item.notes) +
-                  (dr['notesCount'] == 0
-                      ? ''
-                      : ' ' +
-                          myString
-                              .betweenBrackets(dr['notesCount'].toString())),
-              style: myStyle.style14Color1(),
-            ),
-          ],
-        ),
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => requestNoteListUI
-                    .UI(double.parse(dr.documentID.toString())))),
+    return InkWell(
+      child: Column(
+        children: <Widget>[
+          Icon(
+            Icons.note_add,
+            color: myColor.color1,
+          ),
+          Text(
+            myLanguage.text(myLanguage.item.notes) +
+                (dr['notesCount'] == 0
+                    ? ''
+                    : ' ' +
+                        myString.betweenBrackets(dr['notesCount'].toString())),
+            style: myStyle.style14Color1(),
+          ),
+        ],
       ),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => requestNoteListUI
+                  .UI(double.parse(dr.documentID.toString())))),
     );
   }
 
   Widget _buildImage(DocumentSnapshot dr) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: InkWell(
-        child: Row(
-          children: <Widget>[
-            Icon(
-              Icons.image,
-              color: myColor.color1,
-            ),
-            Text(
-              myLanguage.text(myLanguage.item.images) +
-                  (dr['imageCount'] == 0
-                      ? ''
-                      : ' ' +
-                          myString
-                              .betweenBrackets(dr['imageCount'].toString())),
-              style: myStyle.style14Color1(),
-            ),
-          ],
-        ),
-        onTap: () => _imageZoom(dr),
+    return InkWell(
+      child: Column(
+        children: <Widget>[
+          Icon(
+            Icons.image,
+            color: myColor.color1,
+          ),
+          Text(
+            myLanguage.text(myLanguage.item.images) +
+                (dr['imageCount'] == 0
+                    ? ''
+                    : ' ' +
+                        myString.betweenBrackets(dr['imageCount'].toString())),
+            style: myStyle.style14Color1(),
+          ),
+        ],
       ),
+      onTap: () => _imageZoom(dr),
+    );
+  }
+
+  Widget _buildViewMap(DocumentSnapshot dr) {
+    return InkWell(
+      child: Column(
+        children: <Widget>[
+          Icon(
+            Icons.location_on,
+            color: myColor.color1,
+          ),
+          Text(
+            myLanguage.text(myLanguage.item.view),
+            style: myStyle.style14Color1(),
+          ),
+        ],
+      ),
+      onTap: () => _viewMap(dr),
+    );
+  }
+
+  Widget _buildEditMap(DocumentSnapshot dr) {
+    return InkWell(
+      child: Column(
+        children: <Widget>[
+          Icon(
+            Icons.location_on,
+            color: myColor.color1,
+          ),
+          Text(
+            myLanguage.text(myLanguage.item.edit),
+            style: myStyle.style14Color1(),
+          ),
+        ],
+      ),
+      onTap: () => _editMap(dr),
+    );
+  }
+
+  Widget _buildWin(DocumentSnapshot dr) {
+    return InkWell(
+      child: Column(
+        children: <Widget>[
+          Image.asset(
+            'lib/res/image/Win_001_32.png',
+            color: myColor.color1,
+            width: 24,
+            height: 24,
+          ),
+          Text(
+            myLanguage.text(myLanguage.item.win),
+            style: myStyle.style14Color1(),
+          ),
+        ],
+      ),
+      onTap: () => _win(dr),
+    );
+  }
+
+  Widget _buildEdit(DocumentSnapshot dr) {
+    return InkWell(
+      child: Column(
+        children: <Widget>[
+          Icon(
+            Icons.edit,
+            color: myColor.color1,
+          ),
+          Text(
+            myLanguage.text(myLanguage.item.edit),
+            style: myStyle.style14Color1(),
+          ),
+        ],
+      ),
+      onTap: () => _edit(dr),
     );
   }
 
@@ -309,24 +339,24 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        dr['needInsert'] == false
-            ? Container()
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+        dr['needInsert']
+            ? Padding(
+                padding: const EdgeInsets.only(top: 8),
                 child: Icon(
                   Icons.add,
                   color: Colors.red,
                 ),
-              ),
-        dr['needUpdate'] == false
-            ? Container()
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+              )
+            : SizedBox(),
+        dr['needUpdate']
+            ? Padding(
+                padding: const EdgeInsets.only(top: 8),
                 child: Icon(
                   Icons.update,
                   color: Colors.red,
                 ),
               )
+            : SizedBox()
       ],
     );
   }
@@ -338,6 +368,26 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       onPressed: _new,
       backgroundColor: myColor.color1,
     );
+  }
+
+  bool cardValid(DocumentSnapshot dr) {
+    bool followUpEmployeeRequest = (_followUpEmployeeRequest
+            .contains(dr['employee'].toString().toLowerCase()) ||
+        controlUser.drNow.data['name'].toString().toLowerCase() == 'admin');
+
+    return (dr['customer'] +
+                dr['typeIs'] +
+                dr['requiredImplementation'] +
+                dr['employee'])
+            .toLowerCase()
+            .contains(_search) &&
+        (widget.filterByType.isEmpty
+            ? true
+            : dr['typeIs'] == widget.filterByType) &&
+        (widget.filterByEmployee.isEmpty
+            ? followUpEmployeeRequest
+            : (dr['employee'] == widget.filterByEmployee) &&
+                followUpEmployeeRequest);
   }
 
   void _searchApply(String v) {
@@ -374,5 +424,38 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         MaterialPageRoute(
             builder: (context) =>
                 requestImageListUI.UI(double.parse(dr.documentID.toString()))));
+  }
+
+  void _viewMap(DocumentSnapshot dr) async {
+    drCustomer =
+        await controlCustomer.getDataRow(dr.data['customerID'].toString());
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => mapGoogleViewUI.UI(
+                drCustomer.data['name'],
+                drCustomer.data['phones'],
+                drCustomer.data['mapLocation'])));
+  }
+
+  DocumentSnapshot drCustomer;
+  LatLng _mapLocation;
+  void _editMap(DocumentSnapshot dr) async {
+    drCustomer =
+        await controlCustomer.getDataRow(dr.data['customerID'].toString());
+    _mapLocation = LatLng(drCustomer.data['mapLocation'].latitude,
+        drCustomer.data['mapLocation'].longitude);
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                mapBoxSelectUI.UI(_saveLocation, _mapLocation)));
+  }
+
+  void _saveLocation(LatLng location) async {
+    await controlCustomer.editLocation(homePageUI.scaffoldKey,
+        drCustomer.documentID, GeoPoint(location.latitude, location.longitude));
   }
 }

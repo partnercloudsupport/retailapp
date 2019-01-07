@@ -58,6 +58,25 @@ Future<bool> edit(
   return false;
 }
 
+Future<bool> editLocation(
+    GlobalKey<ScaffoldState> scaffoldKey,
+    String key,
+    GeoPoint mapLocation) async {
+  try {
+    await Firestore.instance.collection(_name).document(key).updateData(
+        customerRow.EditMapLocation(mapLocation).toJson());
+
+    controlLiveVersion.save(_name);
+    mySnackBar.show1(
+        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
+    return true;
+  } catch (e) {
+    mySnackBar.show1(scaffoldKey, e.toString());
+  }
+
+  return false;
+}
+
 Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
 }
@@ -67,6 +86,14 @@ Stream<QuerySnapshot> getByFilter(String v) {
       .collection(_name)
       .where('name', isEqualTo: v)
       .snapshots();
+}
+
+Future<DocumentSnapshot> getDataRow(String id) async {
+  try {
+    return await Firestore.instance.collection(_name).document(id).get();
+  } catch (e) {}
+
+  return null;
 }
 
 Future<String> getKey(String v) async {
