@@ -10,6 +10,7 @@ import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
@@ -195,13 +196,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildViewMapButton(DocumentSnapshot dr) {
-    return IconButton(
-      icon: Icon(
-        Icons.location_on,
-        color: myColor.color1,
-      ),
-      onPressed: () => _viewMap(dr),
-    );
+    return controlUser.drNow.data['name'].toString().toLowerCase() == 'admin'
+        ? IconButton(
+            icon: Icon(
+              Icons.location_on,
+              color: myColor.color1,
+            ),
+            onPressed: () => _viewMap(dr),
+          )
+        : SizedBox();
   }
 
   Widget _buildEditButton(DocumentSnapshot dr) {
