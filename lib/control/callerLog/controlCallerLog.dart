@@ -1,7 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/dataAccess/callerLog/callerLogRow.dart'
+    as callerLogRow;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
+import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 
 String _name = 'callerLog';
+
+Future<bool> editNote(GlobalKey<ScaffoldState> scaffoldKey, String key,
+    String noteIs, double amount, int typeIs) async {
+  try {
+    await Firestore.instance
+        .collection(_name)
+        .document(key)
+        .updateData(callerLogRow.RowEditNote(noteIs).toJson());
+
+    controlLiveVersion.save(_name);
+    return true;
+  } catch (e) {
+    mySnackBar.show1(scaffoldKey, e.toString());
+  }
+
+  return false;
+}
 
 Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
@@ -86,4 +109,27 @@ Stream<QuerySnapshot> getBetweenData(DateTime fromDate, DateTime toDate) {
             DateTime.utc(toDate.year, toDate.month, toDate.day, 24, 60, 60),
       )
       .snapshots();
+}
+
+Future<bool> addSomeColumn() async {
+  try {
+    var i = await Firestore.instance.collection(_name).getDocuments();
+
+    i.documents.forEach((ii) async {
+      await Firestore.instance
+          .collection(_name)
+          .document(ii.documentID)
+          .updateData({
+        "needUpdate": false,
+        "updateByUserID": 0,
+        "isLinkWithRequest": false,
+      });
+    });
+    print('Saved');
+    return true;
+  } catch (e) {
+    print(e.toString());
+  }
+
+  return false;
 }

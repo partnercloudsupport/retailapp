@@ -1,30 +1,50 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
-class Row {
+class RowNew {
   String key;
+  bool needUpdate;
+  int updateByUserID;
   String customer;
   DateTime dateTimeIs;
   String noteIs;
   String phone;
+  bool isLinkWithRequest;
 
-  Row(this.customer, this.noteIs, this.phone) {
+  RowNew(this.customer, this.noteIs, this.phone) {
     dateTimeIs = DateTime.now();
-  }
-
-  Row.fromSnapshot(DataSnapshot snapshot) {
-    key = snapshot.key;
-    customer = snapshot.value["customer"];
-    dateTimeIs = snapshot.value["dateTimeIs"];
-    noteIs = snapshot.value["noteIs"];
-    phone = snapshot.value["phone"];
+    needUpdate = false;
+    updateByUserID = 0;
+    isLinkWithRequest = false;
   }
 
   toJson() {
     return {
+      "needUpdate": needUpdate,
+      "updateByUserID": updateByUserID,
       "customer": customer,
       "dateTimeIs": dateTimeIs,
       "noteIs": noteIs,
       "phone": phone,
+    };
+  }
+}
+
+class RowEditNote {
+  String key;
+  bool needUpdate;
+  int updateByUserID;
+  String noteIs;
+
+  RowEditNote(this.noteIs) {
+    needUpdate = true;
+    updateByUserID = int.parse(controlUser.drNow.documentID);
+  }
+
+  toJson() {
+    return {
+      "needUpdate": needUpdate,
+      "updateByUserID": updateByUserID,
+      "noteIs": noteIs,
     };
   }
 }

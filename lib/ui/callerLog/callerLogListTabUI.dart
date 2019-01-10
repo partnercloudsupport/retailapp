@@ -69,9 +69,7 @@ class _UIState extends State<UI> {
         ? null
         : FloatingActionButton(
             child: Icon(Icons.find_in_page),
-            onPressed: () {
-              _showFilter();
-            },
+            onPressed: _showFilter,
             backgroundColor: myColor.color1,
           );
   }
@@ -100,6 +98,10 @@ class _UIState extends State<UI> {
               dr['customer'],
               style: myStyle.style20Color1(),
             ),
+            trailing: Text(
+              myDateTime.formatAndShortByFromString(
+                  dr['dateTimeIs'].toString(), myDateTime.Types.ddMMyyyyhhmma),
+            ),
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -111,17 +113,14 @@ class _UIState extends State<UI> {
                       style: myStyle.style15Color1(),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
-                    child: Text(
-                      myDateTime.formatAndShortByFromString(
-                          dr['dateTimeIs'].toString(),
-                          myDateTime.Types.ddMMyyyyhhmma),
-                      textAlign: TextAlign.end,
-                      style: myStyle.style12Color3(),
-                    ),
-                  ),
-                  _buildNewRequest(dr),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      _buildNewRequest(dr),
+                      _buildEditButton(dr),
+                      _buildNeedInsertOrUpdate(dr),
+                    ],
+                  )
                 ],
               ),
             ],
@@ -134,22 +133,51 @@ class _UIState extends State<UI> {
   Widget _buildNewRequest(DocumentSnapshot dr) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Text(
-              'Request',
-              style: myStyle.style14Color1(),
+      child: dr['isLinkWithRequest']
+          ? SizedBox()
+          : InkWell(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    'Request',
+                    style: myStyle.style14Color1(),
+                  ),
+                  Icon(
+                    Icons.add,
+                    color: myColor.color1,
+                  ),
+                ],
+              ),
+              onTap: () => _newRequest(dr['customer'], dr['noteIs']),
             ),
-            Icon(
-              Icons.add,
-              color: myColor.color1,
-            ),
-          ],
-        ),
-        onTap: () => _newRequest(dr['customer'], dr['noteIs']),
+    );
+  }
+
+  Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        dr['needUpdate']
+            ? Padding(
+                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
+                child: Icon(
+                  Icons.update,
+                  color: Colors.red,
+                ),
+              )
+            : SizedBox()
+      ],
+    );
+  }
+
+  Widget _buildEditButton(DocumentSnapshot dr) {
+    return IconButton(
+      icon: Icon(
+        Icons.edit,
+        color: myColor.color1,
       ),
+      onPressed: () => _edit(dr),
     );
   }
 
@@ -277,6 +305,11 @@ class _UIState extends State<UI> {
                   customer: customer,
                   requiredImplementation: requiredImplementation,
                 )));
+  }
+
+  void _edit(DocumentSnapshot dr) {
+    // Navigator.push(
+    //     context, MaterialPageRoute(builder: (context) => myDiaryEditUI.UI(dr)));
   }
 
   @override
