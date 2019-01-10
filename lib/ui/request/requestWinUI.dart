@@ -1,17 +1,21 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_multiple_image_picker/flutter_multiple_image_picker.dart';
 import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
-
 import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
 import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
+import 'package:retailapp/control/request/controlRequestImage.dart'
+    as controlRequestImage;
 
 class UI extends StatefulWidget {
   final DocumentSnapshot dr;
@@ -21,16 +25,14 @@ class UI extends StatefulWidget {
 
 class _UIState extends State<UI> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
   BuildContext _context;
   final formKey = GlobalKey<FormState>();
-
   String _paidByEmployee = '';
   double _amount = 0;
   String _deleteNote = '';
-
   final FocusNode _focusNode1 = FocusNode();
   final FocusNode _focusNode2 = FocusNode();
+  List _images;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +76,11 @@ class _UIState extends State<UI> {
               _buildEmployee(),
               _buildAmount(),
               _buildDeleteNote(),
+              Container(
+                child: _buildImageList(),
+                height: 300,
+              ),
+              _buildLoadImage(),
             ],
           )),
     );
@@ -138,6 +145,45 @@ class _UIState extends State<UI> {
     );
   }
 
+  Widget _buildImageList() {
+    return _images != null
+        ? ListView.builder(
+            itemBuilder: _buildImage,
+            itemCount: _images.length,
+          )
+        : Container(
+            child: new Icon(
+              Icons.image,
+              size: 250.0,
+              color: myColor.color1,
+            ),
+          );
+  }
+
+  Widget _buildImage(BuildContext context, int i) {
+    return ListTile(
+      title: Container(
+        child: Image.file(
+          File(_images[i].toString()),
+        ),
+        height: 250,
+      ),
+    );
+  }
+
+  Widget _buildLoadImage() {
+    return RaisedButton.icon(
+        onPressed: _loadImage,
+        icon: Icon(
+          Icons.image,
+          color: myColor.color1,
+        ),
+        label: Text(
+          "Load Images",
+          style: myStyle.style16Color1(),
+        ));
+  }
+
   void _openChooseEmployee() {
     Navigator.push(
         context,
@@ -157,6 +203,18 @@ class _UIState extends State<UI> {
     FocusScope.of(context).requestFocus(_focusNode1);
   }
 
+  void _loadImage() async {
+    List resultList;
+    try {
+      resultList = await FlutterMultipleImagePicker.pickMultiImages(5, false);
+      setState(() {
+        _images = resultList;
+      });
+
+      FocusScopeNode().requestFocus(_focusNode1);
+    } catch (e) {}
+  }
+
   bool _saveValidator() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
@@ -170,6 +228,12 @@ class _UIState extends State<UI> {
 //await controlRequest.addSomeColumn();
 
     if (_saveValidator() == true) {
+      if (_images != null) {
+        _images.forEach((i) async {
+          await controlRequestImage.save(
+              double.parse(widget.dr.documentID), _deleteNote, i);
+        });
+      }
       if (await controlRequest.win(scaffoldKey, widget.dr.documentID,
               _paidByEmployee, _amount, _deleteNote) ==
           true) {

@@ -34,9 +34,12 @@ class _UIState extends State<UI> {
                 infoWindowText: InfoWindowText(widget._name, widget._phones)));
           });
         },
-        options: GoogleMapOptions(cameraPosition: _currentCameraPosition),
+        options: GoogleMapOptions(
+          cameraPosition: _currentCameraPosition,
+        ),
       ),
       floatingActionButton: _buildFloatingActionButtonReviewLocation(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

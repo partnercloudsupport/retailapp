@@ -11,6 +11,7 @@ Future<bool> getMe() async {
         .collection(_name)
         .document(controlUser.drNow.data['permissionID'].toString())
         .get();
+
     return drNow.exists;
   } catch (e) {}
 

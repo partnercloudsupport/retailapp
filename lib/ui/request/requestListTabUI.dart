@@ -37,9 +37,10 @@ class UI extends StatefulWidget {
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
   String _followUpEmployeeRequest = controlUser
-      .drNow.data['followUpEmployeeRequest']
-      .toString()
-      .toLowerCase();
+          .drNow.data['followUpEmployeeRequest']
+          .toString()
+          .toLowerCase() +
+      ' ,';
 
   String _search = '';
   TextEditingController _searchController = TextEditingController(text: '');
@@ -50,9 +51,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     controlUser.getMe();
     setState(() {
       _followUpEmployeeRequest = controlUser
-          .drNow.data['followUpEmployeeRequest']
-          .toString()
-          .toLowerCase();
+              .drNow.data['followUpEmployeeRequest']
+              .toString()
+              .toLowerCase() +
+          ' ,';
     });
   }
 
@@ -155,7 +157,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 ExpansionTile(
-                  leading: Text(dr['typeIs']),
+                  leading: Text(dr['employee']),
                   title: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -174,8 +176,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(dr['employee'],
-                              style: myStyle.style16Color1Italic()),
+                          child: Text(dr['typeIs']),
                         ),
                         Padding(
                           padding:
@@ -372,7 +373,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   bool cardValid(DocumentSnapshot dr) {
     bool followUpEmployeeRequest = (_followUpEmployeeRequest
-            .contains(dr['employee'].toString().toLowerCase()) ||
+            .contains(dr['employee'].toString().toLowerCase() + ' ,') ||
         controlUser.drNow.data['name'].toString().toLowerCase() == 'admin');
 
     return (dr['customer'] +

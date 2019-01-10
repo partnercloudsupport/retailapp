@@ -4,6 +4,10 @@ import 'package:retailapp/control/myDiary/controlMyDiary.dart'
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/ui/myDiary/myDiaryListTabUI.dart' as myDiaryListTabUI;
 import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
+import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+
+String filterByUser = '';
 
 class UI extends StatefulWidget {
   @override
@@ -33,17 +37,33 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            myDiaryListTabUI.UI(controlMyDiary.getToday(), _searchActive,
-                _searchText, _searchSetText),
-            myDiaryListTabUI.UI(controlMyDiary.getYesterday(), _searchActive,
-                _searchText, _searchSetText),
-            myDiaryListTabUI.UI(controlMyDiary.getLastWeek(), _searchActive,
-                _searchText, _searchSetText),
+            myDiaryListTabUI.UI(
+              controlMyDiary.getToday(),
+              _searchActive,
+              _searchText,
+              _searchSetText,
+              filterByUesr: filterByUser,
+            ),
+            myDiaryListTabUI.UI(
+              controlMyDiary.getYesterday(),
+              _searchActive,
+              _searchText,
+              _searchSetText,
+              filterByUesr: filterByUser,
+            ),
+            myDiaryListTabUI.UI(
+              controlMyDiary.getLastWeek(),
+              _searchActive,
+              _searchText,
+              _searchSetText,
+              filterByUesr: filterByUser,
+            ),
             myDiaryListTabUI.UI(
               controlMyDiary.getAll(),
               _searchActive,
               _searchText,
               _searchSetText,
+              filterByUesr: filterByUser,
             )
           ],
         ),
@@ -73,6 +93,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       ),
       actions: <Widget>[
         _buildSeach(),
+        _buildFilter(),
       ],
     );
   }
@@ -88,6 +109,17 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
+  Widget _buildFilter() {
+    return IconButton(
+      icon: Icon(
+        Icons.filter_list,
+        color: filterByUser.isNotEmpty ? Colors.white : Colors.grey,
+        size: filterByUser.isNotEmpty ? 32 : null,
+      ),
+      onPressed: _filterOpen,
+    );
+  }
+
   void _searchReactive() {
     setState(() {
       _searchActive = !_searchActive;
@@ -98,6 +130,24 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void _searchSetText(String v) {
     setState(() {
       _searchText = v;
+    });
+  }
+
+  void _filterOpen() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => selectWithFilterUI.UI(
+                  controlUser.getAll(),
+                  _filterApply,
+                  myLanguage.text(myLanguage.item.chooseAnEmployee),
+                  autofocus: false,
+                )));
+  }
+
+  void _filterApply(String _filterByUser) {
+    setState(() {
+      filterByUser = _filterByUser.toLowerCase();
     });
   }
 

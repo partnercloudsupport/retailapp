@@ -121,7 +121,7 @@ class _UIState extends State<UI> {
                       style: myStyle.style12Color3(),
                     ),
                   ),
-                  _buildNewRequest(dr['noteIs']),
+                  _buildNewRequest(dr),
                 ],
               ),
             ],
@@ -131,7 +131,7 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildNewRequest(String v) {
+  Widget _buildNewRequest(DocumentSnapshot dr) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -148,7 +148,7 @@ class _UIState extends State<UI> {
             ),
           ],
         ),
-        onTap: () => _newRequest(v),
+        onTap: () => _newRequest(dr['customer'], dr['noteIs']),
       ),
     );
   }
@@ -269,12 +269,13 @@ class _UIState extends State<UI> {
     }
   }
 
-  void _newRequest(String v) {
+  void _newRequest(String customer, String requiredImplementation) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => requestNewUI.UI(
-                  requiredImplementation: v,
+                  customer: customer,
+                  requiredImplementation: requiredImplementation,
                 )));
   }
 

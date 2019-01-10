@@ -23,6 +23,8 @@ class _UIState extends State<UI> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool _customerValid = true;
   String _customer = '';
+  DateTime _beginDate = DateTime.now();
+  DateTime _endDate = DateTime.now();
   TimeOfDay _beginTime = TimeOfDay.now();
   TimeOfDay _endTime = TimeOfDay.now();
   String _note = '';
@@ -34,6 +36,8 @@ class _UIState extends State<UI> {
   @override
   void initState() {
     _customer = widget.dr['customer'];
+    _beginDate = widget.dr['beginDate'];
+    _endDate = widget.dr['endDate'];
     _beginTime = TimeOfDay.fromDateTime(widget.dr['beginDate']);
     _beginTime = _beginTime.replacing(hour: _beginTime.hour);
     _endTime = TimeOfDay.fromDateTime(widget.dr['endDate']);
@@ -151,7 +155,9 @@ class _UIState extends State<UI> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              myLanguage.text(_text),
+              myLanguage.text(_text) +
+                  ' ' +
+                  myDateTime.formatDateAndShort(_beginDate),
               style: myStyle.style12Color3(),
             ),
             Padding(
@@ -261,12 +267,24 @@ class _UIState extends State<UI> {
   }
 
   void _chooseBeginTime() async {
+    DateTime _beginDateNew = await showDatePicker(
+      firstDate: DateTime.now().add(Duration(days: -10)),
+      lastDate: DateTime.now().add(Duration(days: 1)),
+      context: context,
+      initialDate: _beginDate,
+    );
+
+    if (_beginDateNew == null) return;
+    _beginDate = _beginDateNew;
+
     TimeOfDay v =
         await showTimePicker(context: context, initialTime: _beginTime);
 
     if (v != null) {
       setState(() {
         _beginTime = v;
+        _beginDate = DateTime.utc(_beginDate.year, _beginDate.month,
+            _beginDate.day, _beginTime.hour, _beginTime.minute);
       });
     }
   }
@@ -277,6 +295,9 @@ class _UIState extends State<UI> {
     if (v != null) {
       setState(() {
         _endTime = v;
+        _endTime = v;
+        _endDate = DateTime.utc(_beginDate.year, _beginDate.month,
+            _beginDate.day, _endTime.hour, _endTime.minute);
         FocusScope.of(context).requestFocus(_focusNode1);
       });
     }
@@ -298,14 +319,6 @@ class _UIState extends State<UI> {
   void _save() async {
     if (_saveValidator() == true) {
       formKey.currentState.save();
-      DateTime _beginDate = DateTime.now();
-      _beginDate = DateTime.utc(_beginDate.year, _beginDate.month,
-          _beginDate.day, _beginTime.hour - 2, _beginTime.minute);
-
-      DateTime _endDate = DateTime.now();
-      _endDate = DateTime.utc(_beginDate.year, _beginDate.month, _beginDate.day,
-          _endTime.hour - 2, _endTime.minute);
-
       if (await controlMyDiary.edit(scaffoldKey, widget.dr.documentID,
               _customer, _beginDate, _endDate, _note, _amount, _typeIs.index) ==
           true) {

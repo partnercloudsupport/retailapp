@@ -10,29 +10,31 @@ import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
-import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
   final bool _searchActive;
   final String _searchText;
   final void Function(String) _searchSetText;
+  final String filterByUesr;
 
   UI(this._querySnapshot, this._searchActive, this._searchText,
-      this._searchSetText);
+      this._searchSetText,
+      {this.filterByUesr = ''});
   @override
   UIState createState() => UIState(_searchText);
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
   bool _searchActive = false;
   String _searchText;
   TextEditingController _searchController;
-
   AnimationController _ac;
-
+  String _followUpUserMyDiary = controlUser.drNow.data['name'] +
+      ' ,' +
+      controlUser.drNow.data['followUpUserMyDiary'].toString().toLowerCase() +
+      ' ,';
   UIState(this._searchText);
 
   @override
@@ -41,6 +43,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     _searchController = TextEditingController(text: _searchText);
     _ac =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+
+    setState(() {
+      _followUpUserMyDiary = controlUser.drNow.data['name'] +
+          ' ,' +
+          controlUser.drNow.data['followUpUserMyDiary']
+              .toString()
+              .toLowerCase() +
+          ' ,';
+    });
   }
 
   @override
@@ -120,11 +131,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return ListView(
           children: v.data.documents.where((v) {
-            return (v['customer'] + v['note'] + v['user'])
-                    .toLowerCase()
-                    .contains(_searchText) &&
-                (v['userID'].toString() == controlUser.drNow.documentID ||
-                    controlUser.drNow.data['name'] == 'admin');
+            return cardValid(v);
           }).map((DocumentSnapshot dr) {
             return _buildCard(dr);
           }).toList(),
@@ -142,7 +149,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         dr['customer'],
         style: myStyle.style20Color1(),
       ),
-      trailing: controlUser.drNow.data['name'] == 'admin'
+      trailing: controlUser.drNow.data['name'] != dr['user']
           ? Text(
               dr['user'],
             )
@@ -289,6 +296,26 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       onPressed: _new,
       backgroundColor: myColor.color1,
     );
+  }
+
+  bool cardValid(DocumentSnapshot dr) {
+    bool itIsMe =
+        (controlUser.drNow.data['name'].toString().toLowerCase() == 'admin');
+
+    bool followUpUserMyDiary = (_followUpUserMyDiary
+            .contains(dr['user'].toString().toLowerCase() + ' ,') ||
+        itIsMe);
+
+    return (dr['customer'] + dr['note'] + dr['user'])
+            .toLowerCase()
+            .contains(_searchText) &&
+        (widget.filterByUesr.isEmpty
+            ? followUpUserMyDiary
+            : (dr['user']
+                    .toString()
+                    .toLowerCase()
+                    .contains(widget.filterByUesr) &&
+                followUpUserMyDiary));
   }
 
   void _searchApply(String v) {

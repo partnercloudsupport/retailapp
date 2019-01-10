@@ -77,6 +77,20 @@ String formatAndShort(DateTime v, {String format = 'dd-MM-yyyy – hh:mm a'}) {
   }
 }
 
+String formatDateAndShort(DateTime v, {String format = 'dd-MM-yyyy'}) {
+  try {
+    if (v.year == DateTime.now().year &&
+        v.month == DateTime.now().month &&
+        v.day == DateTime.now().day) {
+      return '';
+    } else {
+      return formatBy(v, Types.ddMMyyyy);
+    }
+  } catch (e) {
+    return '';
+  }
+}
+
 String formatAndShortBy(DateTime v, Types t) {
   try {
     if (v.year == DateTime.now().year &&

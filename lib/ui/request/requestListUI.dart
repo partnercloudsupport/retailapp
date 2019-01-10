@@ -143,7 +143,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void _filterApply(String _filterByType, String _filterByEmployee) {
     setState(() {
       _filterByType = _filterByType;
-     filterByEmployee = _filterByEmployee;
+      filterByEmployee = _filterByEmployee;
     });
   }
 

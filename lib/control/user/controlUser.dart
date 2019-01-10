@@ -72,8 +72,12 @@ Future<bool> signIn(
     }
     drNow = dr.documents.first;
 
-    if (await controlPermission.getMe() ==
-        false) {
+    drNow = await Firestore.instance
+        .collection(_name)
+        .document(drNow.documentID)
+        .get();
+
+    if (await controlPermission.getMe() == false) {
       mySnackBar.show1(scaffoldKey,
           myLanguage.text(myLanguage.item.weCantGetPermissionForYou));
 
@@ -101,8 +105,7 @@ Future<bool> signInByAuto(String name, String password) async {
         .first;
 
     drNow = dr.documents.first;
-    return (dr.documents.length == 1 &&
-        await controlPermission.getMe());
+    return (dr.documents.length == 1 && await controlPermission.getMe());
   } catch (e) {}
 
   return false;
@@ -122,4 +125,25 @@ Future<bool> getMe() async {
 
 Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
+}
+
+Future<bool> addSomeColumn() async {
+  try {
+    var i = await Firestore.instance.collection(_name).getDocuments();
+
+    i.documents.forEach((ii) async {
+      await Firestore.instance
+          .collection(_name)
+          .document(ii.documentID)
+          .updateData({
+        "followUpUserMyDiary": '',
+      });
+    });
+    print('Saved');
+    return true;
+  } catch (e) {
+    print(e.toString());
+  }
+
+  return false;
 }

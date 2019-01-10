@@ -17,11 +17,13 @@ import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 
-String _requiredImplementation = '';
+String _requiredImplementation;
+String _customer;
 
 class UI extends StatefulWidget {
-  UI({String requiredImplementation}) {
+  UI({String customer = '', String requiredImplementation = ''}) {
     _requiredImplementation = requiredImplementation;
+    _customer = customer;
   }
   _UIState createState() => _UIState();
 }
@@ -32,7 +34,6 @@ class _UIState extends State<UI> {
   BuildContext _context;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String _customer = '';
   String _employee = '';
   DateTime _appointment = DateTime.now();
   String _salseman = '';

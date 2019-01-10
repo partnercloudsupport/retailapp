@@ -40,6 +40,19 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   Widget _buildAppBar() {
     return AppBar(
       title: Text(widget._titleUI),
+      actions: <Widget>[
+        _buildClear(),
+      ],
+    );
+  }
+
+  Widget _buildClear() {
+    return IconButton(
+      icon: Icon(
+        Icons.clear,
+        color: Colors.white,
+      ),
+      onPressed: () => save(''),
     );
   }
 
@@ -117,10 +130,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildCard(DocumentSnapshot dr) {
     return ListTile(
-      onTap: () {
-        widget._save(dr['name']);
-        Navigator.pop(context);
-      },
+      onTap: () => save(dr['name']),
       title: Text(
         dr['name'],
         style: myStyle.style20Color1(),
@@ -139,5 +149,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       _filter = '';
       _textEditingController = TextEditingController(text: '');
     });
+  }
+
+  void save(String v) {
+    widget._save(v);
+    Navigator.pop(context);
   }
 }

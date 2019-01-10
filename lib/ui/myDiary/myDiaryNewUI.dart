@@ -21,6 +21,8 @@ class _UIState extends State<UI> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool _customerValid = true;
   String _customer = '';
+  DateTime _beginDate = DateTime.now();
+  DateTime _endDate = DateTime.now();
   TimeOfDay _beginTime = TimeOfDay.now();
   TimeOfDay _endTime = TimeOfDay.now();
   String _note = '';
@@ -136,7 +138,9 @@ class _UIState extends State<UI> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              myLanguage.text(_text),
+              myLanguage.text(_text) +
+                  ' ' +
+                  myDateTime.formatDateAndShort(_beginDate),
               style: myStyle.style12Color3(),
             ),
             Padding(
@@ -248,12 +252,23 @@ class _UIState extends State<UI> {
   }
 
   void _chooseBeginTime() async {
+    DateTime _beginDateNew = await showDatePicker(
+      firstDate: DateTime.now().add(Duration(days: -10)),
+      lastDate: DateTime.now().add(Duration(days: 1)),
+      context: context,
+      initialDate: _beginDate,
+    );
+
+    if (_beginDateNew == null) return;
+    _beginDate = _beginDateNew;
     TimeOfDay v =
         await showTimePicker(context: context, initialTime: _beginTime);
 
     if (v != null) {
       setState(() {
         _beginTime = v;
+        _beginDate = DateTime.utc(_beginDate.year, _beginDate.month,
+            _beginDate.day, _beginTime.hour, _beginTime.minute);
       });
     }
   }
@@ -264,6 +279,9 @@ class _UIState extends State<UI> {
     if (v != null) {
       setState(() {
         _endTime = v;
+        _endDate = DateTime.utc(_beginDate.year, _beginDate.month,
+            _beginDate.day, _endTime.hour, _endTime.minute);
+
         FocusScope.of(context).requestFocus(_focusNode1);
       });
     }
@@ -285,15 +303,6 @@ class _UIState extends State<UI> {
   void _save() async {
     if (_saveValidator() == true) {
       formKey.currentState.save();
-      DateTime _beginDate = DateTime.now();
-
-      _beginDate = DateTime.utc(_beginDate.year, _beginDate.month,
-          _beginDate.day, _beginTime.hour, _beginTime.minute);
-
-      DateTime _endDate = DateTime.now();
-      _endDate = DateTime.utc(_endDate.year, _endDate.month, _endDate.day,
-          _endTime.hour, _endTime.minute);
-
       if (await controlMyDiary.save(scaffoldKey, _customer, _beginDate,
               _endDate, _note, _amount, _typeIs.index) ==
           true) {
