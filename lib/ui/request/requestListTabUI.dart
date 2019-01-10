@@ -40,7 +40,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           .drNow.data['followUpEmployeeRequest']
           .toString()
           .toLowerCase() +
-      ' ,';
+      ', ';
 
   String _search = '';
   TextEditingController _searchController = TextEditingController(text: '');
@@ -54,7 +54,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               .drNow.data['followUpEmployeeRequest']
               .toString()
               .toLowerCase() +
-          ' ,';
+          ', ';
     });
   }
 
@@ -373,8 +373,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   bool cardValid(DocumentSnapshot dr) {
     bool followUpEmployeeRequest = (_followUpEmployeeRequest
-            .contains(dr['employee'].toString().toLowerCase() + ' ,') ||
+            .contains(dr['employee'].toString().toLowerCase() + ',') ||
         controlUser.drNow.data['name'].toString().toLowerCase() == 'admin');
+
+    if (followUpEmployeeRequest == false) return false;
 
     return (dr['customer'] +
                 dr['typeIs'] +
@@ -386,9 +388,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             ? true
             : dr['typeIs'] == widget.filterByType) &&
         (widget.filterByEmployee.isEmpty
-            ? followUpEmployeeRequest
-            : (dr['employee'] == widget.filterByEmployee) &&
-                followUpEmployeeRequest);
+            ? true
+            : dr['employee'] == widget.filterByEmployee);
   }
 
   void _searchApply(String v) {

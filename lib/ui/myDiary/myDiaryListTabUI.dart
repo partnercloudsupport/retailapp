@@ -32,9 +32,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   TextEditingController _searchController;
   AnimationController _ac;
   String _followUpUserMyDiary = controlUser.drNow.data['name'] +
-      ' ,' +
+      ', ' +
       controlUser.drNow.data['followUpUserMyDiary'].toString().toLowerCase() +
-      ' ,';
+      ', ';
   UIState(this._searchText);
 
   @override
@@ -46,11 +46,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
     setState(() {
       _followUpUserMyDiary = controlUser.drNow.data['name'] +
-          ' ,' +
+          ', ' +
           controlUser.drNow.data['followUpUserMyDiary']
               .toString()
               .toLowerCase() +
-          ' ,';
+          ', ';
     });
   }
 
@@ -299,12 +299,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   bool cardValid(DocumentSnapshot dr) {
-    bool itIsMe =
-        (controlUser.drNow.data['name'].toString().toLowerCase() == 'admin');
-
     bool followUpUserMyDiary = (_followUpUserMyDiary
-            .contains(dr['user'].toString().toLowerCase() + ' ,') ||
-        itIsMe);
+            .contains(dr['user'].toString().toLowerCase() + ',') ||
+        controlUser.drNow.data['name'].toString().toLowerCase() == 'admin');
+
+    if (followUpUserMyDiary == false) return false;
 
     return (dr['customer'] + dr['note'] + dr['user'])
             .toLowerCase()
