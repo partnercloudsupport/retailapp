@@ -9,8 +9,8 @@ import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 
 String _name = 'callerLog';
 
-Future<bool> editNote(GlobalKey<ScaffoldState> scaffoldKey, String key,
-    String noteIs, double amount, int typeIs) async {
+Future<bool> editNote(
+    GlobalKey<ScaffoldState> scaffoldKey, String key, String noteIs) async {
   try {
     await Firestore.instance
         .collection(_name)

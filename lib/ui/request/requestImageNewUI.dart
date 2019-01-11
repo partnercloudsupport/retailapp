@@ -1,107 +1,25 @@
-import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:retailapp/asset_view.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:flutter_multiple_image_picker/flutter_multiple_image_picker.dart';
+import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
-
-import 'dart:async';
-import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:retailapp/ui//all/imageViewAsset.dart' as imageViewAsset;
 
 class UI extends StatefulWidget {
   final double _requestID;
   UI(this._requestID);
-
-  _UIState2 createState() => _UIState2();
-}
-
-class _UIState2 extends State<UI> {
-  List<Asset> images = List<Asset>();
-  String _error = 'No Error Dectected';
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget buildGridView() {
-    return GridView.count(
-      crossAxisCount: 3,
-      children: List.generate(images.length, (index) {
-        return AssetView(index, images[index]);
-      }),
-    );
-  }
-
-  Future<void> loadAssets() async {
-    setState(() {
-      images = List<Asset>();
-    });
-
-    List<Asset> resultList = List<Asset>();
-    String error = 'No Error Dectected';
-
-    try {
-      resultList =
-          await MultiImagePicker.pickImages(maxImages: 10, enableCamera: false);
-    } on PlatformException catch (e) {
-      error = e.message;
-    } catch (e) {
-      error = e.toString();
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      images = resultList;
-      _error = error;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Plugin example app'),
-        ),
-        body: Column(
-          children: <Widget>[
-            Center(child: Text('Error: $_error')),
-            RaisedButton(
-              child: Text("Pick images"),
-              onPressed: loadAssets,
-            ),
-            RaisedButton(
-              child: Text("save"),
-              onPressed: _save,
-            ),
-            Expanded(
-              child: buildGridView(),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _save() async {
-    images.forEach((i) async {
-      await controlRequestImage.save2(widget._requestID, '', i);
-    });
-    Navigator.pop(context);
-  }
+  _UIState createState() => _UIState();
 }
 
 class _UIState extends State<UI> {
   final formKey = GlobalKey<FormState>();
   String _note = '';
   final FocusNode _focusNode1 = new FocusNode();
-  List _images;
+  List<Asset> _images = List<Asset>();
 
   @override
   Widget build(BuildContext context) {
@@ -155,10 +73,12 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildImageList() {
-    return _images != null
-        ? ListView.builder(
-            itemBuilder: _buildImage,
-            itemCount: _images.length,
+    return _images.length > 0
+        ? GridView.count(
+            crossAxisCount: 3,
+            children: List.generate(_images.length, (index) {
+              return imageViewAsset.UI(_images[index]);
+            }),
           )
         : Container(
             child: new Icon(
@@ -169,20 +89,9 @@ class _UIState extends State<UI> {
           );
   }
 
-  Widget _buildImage(BuildContext context, int i) {
-    return ListTile(
-      title: Container(
-        child: Image.file(
-          File(_images[i].toString()),
-        ),
-        height: 250,
-      ),
-    );
-  }
-
   Widget _buildLoadImage() {
     return RaisedButton.icon(
-        onPressed: _loadImage,
+        onPressed: _loadAssets,
         icon: Icon(
           Icons.image,
           color: myColor.color1,
@@ -206,16 +115,30 @@ class _UIState extends State<UI> {
     );
   }
 
-  void _loadImage() async {
-    List resultList;
-    try {
-      resultList = await FlutterMultipleImagePicker.pickMultiImages(5, false);
-      setState(() {
-        _images = resultList;
-      });
+  // void _loadImage() async {
+  //   List resultList;
+  //   try {
+  //     resultList = await FlutterMultipleImagePicker.pickMultiImages(5, false);
+  //     setState(() {
+  //       _images = resultList;
+  //     });
 
-      FocusScopeNode().requestFocus(_focusNode1);
+  //     FocusScopeNode().requestFocus(_focusNode1);
+  //   } catch (e) {}
+  // }
+
+  Future<void> _loadAssets() async {
+    List<Asset> resultList = List<Asset>();
+    try {
+      resultList =
+          await MultiImagePicker.pickImages(maxImages: 10, enableCamera: false);
     } catch (e) {}
+
+    if (!mounted || resultList == null || resultList.length == 0) return;
+
+    setState(() {
+      _images = resultList;
+    });
   }
 
   bool _saveValidator() {
@@ -230,10 +153,9 @@ class _UIState extends State<UI> {
   void _save() async {
     if (_saveValidator() == true) {
       _images.forEach((i) async {
-        print(i);
-        // await controlRequestImage.save(widget._requestID, _note, i);
+        await controlRequestImage.save2(widget._requestID, _note, i);
       });
-      //  Navigator.pop(context);
+      Navigator.pop(context);
     }
   }
 }

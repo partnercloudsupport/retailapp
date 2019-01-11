@@ -22,8 +22,9 @@ String _customer;
 
 class UI extends StatefulWidget {
   UI({String customer = '', String requiredImplementation = ''}) {
-    _requiredImplementation = requiredImplementation;
-    _customer = customer;
+    if (requiredImplementation.trim().isNotEmpty)
+      _requiredImplementation = requiredImplementation;
+    if (customer.trim().isNotEmpty) _customer = customer;
   }
   _UIState createState() => _UIState();
 }
@@ -239,12 +240,17 @@ class _UIState extends State<UI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => customerSelectUI.UI(_chooseCustomer)));
+            builder: (context) => customerSelectUI.UI(
+                  _chooseCustomer,
+                  withNew: true,
+                )));
   }
 
   void _chooseCustomer(String v) {
     setState(() {
       _customer = v;
+      print(v);
+      print(_customer);
     });
   }
 

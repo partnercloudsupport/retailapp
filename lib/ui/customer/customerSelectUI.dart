@@ -142,6 +142,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   Widget _buildCard(DocumentSnapshot dr) {
     return ListTile(
       onTap: () {
+
+        print(dr['name']);
+        
         widget._save(dr['name']);
         Navigator.pop(context);
       },

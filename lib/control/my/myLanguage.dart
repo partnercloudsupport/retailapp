@@ -95,13 +95,18 @@ enum item {
   weCantGetPermissionForYou,
   edit,
   win,
-  view
+  view,
+  editACallLog,
 }
+
 String languageApp = 'en-US';
 //String languageApp = 'ar-AR';
 
 String _textEN(item t) {
   switch (t) {
+    case item.editACallLog:
+      return 'Edit a call log';
+      break;
     case item.view:
       return 'View';
       break;
@@ -392,6 +397,9 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.editACallLog:
+      return 'تعديل سجل الاتصال';
+      break;
     case item.view:
       return 'عرض';
       break;

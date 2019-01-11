@@ -7,6 +7,7 @@ import 'package:retailapp/control/CallerLog/controlCallerLog.dart'
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
+import 'package:retailapp/ui/callerLog/callerLogEditUI.dart' as callerLogEditUI;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> querySnapshot;
@@ -310,8 +311,8 @@ class _UIState extends State<UI> {
   }
 
   void _edit(DocumentSnapshot dr) {
-    // Navigator.push(
-    //     context, MaterialPageRoute(builder: (context) => myDiaryEditUI.UI(dr)));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => callerLogEditUI.UI(dr)));
   }
 
   @override

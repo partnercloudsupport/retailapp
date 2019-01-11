@@ -1,21 +1,20 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_multiple_image_picker/flutter_multiple_image_picker.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/request/controlRequest.dart'
-    as controlRequest;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
-import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
+import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
+import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
+import 'package:retailapp/control/request/controlRequest.dart'
+    as controlRequest;
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
+import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:retailapp/ui//all/imageViewAsset.dart' as imageViewAsset;
 
 class UI extends StatefulWidget {
   final DocumentSnapshot dr;
@@ -32,7 +31,7 @@ class _UIState extends State<UI> {
   String _deleteNote = '';
   final FocusNode _focusNode1 = FocusNode();
   final FocusNode _focusNode2 = FocusNode();
-  List _images;
+  List<Asset> _images = List<Asset>();
 
   @override
   Widget build(BuildContext context) {
@@ -146,10 +145,12 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildImageList() {
-    return _images != null
-        ? ListView.builder(
-            itemBuilder: _buildImage,
-            itemCount: _images.length,
+    return _images.length > 0
+        ? GridView.count(
+            crossAxisCount: 3,
+            children: List.generate(_images.length, (index) {
+              return imageViewAsset.UI(_images[index]);
+            }),
           )
         : Container(
             child: new Icon(
@@ -160,20 +161,9 @@ class _UIState extends State<UI> {
           );
   }
 
-  Widget _buildImage(BuildContext context, int i) {
-    return ListTile(
-      title: Container(
-        child: Image.file(
-          File(_images[i].toString()),
-        ),
-        height: 250,
-      ),
-    );
-  }
-
   Widget _buildLoadImage() {
     return RaisedButton.icon(
-        onPressed: _loadImage,
+        onPressed: _loadAssets,
         icon: Icon(
           Icons.image,
           color: myColor.color1,
@@ -203,16 +193,18 @@ class _UIState extends State<UI> {
     FocusScope.of(context).requestFocus(_focusNode1);
   }
 
-  void _loadImage() async {
-    List resultList;
+  Future<void> _loadAssets() async {
+    List<Asset> resultList = List<Asset>();
     try {
-      resultList = await FlutterMultipleImagePicker.pickMultiImages(5, false);
-      setState(() {
-        _images = resultList;
-      });
-
-      FocusScopeNode().requestFocus(_focusNode1);
+      resultList =
+          await MultiImagePicker.pickImages(maxImages: 10, enableCamera: false);
     } catch (e) {}
+
+    if (!mounted || resultList == null || resultList.length == 0) return;
+
+    setState(() {
+      _images = resultList;
+    });
   }
 
   bool _saveValidator() {
@@ -230,7 +222,7 @@ class _UIState extends State<UI> {
     if (_saveValidator() == true) {
       if (_images != null) {
         _images.forEach((i) async {
-          await controlRequestImage.save(
+          await controlRequestImage.save2(
               double.parse(widget.dr.documentID), _deleteNote, i);
         });
       }
