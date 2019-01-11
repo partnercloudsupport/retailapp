@@ -127,6 +127,14 @@ Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
 }
 
+Stream<QuerySnapshot> getOnlyIsEnabled() {
+  return Firestore.instance
+      .collection(_name)
+      .where('isEnabled', isEqualTo: true)
+      .orderBy('name')
+      .snapshots();
+}
+
 Future<bool> addSomeColumn() async {
   try {
     var i = await Firestore.instance.collection(_name).getDocuments();
@@ -136,7 +144,7 @@ Future<bool> addSomeColumn() async {
           .collection(_name)
           .document(ii.documentID)
           .updateData({
-        "followUpUserMyDiary": '',
+        "isEnabled": true,
       });
     });
     print('Saved');

@@ -138,9 +138,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         context,
         MaterialPageRoute(
             builder: (context) => selectWithFilterUI.UI(
-                  controlUser.getAll(),
+                  controlUser.getOnlyIsEnabled(),
                   _filterApply,
-                  myLanguage.text(myLanguage.item.chooseAnEmployee),
+                  myLanguage.text(myLanguage.item.chooseAnUser),
                   autofocus: false,
                 )));
   }

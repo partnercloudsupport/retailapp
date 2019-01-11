@@ -97,6 +97,7 @@ enum item {
   win,
   view,
   editACallLog,
+  chooseAnUser
 }
 
 String languageApp = 'en-US';
@@ -104,6 +105,9 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.chooseAnUser:
+      return 'Choose a user';
+      break;
     case item.editACallLog:
       return 'Edit a call log';
       break;
@@ -397,6 +401,9 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.chooseAnUser:
+      return 'اختيار مستخدم';
+      break;
     case item.editACallLog:
       return 'تعديل سجل الاتصال';
       break;

@@ -141,3 +141,18 @@ DateTime getLess(DateTime v, DateTime v1) {
 DateTime getBiggest(DateTime v, DateTime v1) {
   return v.isAfter(v1) ? v : v1;
 }
+
+int castDateNowToInt({int addNumber = 0}) {
+  try {
+    DateTime v = DateTime.now();
+    return v.year + v.month + v.day + addNumber;
+  } catch (e) {}
+  return 0;
+}
+
+int castDateToInt(DateTime v, {int addNumber = 0}) {
+  try {
+    return v.year + v.month + v.day + addNumber;
+  } catch (e) {}
+  return 0;
+}

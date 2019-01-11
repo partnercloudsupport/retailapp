@@ -19,16 +19,16 @@ import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
 import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
 import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
+import 'package:retailapp/control/request/controlRequest.dart'
+    as controlRequest;
 
 class UI extends StatefulWidget {
-  final Stream<QuerySnapshot> _querySnapshot;
-  final int _statusIs;
-  final int _stageIs;
   final bool _searchActive;
+  final controlRequest.TypeView _typeView;
   final String filterByType;
   final String filterByEmployee;
 
-  UI(this._querySnapshot, this._statusIs, this._stageIs, this._searchActive,
+  UI(this._searchActive, this._typeView,
       {this.filterByType = '', this.filterByEmployee = ''});
 
   @override
@@ -129,7 +129,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildList() {
     return StreamBuilder<QuerySnapshot>(
-      stream: widget._querySnapshot,
+      stream: controlRequest.getAllOrderByEmployee(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return _buildLoading();
         return ListView(
@@ -150,68 +150,64 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildCard(DocumentSnapshot dr) {
-    return dr['statusIs'] == widget._statusIs &&
-            dr['stageIs'] >= widget._stageIs
-        ? Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ExpansionTile(
-                  leading: Text(dr['employee']),
-                  title: Padding(
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          ExpansionTile(
+            leading: Text(dr['employee']),
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                dr['customer'],
+                style: myStyle.style16Color1Italic(),
+              ),
+            ),
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
+                    child: Text(dr['requiredImplementation'],
+                        style: myStyle.style16Color1Italic()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(dr['typeIs']),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
                     child: Text(
-                      dr['customer'],
-                      style: myStyle.style16Color1Italic(),
+                      myDateTime.formatAndShortByFromString(
+                          dr['appointment'].toString(),
+                          myDateTime.Types.ddMMyyyyhhmma),
+                      textAlign: TextAlign.end,
+                      style: myStyle.style12Color3(),
                     ),
                   ),
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(dr['requiredImplementation'],
-                              style: myStyle.style16Color1Italic()),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(dr['typeIs']),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
-                          child: Text(
-                            myDateTime.formatAndShortByFromString(
-                                dr['appointment'].toString(),
-                                myDateTime.Types.ddMMyyyyhhmma),
-                            textAlign: TextAlign.end,
-                            style: myStyle.style12Color3(),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Wrap(
-                            alignment: WrapAlignment.spaceBetween,
-                            children: <Widget>[
-                              _buildNote(dr),
-                              _buildImage(dr),
-                              _buildViewMap(dr),
-                              _buildEditMap(dr),
-                              _buildWin(dr),
-                              _buildEdit(dr),
-                              _buildNeedInsertOrUpdate(dr)
-                            ],
-                          ),
-                        ),
+                        _buildNote(dr),
+                        _buildImage(dr),
+                        _buildViewMap(dr),
+                        _buildEditMap(dr),
+                        _buildWin(dr),
+                        _buildEdit(dr),
+                        _buildNeedInsertOrUpdate(dr)
                       ],
-                    )
-                  ],
-                ),
-              ],
-            ),
-          )
-        : SizedBox();
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildNote(DocumentSnapshot dr) {
@@ -372,11 +368,34 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   bool cardValid(DocumentSnapshot dr) {
-    bool followUpEmployeeRequest = (_followUpEmployeeRequest
-            .contains(dr['employee'].toString().toLowerCase() + ',') ||
-        controlUser.drNow.data['name'].toString().toLowerCase() == 'admin');
+    int dateNumber = myDateTime.castDateToInt(dr['appointment']);
 
-    if (followUpEmployeeRequest == false) return false;
+    switch (widget._typeView) {
+      case controlRequest.TypeView.today:
+        if (dateNumber != myDateTime.castDateNowToInt() ||
+            dr['statusIs'] == 1 ||
+            dr['stageIs'] < 3) return false;
+        break;
+      case controlRequest.TypeView.tomorrow:
+        if (dateNumber != myDateTime.castDateNowToInt(addNumber: 1) ||
+            dr['statusIs'] == 1 ||
+            dr['stageIs'] < 3) return false;
+        break;
+      case controlRequest.TypeView.all:
+        if (dr['statusIs'] == 1 || dr['stageIs'] < 3) return false;
+        break;
+      case controlRequest.TypeView.pending:
+        if (dr['statusIs'] != 1) return false;
+        break;
+
+      default:
+    }
+
+    if ((_followUpEmployeeRequest
+                .contains(dr['employee'].toString().toLowerCase() + ',') ||
+            controlUser.drNow.data['name'].toString().toLowerCase() ==
+                'admin') ==
+        false) return false;
 
     return (dr['customer'] +
                 dr['typeIs'] +

@@ -8,6 +8,13 @@ import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 String _name = 'request';
 
+enum TypeView {
+  all,
+  today,
+  tomorrow,
+  pending,
+}
+
 Future<bool> save(
   GlobalKey<ScaffoldState> scaffoldKey,
   String customer,
@@ -97,18 +104,8 @@ Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
 }
 
-Stream<QuerySnapshot> getToday() {
-  return Firestore.instance
-      .collection(_name)
-      .where('appointment',
-          isGreaterThanOrEqualTo: DateTime.utc(DateTime.now().year,
-              DateTime.now().month, DateTime.now().day, -2))
-      .where(
-        'appointment',
-        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
-            DateTime.now().month, DateTime.now().day, 22, 60, 60),
-      )
-      .snapshots();
+Stream<QuerySnapshot> getAllOrderByEmployee() {
+  return Firestore.instance.collection(_name).orderBy('employee').snapshots();
 }
 
 Stream<QuerySnapshot> getTomorrow() {
