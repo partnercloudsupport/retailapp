@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
+import 'package:multi_image_picker/asset.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 import 'package:retailapp/dataAccess/request/requestImageRow.dart'
@@ -35,6 +37,37 @@ Future<bool> save(
             await reference.getDownloadURL(),
           ).toJson());
     });
+    return true;
+  } catch (e) {}
+
+  return false;
+}
+
+Future<bool> save2(
+  double requestID,
+  String note,
+  Asset asset,
+) async {
+  try {
+    String id = Uuid().v1();
+    String name = id + '.png';
+    StorageReference reference =
+        FirebaseStorage.instance.ref().child(_name + '/' + id);
+    ByteData byteData = await asset.requestOriginal();
+    List<int> imageData = byteData.buffer.asUint8List();
+    StorageUploadTask uploadTask = reference.putData(imageData);
+    uploadTask.onComplete.whenComplete(() async {
+      await Firestore.instance
+          .collection(_name)
+          .document(id)
+          .setData(requestImageRow.Row(
+            name,
+            requestID,
+            note,
+            await reference.getDownloadURL(),
+          ).toJson());
+    });
+    asset.releaseOriginal();
     return true;
   } catch (e) {}
 

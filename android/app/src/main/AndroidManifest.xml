@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -45,6 +45,16 @@
         </activity>
 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDTpeFc8xDiTnZ77siZ6ejzj-7qgvjuQ7U"/>
+
+        <provider
+            android:name="com.vitanov.multiimagepicker.MultiImagePickerFileProvider"
+            android:authorities="YOUR_PACKAGE_NAME_HERE.multiimagepicker.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public"></meta-data>
+        </provider>
 
     </application>
 </manifest>

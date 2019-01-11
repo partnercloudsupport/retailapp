@@ -182,6 +182,8 @@ class _UIState extends State<UI> {
   }
 
   void _showFilter() async {
+//controlCallerLog.addSomeColumn();
+
     var f = SimpleDialog(
       title: Directionality(
         textDirection: myLanguage.rtl(),

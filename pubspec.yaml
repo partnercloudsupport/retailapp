@@ -30,10 +30,11 @@ dependencies:
   flutter_masked_text: ^0.7.0
   geolocator: ^2.1.1
   super_tooltip: ^0.9.0
-  permission_handler: '^2.1.2'
-  
+  permission_handler: ^2.1.2
+  multi_image_picker: ^2.3.29
+
   #location: ^1.4.1
-  #multi_image_picker: ^2.2.55
+  #multi_image_picker: ^2.3.29
   #image_picker: ^0.4.10
     
   # The following adds the Cupertino Icons font to your application.

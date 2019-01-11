@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:retailapp/asset_view.dart';
 import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
@@ -8,11 +9,92 @@ import 'package:flutter_multiple_image_picker/flutter_multiple_image_picker.dart
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
 
+import 'dart:async';
+import 'package:multi_image_picker/multi_image_picker.dart';
+
 class UI extends StatefulWidget {
   final double _requestID;
   UI(this._requestID);
 
-  _UIState createState() => _UIState();
+  _UIState2 createState() => _UIState2();
+}
+
+class _UIState2 extends State<UI> {
+  List<Asset> images = List<Asset>();
+  String _error = 'No Error Dectected';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Widget buildGridView() {
+    return GridView.count(
+      crossAxisCount: 3,
+      children: List.generate(images.length, (index) {
+        return AssetView(index, images[index]);
+      }),
+    );
+  }
+
+  Future<void> loadAssets() async {
+    setState(() {
+      images = List<Asset>();
+    });
+
+    List<Asset> resultList = List<Asset>();
+    String error = 'No Error Dectected';
+
+    try {
+      resultList =
+          await MultiImagePicker.pickImages(maxImages: 10, enableCamera: false);
+    } on PlatformException catch (e) {
+      error = e.message;
+    } catch (e) {
+      error = e.toString();
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      _error = error;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Plugin example app'),
+        ),
+        body: Column(
+          children: <Widget>[
+            Center(child: Text('Error: $_error')),
+            RaisedButton(
+              child: Text("Pick images"),
+              onPressed: loadAssets,
+            ),
+            RaisedButton(
+              child: Text("save"),
+              onPressed: _save,
+            ),
+            Expanded(
+              child: buildGridView(),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _save() async {
+    images.forEach((i) async {
+      await controlRequestImage.save2(widget._requestID, '', i);
+    });
+    Navigator.pop(context);
+  }
 }
 
 class _UIState extends State<UI> {
@@ -148,9 +230,10 @@ class _UIState extends State<UI> {
   void _save() async {
     if (_saveValidator() == true) {
       _images.forEach((i) async {
-        await controlRequestImage.save(widget._requestID, _note, i);
+        print(i);
+        // await controlRequestImage.save(widget._requestID, _note, i);
       });
-      Navigator.pop(context);
+      //  Navigator.pop(context);
     }
   }
 }
