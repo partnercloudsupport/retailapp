@@ -38,28 +38,28 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           controller: _tabController,
           children: <Widget>[
             myDiaryListTabUI.UI(
-              controlMyDiary.getToday(),
+              controlMyDiary.TypeView.today,
               _searchActive,
               _searchText,
               _searchSetText,
               filterByUesr: filterByUser,
             ),
             myDiaryListTabUI.UI(
-              controlMyDiary.getYesterday(),
+              controlMyDiary.TypeView.yesterday,
               _searchActive,
               _searchText,
               _searchSetText,
               filterByUesr: filterByUser,
             ),
             myDiaryListTabUI.UI(
-              controlMyDiary.getLastWeek(),
+              controlMyDiary.TypeView.lastWeek,
               _searchActive,
               _searchText,
               _searchSetText,
               filterByUesr: filterByUser,
             ),
             myDiaryListTabUI.UI(
-              controlMyDiary.getAll(),
+              controlMyDiary.TypeView.all,
               _searchActive,
               _searchText,
               _searchSetText,
@@ -138,7 +138,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         context,
         MaterialPageRoute(
             builder: (context) => selectWithFilterUI.UI(
-                  controlUser.getOnlyIsEnabled(),
+                  controlUser.getAllOrderByName(),
                   _filterApply,
                   myLanguage.text(myLanguage.item.chooseAnUser),
                   autofocus: false,

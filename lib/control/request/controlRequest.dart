@@ -9,10 +9,10 @@ import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 String _name = 'request';
 
 enum TypeView {
-  all,
   today,
   tomorrow,
   pending,
+  all,
 }
 
 Future<bool> save(

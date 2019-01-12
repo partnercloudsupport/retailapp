@@ -10,16 +10,16 @@ import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
+import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 
 class UI extends StatefulWidget {
-  final Stream<QuerySnapshot> _querySnapshot;
+  final controlMyDiary.TypeView _typeView;
   final bool _searchActive;
   final String _searchText;
   final void Function(String) _searchSetText;
   final String filterByUesr;
 
-  UI(this._querySnapshot, this._searchActive, this._searchText,
-      this._searchSetText,
+  UI(this._typeView, this._searchActive, this._searchText, this._searchSetText,
       {this.filterByUesr = ''});
   @override
   UIState createState() => UIState(_searchText);
@@ -126,12 +126,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildList() {
     return StreamBuilder<QuerySnapshot>(
-      stream: widget._querySnapshot,
+      stream: controlMyDiary.getAllOrderByUser(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return ListView(
           children: v.data.documents.where((v) {
-            return cardValid(v);
+            return _cardValid(v);
           }).map((DocumentSnapshot dr) {
             return _buildCard(dr);
           }).toList(),
@@ -185,7 +185,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 ],
               ),
             ),
-            _buildTypeIs(dr['typeIs']),
+            controlMyDiary.buildType(dr['typeIs'], myColor.grey),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -246,10 +246,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Key fff = UniqueKey();
   Widget _buildDelete(DocumentSnapshot dr) {
     return InkWell(
-      key: fff,
+      key: UniqueKey(),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 5.0),
         child: Icon(
@@ -263,32 +262,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildTypeIs(int v) {
-    String t = 'lib/res/image/Prospect_001_32.png';
-
-    switch (v) {
-      case 0:
-        t = 'lib/res/image/Company_002_32.png';
-        break;
-      case 1:
-        t = 'lib/res/image/CallerID_003_32.png';
-        break;
-      case 2:
-        t = 'lib/res/image/Outdoor_001_32.png';
-        break;
-    }
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Image.asset(
-        t,
-        color: myColor.grey,
-        height: 16.0,
-        width: 16.0,
-      ),
-    );
-  }
-
   Widget _buildFloatingActionButton() {
     return FloatingActionButton(
       heroTag: UniqueKey(),
@@ -298,7 +271,25 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  bool cardValid(DocumentSnapshot dr) {
+  bool _cardValid(DocumentSnapshot dr) {
+    int dateNumber = myDateTime.castDateToInt(dr['beginDate']);
+
+    switch (widget._typeView) {
+      case controlMyDiary.TypeView.today:
+        if (dateNumber != myDateTime.castDateNowToInt()) return false;
+        break;
+      case controlMyDiary.TypeView.yesterday:
+        if (dateNumber != myDateTime.castDateNowToInt(addNumber: -1))
+          return false;
+        break;
+      case controlMyDiary.TypeView.lastWeek:
+        if (dateNumber <= myDateTime.castDateNowToInt(addNumber: -9) ||
+            dateNumber >= myDateTime.castDateNowToInt(addNumber: -1))
+          return false;
+        break;
+      default:
+    }
+
     bool followUpUserMyDiary = (_followUpUserMyDiary
             .contains(dr['user'].toString().toLowerCase() + ',') ||
         controlUser.drNow.data['name'].toString().toLowerCase() == 'admin');

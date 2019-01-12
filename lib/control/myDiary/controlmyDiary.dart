@@ -15,6 +15,55 @@ String _name = 'myDiary';
 
 enum TypeIs { showroom, outgoingCall, visitCustomer }
 
+enum TypeView {
+  today,
+  yesterday,
+  lastWeek,
+  all,
+}
+
+TypeIs typeCast(int i) {
+  switch (i) {
+    case 0:
+      return TypeIs.showroom;
+      break;
+    case 1:
+      return TypeIs.outgoingCall;
+      break;
+    case 2:
+      return TypeIs.visitCustomer;
+      break;
+    default:
+      return TypeIs.showroom;
+  }
+}
+
+Widget buildType(int v, Color color) {
+  String t = 'lib/res/image/Prospect_001_32.png';
+
+  switch (v) {
+    case 0:
+      t = 'lib/res/image/Company_002_32.png';
+      break;
+    case 1:
+      t = 'lib/res/image/CallerID_003_32.png';
+      break;
+    case 2:
+      t = 'lib/res/image/Outdoor_001_32.png';
+      break;
+  }
+
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Image.asset(
+      t,
+      color: color,
+      height: 16.0,
+      width: 16.0,
+    ),
+  );
+}
+
 Future<bool> save(
     GlobalKey<ScaffoldState> scaffoldKey,
     String customer,
@@ -86,9 +135,13 @@ Future<bool> delete(GlobalKey<ScaffoldState> scaffoldKey, String key) async {
 }
 
 Stream<QuerySnapshot> getAll() {
+  return Firestore.instance.collection(_name).snapshots();
+}
+
+Stream<QuerySnapshot> getAllOrderByUser() {
   return Firestore.instance
       .collection(_name)
-      .orderBy('beginDate', descending: true)
+      .orderBy('user', descending: true)
       .snapshots();
 }
 
@@ -176,20 +229,4 @@ Stream<QuerySnapshot> getBetweenData(DateTime fromDate, DateTime toDate) {
             DateTime.utc(toDate.year, toDate.month, toDate.day, 24, 60, 60),
       )
       .snapshots();
-}
-
-TypeIs typeIsCast(int i) {
-  switch (i) {
-    case 0:
-      return TypeIs.showroom;
-      break;
-    case 1:
-      return TypeIs.outgoingCall;
-      break;
-    case 2:
-      return TypeIs.visitCustomer;
-      break;
-    default:
-      return TypeIs.showroom;
-  }
 }

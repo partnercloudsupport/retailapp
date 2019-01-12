@@ -44,7 +44,7 @@ class _UIState extends State<UI> {
     _endTime = _endTime.replacing(hour: _endTime.hour);
     _note = widget.dr['note'];
     _amount = widget.dr['amount'];
-    _typeIs = controlMyDiary.typeIsCast(widget.dr['typeIs']);
+    _typeIs = controlMyDiary.typeCast(widget.dr['typeIs']);
     super.initState();
   }
 
@@ -242,6 +242,7 @@ class _UIState extends State<UI> {
             groupValue: _typeIs,
             onChanged: _chooseType,
           ),
+          controlMyDiary.buildType(valueIs.index, myColor.color1),
           Text(
             _text,
             style: myStyle.style15Color1(),

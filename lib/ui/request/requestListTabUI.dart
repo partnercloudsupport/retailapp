@@ -134,7 +134,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         if (!v.hasData) return _buildLoading();
         return ListView(
           children: v.data.documents.where((v) {
-            return cardValid(v);
+            return _cardValid(v);
           }).map((DocumentSnapshot dr) {
             return _buildCard(dr);
           }).toList(),
@@ -367,7 +367,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  bool cardValid(DocumentSnapshot dr) {
+  bool _cardValid(DocumentSnapshot dr) {
     int dateNumber = myDateTime.castDateToInt(dr['appointment']);
 
     switch (widget._typeView) {

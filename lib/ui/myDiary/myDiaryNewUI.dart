@@ -224,6 +224,7 @@ class _UIState extends State<UI> {
             groupValue: _typeIs,
             onChanged: _chooseType,
           ),
+          controlMyDiary.buildType(valueIs.index, myColor.color1),
           Text(
             _text,
             style: myStyle.style15Color1(),

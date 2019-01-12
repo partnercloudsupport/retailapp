@@ -127,12 +127,8 @@ Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
 }
 
-Stream<QuerySnapshot> getOnlyIsEnabled() {
-  return Firestore.instance
-      .collection(_name)
-      .where('isEnabled', isEqualTo: true)
-      .orderBy('name')
-      .snapshots();
+Stream<QuerySnapshot> getAllOrderByName() {
+  return Firestore.instance.collection(_name).orderBy('name').snapshots();
 }
 
 Future<bool> addSomeColumn() async {
