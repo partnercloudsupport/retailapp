@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
@@ -23,15 +26,17 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   BuildContext _context;
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   String _paidByEmployee = '';
   double _amount = 0;
   String _deleteNote = '';
   final FocusNode _focusNode1 = FocusNode();
   final FocusNode _focusNode2 = FocusNode();
-  List<Asset> _images = List<Asset>();
+  List<Asset> _imagesGallery = List<Asset>();
+  File _imageCamera;
+  bool _isPrivate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +44,7 @@ class _UIState extends State<UI> {
     return Directionality(
       textDirection: myLanguage.rtl(),
       child: Scaffold(
-        key: scaffoldKey,
+        key: _scaffoldKey,
         appBar: _buildAppBar(),
         body: _buildForm(),
       ),
@@ -69,7 +74,7 @@ class _UIState extends State<UI> {
     return Container(
       padding: EdgeInsets.all(10.0),
       child: Form(
-          key: formKey,
+          key: _formKey,
           child: ListView(
             children: <Widget>[
               _buildEmployee(),
@@ -77,9 +82,10 @@ class _UIState extends State<UI> {
               _buildDeleteNote(),
               Container(
                 child: _buildImageList(),
-                height: 300,
+                height: 250,
               ),
               _buildLoadImage(),
+              _buildIsPrivate(),
             ],
           )),
     );
@@ -145,33 +151,68 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildImageList() {
-    return _images.length > 0
+    return _imagesGallery.length > 0
         ? GridView.count(
             crossAxisCount: 3,
-            children: List.generate(_images.length, (index) {
-              return imageViewAsset.UI(_images[index]);
+            children: List.generate(_imagesGallery.length, (index) {
+              return imageViewAsset.UI(_imagesGallery[index]);
             }),
           )
-        : Container(
-            child: new Icon(
-              Icons.image,
-              size: 250.0,
-              color: myColor.color1,
-            ),
-          );
+        : _imageCamera != null
+            ? Image.file(_imageCamera)
+            : Container(
+                child: new Icon(
+                  Icons.image,
+                  size: 250.0,
+                  color: myColor.color1,
+                ),
+              );
   }
 
   Widget _buildLoadImage() {
-    return RaisedButton.icon(
-        onPressed: _loadAssets,
-        icon: Icon(
-          Icons.image,
-          color: myColor.color1,
-        ),
-        label: Text(
-          "Load Images",
-          style: myStyle.style16Color1(),
-        ));
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        RaisedButton.icon(
+            onPressed: _loadImagesGallery,
+            icon: Icon(
+              Icons.image,
+              color: myColor.color1,
+            ),
+            label: Text(
+              myLanguage.text(myLanguage.item.chooseImages),
+              style: myStyle.style16Color1(),
+            )),
+        RaisedButton.icon(
+            onPressed: _takeImageCamera,
+            icon: Icon(
+              Icons.camera,
+              color: myColor.color1,
+            ),
+            label: Text(
+              myLanguage.text(myLanguage.item.captureAnImage),
+              style: myStyle.style16Color1(),
+            ))
+      ],
+    );
+  }
+
+  Widget _buildIsPrivate() {
+    return InkWell(
+      child: Row(
+        children: <Widget>[
+          Checkbox(
+            value: _isPrivate,
+            onChanged: (v) => chooseIsPrivate(),
+          ),
+          Text(
+            myLanguage.text(myLanguage.item.itsMyPrivateImages),
+            style: myStyle.style16Color1(),
+          )
+        ],
+      ),
+      onTap: chooseIsPrivate,
+    );
   }
 
   void _openChooseEmployee() {
@@ -193,7 +234,7 @@ class _UIState extends State<UI> {
     FocusScope.of(context).requestFocus(_focusNode1);
   }
 
-  Future<void> _loadAssets() async {
+  Future<void> _loadImagesGallery() async {
     List<Asset> resultList = List<Asset>();
     try {
       resultList =
@@ -203,13 +244,31 @@ class _UIState extends State<UI> {
     if (!mounted || resultList == null || resultList.length == 0) return;
 
     setState(() {
-      _images = resultList;
+      _imageCamera = null;
+      _imagesGallery = resultList;
+    });
+  }
+
+  Future _takeImageCamera() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      setState(() {
+        _imagesGallery.clear();
+        _imageCamera = image;
+      });
+    }
+  }
+
+  void chooseIsPrivate() {
+    setState(() {
+      _isPrivate = !_isPrivate;
     });
   }
 
   bool _saveValidator() {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
       return true;
     } else {
       return false;
@@ -220,13 +279,16 @@ class _UIState extends State<UI> {
 //await controlRequest.addSomeColumn();
 
     if (_saveValidator() == true) {
-      if (_images != null) {
-        _images.forEach((i) async {
-          await controlRequestImage.save2(
-              double.parse(widget.dr.documentID), _deleteNote, i);
+      if (_imagesGallery.length > 0) {
+        _imagesGallery.forEach((i) async {
+          await controlRequestImage.saveByAsset(
+              double.parse(widget.dr.documentID), _deleteNote, i, _isPrivate);
         });
+      } else if (_imageCamera != null) {
+        controlRequestImage.saveByFile(double.parse(widget.dr.documentID),
+            _deleteNote, _imageCamera, _isPrivate);
       }
-      if (await controlRequest.win(scaffoldKey, widget.dr.documentID,
+      if (await controlRequest.win(_scaffoldKey, widget.dr.documentID,
               _paidByEmployee, _amount, _deleteNote) ==
           true) {
         Navigator.pop(_context);

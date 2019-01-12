@@ -33,6 +33,7 @@ dependencies:
   permission_handler: ^2.1.2
   multi_image_picker: ^2.3.29
 
+
   #location: ^1.4.1
   #multi_image_picker: ^2.3.29
   image_picker: ^0.4.12

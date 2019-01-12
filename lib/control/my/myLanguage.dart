@@ -97,7 +97,10 @@ enum item {
   win,
   view,
   editACallLog,
-  chooseAnUser
+  chooseAnUser,
+  chooseImages,
+  captureAnImage,
+  itsMyPrivateImages
 }
 
 String languageApp = 'en-US';
@@ -105,6 +108,15 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.itsMyPrivateImages:
+      return 'It\'s my private images';
+      break;
+    case item.captureAnImage:
+      return 'Capture an image';
+      break;
+    case item.chooseImages:
+      return 'Choose images';
+      break;
     case item.chooseAnUser:
       return 'Choose a user';
       break;
@@ -401,6 +413,15 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.itsMyPrivateImages:
+      return 'انها صورتي الخاصة';
+      break;
+    case item.captureAnImage:
+      return 'التقاط صورة';
+      break;
+    case item.chooseImages:
+      return 'اختر الصور';
+      break;
     case item.chooseAnUser:
       return 'اختيار مستخدم';
       break;

@@ -13,10 +13,11 @@ import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 String _name = 'requestImage';
 
-Future<bool> save(
+Future<bool> saveByPath(
   double requestID,
   String note,
   String pathImage,
+  bool isPrivate,
 ) async {
   try {
     String id = Uuid().v1();
@@ -35,6 +36,7 @@ Future<bool> save(
             requestID,
             note,
             await reference.getDownloadURL(),
+            isPrivate,
           ).toJson());
     });
     return true;
@@ -43,10 +45,11 @@ Future<bool> save(
   return false;
 }
 
-Future<bool> save2(
+Future<bool> saveByAsset(
   double requestID,
   String note,
   Asset asset,
+  bool isPrivate,
 ) async {
   try {
     String id = Uuid().v1();
@@ -65,9 +68,42 @@ Future<bool> save2(
             requestID,
             note,
             await reference.getDownloadURL(),
+            isPrivate,
           ).toJson());
     });
     asset.releaseOriginal();
+    return true;
+  } catch (e) {}
+
+  return false;
+}
+
+Future<bool> saveByFile(
+  double requestID,
+  String note,
+  File image,
+  bool isPrivate,
+) async {
+  try {
+    String id = Uuid().v1();
+    String name = id + '.png';
+    StorageReference reference =
+        FirebaseStorage.instance.ref().child(_name + '/' + id);
+
+    StorageUploadTask uploadTask = reference.putFile(image);
+
+    uploadTask.onComplete.whenComplete(() async {
+      await Firestore.instance
+          .collection(_name)
+          .document(id)
+          .setData(requestImageRow.Row(
+            name,
+            requestID,
+            note,
+            await reference.getDownloadURL(),
+            isPrivate,
+          ).toJson());
+    });
     return true;
   } catch (e) {}
 
@@ -109,7 +145,8 @@ Future<bool> addSomeColumn() async {
       await Firestore.instance
           .collection(_name)
           .document(ii.documentID)
-          .updateData({"needDelete": false, "deleteByUserID": 0});
+          .updateData(
+              {"needDelete": false, "deleteByUserID": 0, "isPrivate": false});
     });
 
     return true;

@@ -15,16 +15,17 @@ class Row {
   bool needUpdate;
   bool needDelete;
   int deleteByUserID;
+  bool isPrivate;
 
-  Row(this.name, this.requestID, this.note, this.pathImage,
+  Row(this.name, this.requestID, this.note, this.pathImage, this.isPrivate,
       {this.needInsert = true}) {
     this.user = controlUser.drNow.data['name'];
-    this.userID = 0;
+    this.userID = int.parse(controlUser.drNow.documentID);
     this.stageIs = 3;
     this.dateTimeIs = DateTime.now();
     this.needUpdate = !this.needInsert;
     this.needDelete = false;
-    this.deleteByUserID = 0;
+    this.deleteByUserID = int.parse(controlUser.drNow.documentID);
   }
 
   Row.fromSnapshot(DataSnapshot snapshot) {
@@ -41,6 +42,7 @@ class Row {
     needUpdate = snapshot.value["needUpdate"];
     needDelete = snapshot.value["needDelete"];
     deleteByUserID = snapshot.value["deleteByUserID"];
+    isPrivate = snapshot.value["isPrivate"];
   }
 
   toJson() {
@@ -57,6 +59,7 @@ class Row {
       "needUpdate": needUpdate,
       "needDelete": needDelete,
       "deleteByUserID": deleteByUserID,
+      "isPrivate": isPrivate,
     };
   }
 }

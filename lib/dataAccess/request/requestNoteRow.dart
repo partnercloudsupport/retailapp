@@ -14,7 +14,7 @@ class Row {
 
   Row(this.requestID, this.note, {this.needInsert = true}) {
     this.user = controlUser.drNow.data['name'];
-    this.userID = 0;
+    this.userID = int.parse(controlUser.drNow.documentID);
     this.stageIs = 3;
     this.dateTimeIs = DateTime.now();
     this.needUpdate = !this.needInsert;

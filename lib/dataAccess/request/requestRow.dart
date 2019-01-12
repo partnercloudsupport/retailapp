@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 class Row {
   String key;
@@ -52,7 +53,7 @@ class Row {
 
     this.needUpdate = !this.needInsert;
     this.needDelete = false;
-    this.deleteByUserID = 0;
+    this.deleteByUserID = int.parse(controlUser.drNow.documentID);
     this.deleteNote = '';
   }
 

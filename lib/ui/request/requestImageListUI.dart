@@ -9,6 +9,7 @@ import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 import 'package:retailapp/ui/all/imageZoom.dart' as imageZoom;
 import 'package:retailapp/ui/request/requestImageNewUI.dart'
     as requestImageNewUI;
+import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 class UI extends StatefulWidget {
   final double requestID;
@@ -143,8 +144,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         return Flexible(
           child: ListView(
             children: v.data.documents.where((v) {
-              return (v['user'] + v['note']).toLowerCase().contains(_filter) &&
-                  v['requestID'] == widget.requestID;
+              return _cardValid(v);
             }).map((DocumentSnapshot dr) {
               return _buildCard(dr);
             }).toList(),
@@ -164,7 +164,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Text(
-                dr['note'],
+                dr['note'] + dr.documentID,
               ),
             ),
             Row(
@@ -281,6 +281,24 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       onPressed: _new,
       backgroundColor: myColor.color1,
     );
+  }
+
+  bool _cardValid(DocumentSnapshot dr) {
+    if (dr['requestID'] != widget.requestID) return false;
+
+    if ((dr['user'] + dr['note']).toLowerCase().contains(_filter) == false)
+      return false;
+
+    if (controlUser.drNow.data['name'].toString().toLowerCase() == 'admin')
+      return true;
+
+    //for some time
+    if (dr['isPrivate'] == null) return true;
+
+    if (dr['isPrivate'] == true && dr['userID'] != controlUser.drNow.documentID)
+      return false;
+
+    return true;
   }
 
   void _delete(DocumentSnapshot dr) {

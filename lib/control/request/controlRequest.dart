@@ -69,6 +69,7 @@ Future<bool> edit(
       "salseman": salseman.trim().isEmpty ? '-' : salseman,
       "typeIs": typeIs.trim().isEmpty ? '-' : typeIs,
       "needUpdate": true,
+      "deleteByUserID": int.parse(controlUser.drNow.documentID),
     });
 
     controlLiveVersion.save(_name);
