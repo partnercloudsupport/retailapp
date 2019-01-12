@@ -52,7 +52,11 @@
     <key>NSMicrophoneUsageDescription</key>
 	<string>Your Microphone is required for this app</string>
 	<key>io.flutter.embedded_views_preview</key>
-	<<value>YES</value>
+	<value>YES</value>
+    <key>NSCameraUsageDescription</key>
+    <string>Can I use the camera please?</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Can I use the mic please?</string>
 
 </dict>
 </plist>

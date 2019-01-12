@@ -11,6 +11,7 @@ import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/ff.dart' as ff;
 
 class UI extends StatefulWidget {
   final controlMyDiary.TypeView _typeView;
@@ -324,8 +325,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _new() async {
+
+    
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => myDiaryNewUI.UI()));
+        context, MaterialPageRoute(builder: (context) => ff.UI()));
   }
 
   void _edit(DocumentSnapshot dr) {
