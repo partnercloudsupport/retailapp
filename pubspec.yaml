@@ -63,6 +63,7 @@ flutter:
     - lib/res/image/CallerID_003_32.png
     - lib/res/image/Close_004_32.png
     - lib/res/image/Company_002_32.png
+    - lib/res/image/ic_launcher_001_96.png
     - lib/res/image/Installation_001_32.png
     - lib/res/image/MoneyCollection_001_32.png
     - lib/res/image/My_Diary_001_32.png

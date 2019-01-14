@@ -102,7 +102,8 @@ enum item {
   captureAnImage,
   itsMyPrivateImages,
   determineThePeriodOfTime,
-  filterIsAppliedOnlyToAPageAllPending
+  filterIsAppliedOnlyToAPageAllPending,
+  me
 }
 
 String languageApp = 'en-US';
@@ -110,6 +111,9 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.me:
+      return 'Me';
+      break;
     case item.filterIsAppliedOnlyToAPageAllPending:
       return 'Filter is applied only to a page (All - Pending)';
       break;
@@ -421,6 +425,9 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.me:
+      return 'أنا';
+      break;
     case item.filterIsAppliedOnlyToAPageAllPending:
       return 'يتم تطبيق التصفية فقط على صفحة (الكل - المعلق)';
       break;

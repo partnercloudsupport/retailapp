@@ -21,6 +21,8 @@ import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
 import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
+import 'package:retailapp/control/permission/controlPermission.dart'
+    as controlPermission;
 
 class UI extends StatefulWidget {
   final bool _searchActive;
@@ -39,6 +41,10 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  bool _requestInsert = controlPermission.drNow.data['requestInsert'];
+  bool _requestEdit = controlPermission.drNow.data['requestEdit'];
+  bool _requestDelete = controlPermission.drNow.data['requestDelete'];
+
   String _followUpEmployeeRequest = controlUser
           .drNow.data['followUpEmployeeRequest']
           .toString()
@@ -51,18 +57,23 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   int _dateTomorrowNumber = myDateTime.castDateNowToInt(addNumber: 1);
   int dateFilterNumberFrom = 0;
   int dateFilterNumberTo = 0;
+  DocumentSnapshot drCustomer;
+  LatLng _mapLocation;
 
   @override
   void initState() {
     super.initState();
     controlUser.getMe();
-
+    controlPermission.getMe();
     setState(() {
       _followUpEmployeeRequest = controlUser
               .drNow.data['followUpEmployeeRequest']
               .toString()
               .toLowerCase() +
           ', ';
+      _requestInsert = controlPermission.drNow.data['requestInsert'];
+      _requestEdit = controlPermission.drNow.data['requestEdit'];
+      _requestDelete = controlPermission.drNow.data['requestDelete'];
     });
     dateFilterNumberFrom = myDateTime.castDateToInt(widget.filterFromDate);
     dateFilterNumberTo = myDateTime.castDateToInt(widget.filterToDate);
@@ -182,6 +193,24 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(dr['requiredImplementation'],
                         style: myStyle.style16Color1Italic()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FutureBuilder(
+                      future: controlCustomer
+                          .getDataRow(dr.data['customerID'].toString()),
+                      builder: (BuildContext b,
+                              AsyncSnapshot<DocumentSnapshot> v) =>
+                          v.data.documentID != '0'
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(myString.toMe(v.data.data['phones'])),
+                                    Text(v.data.data['address'].toString()),
+                                  ],
+                                )
+                              : SizedBox(),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -306,41 +335,45 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildWin(DocumentSnapshot dr) {
-    return InkWell(
-      child: Column(
-        children: <Widget>[
-          Image.asset(
-            'lib/res/image/Win_001_32.png',
-            color: myColor.color1,
-            width: 24,
-            height: 24,
-          ),
-          Text(
-            myLanguage.text(myLanguage.item.win),
-            style: myStyle.style14Color1(),
-          ),
-        ],
-      ),
-      onTap: () => _win(dr),
-    );
+    return _requestDelete
+        ? InkWell(
+            child: Column(
+              children: <Widget>[
+                Image.asset(
+                  'lib/res/image/Win_001_32.png',
+                  color: myColor.color1,
+                  width: 24,
+                  height: 24,
+                ),
+                Text(
+                  myLanguage.text(myLanguage.item.win),
+                  style: myStyle.style14Color1(),
+                ),
+              ],
+            ),
+            onTap: () => _win(dr),
+          )
+        : SizedBox();
   }
 
   Widget _buildEdit(DocumentSnapshot dr) {
-    return InkWell(
-      child: Column(
-        children: <Widget>[
-          Icon(
-            Icons.edit,
-            color: myColor.color1,
-          ),
-          Text(
-            myLanguage.text(myLanguage.item.edit),
-            style: myStyle.style14Color1(),
-          ),
-        ],
-      ),
-      onTap: () => _edit(dr),
-    );
+    return _requestEdit
+        ? InkWell(
+            child: Column(
+              children: <Widget>[
+                Icon(
+                  Icons.edit,
+                  color: myColor.color1,
+                ),
+                Text(
+                  myLanguage.text(myLanguage.item.edit),
+                  style: myStyle.style14Color1(),
+                ),
+              ],
+            ),
+            onTap: () => _edit(dr),
+          )
+        : SizedBox();
   }
 
   Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
@@ -370,12 +403,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      heroTag: UniqueKey(),
-      child: Icon(Icons.add),
-      onPressed: _new,
-      backgroundColor: myColor.color1,
-    );
+    return _requestInsert
+        ? FloatingActionButton(
+            heroTag: UniqueKey(),
+            child: Icon(Icons.add),
+            onPressed: _new,
+            backgroundColor: myColor.color1,
+          )
+        : null;
   }
 
   bool _cardValid(DocumentSnapshot dr) {
@@ -481,8 +516,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 drCustomer.data['mapLocation'])));
   }
 
-  DocumentSnapshot drCustomer;
-  LatLng _mapLocation;
   void _editMap(DocumentSnapshot dr) async {
     drCustomer =
         await controlCustomer.getDataRow(dr.data['customerID'].toString());

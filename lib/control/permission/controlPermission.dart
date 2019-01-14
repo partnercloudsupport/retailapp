@@ -21,3 +21,24 @@ Future<bool> getMe() async {
 Stream<QuerySnapshot> getAll() {
   return Firestore.instance.collection(_name).snapshots();
 }
+
+Future<bool> addSomeColumn() async {
+  try {
+    var i = await Firestore.instance.collection(_name).getDocuments();
+
+    i.documents.forEach((ii) async {
+      await Firestore.instance
+          .collection(_name)
+          .document(ii.documentID)
+          .updateData({
+        "requestInsert": true,
+        "requestEdit": true,
+        "requestDelete": true
+      });
+    });
+
+    return true;
+  } catch (e) {}
+
+  return false;
+}

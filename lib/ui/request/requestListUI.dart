@@ -20,7 +20,6 @@ class UI extends StatefulWidget {
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
   bool _searchActive = false;
-
   TabController _tabController;
 
   @override

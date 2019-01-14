@@ -25,3 +25,10 @@ String getExtensionWithDot(String v) {
 String formatNumber(dynamic v, {String pattern = '0'}) {
   return NumberFormat(pattern).format(v);
 }
+
+String toMe(dynamic v) {
+  try {
+    return v.toString();
+  } catch (e) {}
+  return '';
+}

@@ -89,6 +89,7 @@ class _UIState extends State<UI> {
     return FloatingActionButton(
       child: Icon(Icons.my_location),
       onPressed: _setMyLocation,
+      backgroundColor: myColor.color1,
     );
   }
 

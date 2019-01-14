@@ -23,6 +23,7 @@ class UI extends StatefulWidget {
 class _UIState extends State<UI> {
   GoogleMapController _c;
   LatLng _myLocation;
+  CameraPosition _myCameraPosition;
 
   @override
   void initState() {
@@ -33,9 +34,15 @@ class _UIState extends State<UI> {
   void initStateMe() async {
     _myLocation = await myLocation.getByLatLngGoogle();
     _c.addMarker(MarkerOptions(
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        icon:
+            BitmapDescriptor.fromAsset('lib/res/image/ic_launcher_001_96.png'),
         position: _myLocation,
-        infoWindowText: InfoWindowText('Me', '')));
+        infoWindowText: InfoWindowText(
+            myLanguage.text(myLanguage.item.me), 'Smart Security')));
+
+    _myCameraPosition = CameraPosition(
+        target: LatLng(_myLocation.latitude, _myLocation.longitude),
+        zoom: 14.0);
   }
 
   @override
@@ -67,15 +74,33 @@ class _UIState extends State<UI> {
   }
 
   Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      child: Icon(Icons.center_focus_strong),
-      onPressed: _reviewLocation,
-      backgroundColor: myColor.color1,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        FloatingActionButton(
+          heroTag: null,
+          child: Icon(Icons.contacts),
+          onPressed: () => (_reviewLocation(_currentCameraPosition)),
+          backgroundColor: myColor.color1,
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        FloatingActionButton(
+          mini: true,
+          heroTag: null,
+          child: Icon(
+            Icons.my_location,
+          ),
+          onPressed: () => _reviewLocation(_myCameraPosition),
+          backgroundColor: myColor.color1,
+        ),
+      ],
     );
   }
 
-  void _reviewLocation() {
-    _c.animateCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
+  void _reviewLocation(CameraPosition v) {
+    _c.animateCamera(CameraUpdate.newCameraPosition(v));
   }
 
   @override
