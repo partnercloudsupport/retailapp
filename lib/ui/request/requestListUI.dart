@@ -5,9 +5,13 @@ import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/ui/request/requestListTabUI.dart' as requestListTabUI;
 import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
 import 'package:retailapp/ui/request/requestFilterUI.dart' as requestFilterUI;
+import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 
-String _filterByType = '';
-String filterByEmployee = '';
+String _filterType = '';
+String filterEmployee = '';
+bool _filterWithDate = false;
+DateTime _filterFromDate = DateTime.now();
+DateTime _filterToDate = DateTime.now();
 
 class UI extends StatefulWidget {
   @override
@@ -37,29 +41,37 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           controller: _tabController,
           children: <Widget>[
             requestListTabUI.UI(
-              _searchActive,
-              controlRequest.TypeView.today,
-              filterByType: _filterByType,
-              filterByEmployee: filterByEmployee,
-            ),
+                _searchActive,
+                controlRequest.TypeView.today,
+                _filterType,
+                filterEmployee,
+                _filterWithDate,
+                _filterFromDate,
+                _filterToDate),
             requestListTabUI.UI(
-              _searchActive,
-              controlRequest.TypeView.tomorrow,
-              filterByType: _filterByType,
-              filterByEmployee: filterByEmployee,
-            ),
+                _searchActive,
+                controlRequest.TypeView.tomorrow,
+                _filterType,
+                filterEmployee,
+                _filterWithDate,
+                _filterFromDate,
+                _filterToDate),
             requestListTabUI.UI(
-              _searchActive,
-              controlRequest.TypeView.all,
-              filterByType: _filterByType,
-              filterByEmployee: filterByEmployee,
-            ),
+                _searchActive,
+                controlRequest.TypeView.all,
+                _filterType,
+                filterEmployee,
+                _filterWithDate,
+                _filterFromDate,
+                _filterToDate),
             requestListTabUI.UI(
-              _searchActive,
-              controlRequest.TypeView.pending,
-              filterByType: _filterByType,
-              filterByEmployee: filterByEmployee,
-            ),
+                _searchActive,
+                controlRequest.TypeView.pending,
+                _filterType,
+                filterEmployee,
+                _filterWithDate,
+                _filterFromDate,
+                _filterToDate),
           ],
         ),
       ),
@@ -105,14 +117,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildFilter() {
+    bool b = (_filterType.isNotEmpty ||
+        filterEmployee.isNotEmpty ||
+        _filterWithDate);
+
     return IconButton(
       icon: Icon(
         Icons.filter_list,
-        color: _filterByType.isNotEmpty || filterByEmployee.isNotEmpty
-            ? Colors.white
-            : Colors.grey,
-        size:
-            _filterByType.isNotEmpty || filterByEmployee.isNotEmpty ? 32 : null,
+        color: b ? Colors.white : Colors.grey,
+        size: b ? 32 : null,
       ),
       onPressed: _filterOpen,
     );
@@ -129,13 +142,23 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         context,
         MaterialPageRoute(
             builder: (context) => requestFilterUI.UI(
-                _filterApply, filterByEmployee, _filterByType)));
+                _filterApply,
+                _filterType,
+                filterEmployee,
+                _filterWithDate,
+                _filterFromDate,
+                _filterToDate)));
   }
 
-  void _filterApply(String _filterByType, String _filterByEmployee) {
+  void _filterApply(String filterType, String filterEmployee,
+      bool filterWithDate, DateTime filterFromDate, DateTime filterToDate) {
     setState(() {
-      _filterByType = _filterByType;
-      filterByEmployee = _filterByEmployee;
+      _filterType = filterType;
+      filterEmployee = filterEmployee;
+      _filterWithDate = filterWithDate;
+      DateTime fixDate = filterFromDate;
+      _filterFromDate = myDateTime.getLess(fixDate, filterToDate);
+      _filterToDate = myDateTime.getBiggest(fixDate, filterToDate);
     });
   }
 

@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 bool isEmail(String em) {
   String p =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -18,4 +20,8 @@ String getExtension(String v) {
 String getExtensionWithDot(String v) {
   String o = v.split('.').last;
   return o.isEmpty ? '' : '.' + o;
+}
+
+String formatNumber(dynamic v, {String pattern = '0'}) {
+  return NumberFormat(pattern).format(v);
 }

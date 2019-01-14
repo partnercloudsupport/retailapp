@@ -11,6 +11,7 @@ import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 
 class UI extends StatefulWidget {
   final controlMyDiary.TypeView _typeView;
@@ -130,6 +131,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return ListView(
+          padding: EdgeInsets.only(bottom: 70),
           children: v.data.documents.where((v) {
             return _cardValid(v);
           }).map((DocumentSnapshot dr) {
@@ -191,6 +193,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   _buildViewMapButton(dr),
+                  _buildNewRequest(dr),
                   _buildEditButton(dr),
                   _buildNeedInsertOrUpdate(dr),
                 ],
@@ -199,6 +202,28 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           ],
         )
       ],
+    );
+  }
+
+  Widget _buildNewRequest(DocumentSnapshot dr) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              'Request',
+              style: myStyle.style14Color1(),
+            ),
+            Icon(
+              Icons.add,
+              color: myColor.color1,
+            ),
+          ],
+        ),
+        onTap: () => _newRequest(dr['customer'], dr['note'], dr['amount']),
+      ),
     );
   }
 
@@ -396,6 +421,18 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     ).build(context);
 
     return await showDialog(context: context, builder: (BuildContext bc) => sd);
+  }
+
+  void _newRequest(
+      String customer, String requiredImplementation, double targetPrice) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => requestNewUI.UI(
+                  customer: customer,
+                  requiredImplementation: requiredImplementation,
+                  targetPrice: targetPrice,
+                )));
   }
 
   @override

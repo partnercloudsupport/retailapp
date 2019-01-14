@@ -16,15 +16,21 @@ import 'package:retailapp/control/employee/controlEmployee.dart'
 import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
+import 'package:retailapp/control/my/myString.dart' as myString;
 
 String _requiredImplementation;
 String _customer;
+double _targetPrice = 0;
 
 class UI extends StatefulWidget {
-  UI({String customer = '', String requiredImplementation = ''}) {
+  UI(
+      {String customer = '',
+      String requiredImplementation = '',
+      double targetPrice = 0}) {
     if (requiredImplementation.trim().isNotEmpty)
       _requiredImplementation = requiredImplementation;
     if (customer.trim().isNotEmpty) _customer = customer;
+    _targetPrice = targetPrice;
   }
   _UIState createState() => _UIState();
 }
@@ -38,7 +44,7 @@ class _UIState extends State<UI> {
   String _employee = '';
   DateTime _appointment = DateTime.now();
   String _salseman = '';
-  double _targetPrice = 0;
+
   String _typeIs = '';
 
   final FocusNode _focusNode1 = new FocusNode();
@@ -198,6 +204,7 @@ class _UIState extends State<UI> {
 
   Widget _buildTargetPrice() {
     return TextFormField(
+        initialValue: myString.formatNumber(_targetPrice),
         keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: [
           WhitelistingTextInputFormatter(myRegExp.number1To9999999),

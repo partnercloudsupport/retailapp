@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong/latlong.dart' as latlong;
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 
@@ -29,7 +30,13 @@ Future<bool> checkAll(
   return v;
 }
 
-Future<LatLng> getByLatLng() async {
+Future<latlong.LatLng> getByLatLng() async {
+  var getLocation = await Geolocator()
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  return latlong.LatLng(getLocation.latitude, getLocation.longitude);
+}
+
+Future<LatLng> getByLatLngGoogle() async {
   var getLocation = await Geolocator()
       .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   return LatLng(getLocation.latitude, getLocation.longitude);

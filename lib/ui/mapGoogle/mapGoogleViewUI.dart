@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/my/myLocation.dart' as myLocation;
 
 CameraPosition _currentCameraPosition;
 
 class UI extends StatefulWidget {
   final String _name;
   final String _phones;
+
   UI(this._name, this._phones, GeoPoint mapLocation) {
     _currentCameraPosition = CameraPosition(
         target: LatLng(mapLocation.latitude, mapLocation.longitude),
-        zoom: 18.0);
+        zoom: 14.0);
   }
 
   _UIState createState() => _UIState();
@@ -20,6 +22,21 @@ class UI extends StatefulWidget {
 
 class _UIState extends State<UI> {
   GoogleMapController _c;
+  LatLng _myLocation;
+
+  @override
+  void initState() {
+    initStateMe();
+    super.initState();
+  }
+
+  void initStateMe() async {
+    _myLocation = await myLocation.getByLatLngGoogle();
+    _c.addMarker(MarkerOptions(
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        position: _myLocation,
+        infoWindowText: InfoWindowText('Me', '')));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +55,7 @@ class _UIState extends State<UI> {
           cameraPosition: _currentCameraPosition,
         ),
       ),
-      floatingActionButton: _buildFloatingActionButtonReviewLocation(),
+      floatingActionButton: _buildFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -49,7 +66,7 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildFloatingActionButtonReviewLocation() {
+  Widget _buildFloatingActionButton() {
     return FloatingActionButton(
       child: Icon(Icons.center_focus_strong),
       onPressed: _reviewLocation,

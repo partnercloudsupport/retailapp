@@ -157,6 +157,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return Flexible(
           child: ListView(
+            padding: EdgeInsets.only(bottom: 70),
             children: v.data.documents.where((v) {
               return (v['name'] + v['address'] + v['phones'])
                   .toLowerCase()

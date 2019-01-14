@@ -28,7 +28,7 @@ class _UIState extends State<UI> {
   void _initState() async {
     myLanguage.setLanguage(await mySharedPreferences.getLanguageApp());
     userLoginUI.userName = await mySharedPreferences.getUserName();
-    requestListUI.filterByEmployee =
+    requestListUI.filterEmployee =
         await mySharedPreferences.getRequestFilterEmployee();
 
     bool myAccountIsVaild = await controlUser.signInByAuto(

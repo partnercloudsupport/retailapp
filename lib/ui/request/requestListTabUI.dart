@@ -25,11 +25,14 @@ import 'package:retailapp/control/request/controlRequest.dart'
 class UI extends StatefulWidget {
   final bool _searchActive;
   final controlRequest.TypeView _typeView;
-  final String filterByType;
-  final String filterByEmployee;
+  final String filterType;
+  final String filterEmployee;
+  final bool filterWithDate;
+  final DateTime filterFromDate;
+  final DateTime filterToDate;
 
-  UI(this._searchActive, this._typeView,
-      {this.filterByType = '', this.filterByEmployee = ''});
+  UI(this._searchActive, this._typeView, this.filterType, this.filterEmployee,
+      this.filterWithDate, this.filterFromDate, this.filterToDate);
 
   @override
   UIState createState() => UIState();
@@ -44,11 +47,16 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   String _search = '';
   TextEditingController _searchController = TextEditingController(text: '');
+  int _dateTodayNumber = myDateTime.castDateNowToInt();
+  int _dateTomorrowNumber = myDateTime.castDateNowToInt(addNumber: 1);
+  int dateFilterNumberFrom = 0;
+  int dateFilterNumberTo = 0;
 
   @override
   void initState() {
     super.initState();
     controlUser.getMe();
+
     setState(() {
       _followUpEmployeeRequest = controlUser
               .drNow.data['followUpEmployeeRequest']
@@ -56,6 +64,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               .toLowerCase() +
           ', ';
     });
+    dateFilterNumberFrom = myDateTime.castDateToInt(widget.filterFromDate);
+    dateFilterNumberTo = myDateTime.castDateToInt(widget.filterToDate);
   }
 
   @override
@@ -133,6 +143,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return _buildLoading();
         return ListView(
+          padding: EdgeInsets.only(bottom: 70),
           children: v.data.documents.where((v) {
             return _cardValid(v);
           }).map((DocumentSnapshot dr) {
@@ -372,20 +383,30 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
     switch (widget._typeView) {
       case controlRequest.TypeView.today:
-        if (dateNumber != myDateTime.castDateNowToInt() ||
+        if (dateNumber != _dateTodayNumber ||
             dr['statusIs'] == 1 ||
             dr['stageIs'] < 3) return false;
         break;
       case controlRequest.TypeView.tomorrow:
-        if (dateNumber != myDateTime.castDateNowToInt(addNumber: 1) ||
+        if (dateNumber != _dateTomorrowNumber ||
             dr['statusIs'] == 1 ||
             dr['stageIs'] < 3) return false;
         break;
       case controlRequest.TypeView.all:
         if (dr['statusIs'] == 1 || dr['stageIs'] < 3) return false;
+        if (widget.filterWithDate) {
+          if (dateNumber < dateFilterNumberFrom ||
+              dateNumber > dateFilterNumberTo) return false;
+        }
+
         break;
       case controlRequest.TypeView.pending:
         if (dr['statusIs'] != 1) return false;
+
+        if (widget.filterWithDate) {
+          if (dateNumber < dateFilterNumberFrom ||
+              dateNumber > dateFilterNumberTo) return false;
+        }
         break;
 
       default:
@@ -403,12 +424,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 dr['employee'])
             .toLowerCase()
             .contains(_search) &&
-        (widget.filterByType.isEmpty
+        (widget.filterType.isEmpty
             ? true
-            : dr['typeIs'] == widget.filterByType) &&
-        (widget.filterByEmployee.isEmpty
+            : dr['typeIs'] == widget.filterType) &&
+        (widget.filterEmployee.isEmpty
             ? true
-            : dr['employee'] == widget.filterByEmployee);
+            : dr['employee'] == widget.filterEmployee);
   }
 
   void _searchApply(String v) {
