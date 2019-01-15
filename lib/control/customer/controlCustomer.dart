@@ -58,13 +58,13 @@ Future<bool> edit(
   return false;
 }
 
-Future<bool> editLocation(
-    GlobalKey<ScaffoldState> scaffoldKey,
-    String key,
+Future<bool> editLocation(GlobalKey<ScaffoldState> scaffoldKey, String key,
     GeoPoint mapLocation) async {
   try {
-    await Firestore.instance.collection(_name).document(key).updateData(
-        customerRow.EditMapLocation(mapLocation).toJson());
+    await Firestore.instance
+        .collection(_name)
+        .document(key)
+        .updateData(customerRow.EditMapLocation(mapLocation).toJson());
 
     controlLiveVersion.save(_name);
     mySnackBar.show1(

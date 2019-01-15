@@ -103,7 +103,8 @@ enum item {
   itsMyPrivateImages,
   determineThePeriodOfTime,
   filterIsAppliedOnlyToAPageAllPending,
-  me
+  me,
+  theCustomerYouWantIsNotFound
 }
 
 String languageApp = 'en-US';
@@ -111,6 +112,9 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.theCustomerYouWantIsNotFound:
+      return 'The customer you want is not found';
+      break;
     case item.me:
       return 'Me';
       break;
@@ -425,6 +429,9 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.theCustomerYouWantIsNotFound:
+      return 'لم يتم العثور على الزبون الذي تريده';
+      break;
     case item.me:
       return 'أنا';
       break;

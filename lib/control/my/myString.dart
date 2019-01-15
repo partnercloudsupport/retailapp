@@ -32,3 +32,10 @@ String toMe(dynamic v) {
   } catch (e) {}
   return '';
 }
+
+String toMef(var v) {
+  try {
+    return v == null ? '' : v.toString();
+  } catch (e) {}
+  return '';
+}

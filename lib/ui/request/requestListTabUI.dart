@@ -23,6 +23,7 @@ import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
+import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 
 class UI extends StatefulWidget {
   final bool _searchActive;
@@ -199,9 +200,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     child: FutureBuilder(
                       future: controlCustomer
                           .getDataRow(myString.toMe(dr.data['customerID'])),
-                      builder: (BuildContext b,
-                              AsyncSnapshot<DocumentSnapshot> v) =>
-                          v.data != null
+                      builder:
+                          (BuildContext b, AsyncSnapshot<DocumentSnapshot> v) {
+                        try {
+                          return v.data != null
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -209,7 +211,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                                     Text(myString.toMe(v.data.data['address'])),
                                   ],
                                 )
-                              : SizedBox(),
+                              : SizedBox();
+                        } catch (e) {}
+
+                        return SizedBox();
+                      },
                     ),
                   ),
                   Padding(
@@ -506,6 +512,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void _viewMap(DocumentSnapshot dr) async {
     drCustomer =
         await controlCustomer.getDataRow(dr.data['customerID'].toString());
+    if (drCustomer.exists == false) {
+      mySnackBar.showInHomePage1(
+          myLanguage.text(myLanguage.item.theCustomerYouWantIsNotFound));
+      return;
+    }
 
     Navigator.push(
         context,
@@ -519,6 +530,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   void _editMap(DocumentSnapshot dr) async {
     drCustomer =
         await controlCustomer.getDataRow(dr.data['customerID'].toString());
+    if (drCustomer.exists == false) {
+      mySnackBar.showInHomePage1(
+          myLanguage.text(myLanguage.item.theCustomerYouWantIsNotFound));
+      return;
+    }
+
     _mapLocation = LatLng(drCustomer.data['mapLocation'].latitude,
         drCustomer.data['mapLocation'].longitude);
 
