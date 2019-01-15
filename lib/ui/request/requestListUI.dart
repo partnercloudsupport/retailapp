@@ -149,11 +149,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 _filterToDate)));
   }
 
-  void _filterApply(String filterType, String filterEmployee,
+  void _filterApply(String filterType, String _filterEmployee,
       bool filterWithDate, DateTime filterFromDate, DateTime filterToDate) {
     setState(() {
       _filterType = filterType;
-      filterEmployee = filterEmployee;
+      filterEmployee = _filterEmployee;
       _filterWithDate = filterWithDate;
       DateTime fixDate = filterFromDate;
       _filterFromDate = myDateTime.getLess(fixDate, filterToDate);

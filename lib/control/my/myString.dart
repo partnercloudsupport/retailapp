@@ -28,7 +28,7 @@ String formatNumber(dynamic v, {String pattern = '0'}) {
 
 String toMe(dynamic v) {
   try {
-    return v.toString();
+    return v == null ? '' : v.toString();
   } catch (e) {}
   return '';
 }

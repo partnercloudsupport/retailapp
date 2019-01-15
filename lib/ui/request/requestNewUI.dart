@@ -18,8 +18,8 @@ import 'package:retailapp/control/request/controlRequestType.dart'
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 import 'package:retailapp/control/my/myString.dart' as myString;
 
-String _requiredImplementation;
-String _customer;
+String _requiredImplementation = '';
+String _customer = '';
 double _targetPrice = 0;
 
 class UI extends StatefulWidget {

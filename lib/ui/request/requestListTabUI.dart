@@ -198,15 +198,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     padding: const EdgeInsets.all(8.0),
                     child: FutureBuilder(
                       future: controlCustomer
-                          .getDataRow(dr.data['customerID'].toString()),
+                          .getDataRow(myString.toMe(dr.data['customerID'])),
                       builder: (BuildContext b,
                               AsyncSnapshot<DocumentSnapshot> v) =>
-                          v.data.documentID != '0'
+                          v.data != null
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(myString.toMe(v.data.data['phones'])),
-                                    Text(v.data.data['address'].toString()),
+                                    Text(myString.toMe(v.data.data['address'])),
                                   ],
                                 )
                               : SizedBox(),
