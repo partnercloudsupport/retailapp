@@ -26,10 +26,12 @@ class _UIState extends State<UI> {
   TimeOfDay _beginTime = TimeOfDay.now();
   TimeOfDay _endTime = TimeOfDay.now();
   String _note = '';
+  double _amountQuotation = 0;
   double _amount = 0;
   controlMyDiary.TypeIs _typeIs = controlMyDiary.TypeIs.visitCustomer;
 
   final FocusNode _focusNode1 = new FocusNode();
+  final FocusNode _focusNode2 = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,7 @@ class _UIState extends State<UI> {
               _buildCustomerChoose(),
               _buildTimeFromTo(),
               _buildNote(),
+              _buildAmountQuotation(),
               _buildAmount(),
               _buildTypeIs(),
             ],
@@ -168,8 +171,30 @@ class _UIState extends State<UI> {
     );
   }
 
+  Widget _buildAmountQuotation() {
+    return TextFormField(
+        textInputAction: TextInputAction.next,
+        initialValue: '0',
+        keyboardType: TextInputType.numberWithOptions(),
+        inputFormatters: [
+          WhitelistingTextInputFormatter(myRegExp.number1To9999999),
+        ],
+        style: myStyle.style15Color1(),
+        decoration: InputDecoration(
+            prefix: Text(r'$ ', style: myStyle.style14Color1()),
+            suffix: Text(
+              'USD',
+              style: myStyle.style14Color1(),
+            ),
+            labelText: myLanguage.text(myLanguage.item.amountOfQuotation)),
+        onFieldSubmitted: (String v) =>
+            FocusScope.of(context).requestFocus(_focusNode2),
+        onSaved: (String v) => _amountQuotation = mydouble.to(v));
+  }
+
   Widget _buildAmount() {
     return TextFormField(
+        initialValue: '0',
         keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: [
           WhitelistingTextInputFormatter(myRegExp.number1To9999999),
@@ -182,6 +207,7 @@ class _UIState extends State<UI> {
               style: myStyle.style14Color1(),
             ),
             labelText: myLanguage.text(myLanguage.item.resultingAmount)),
+        focusNode: _focusNode2,
         onSaved: (String v) => _amount = mydouble.to(v));
   }
 
@@ -305,7 +331,7 @@ class _UIState extends State<UI> {
     if (_saveValidator() == true) {
       formKey.currentState.save();
       if (await controlMyDiary.save(scaffoldKey, _customer, _beginDate,
-              _endDate, _note, _amount, _typeIs.index) ==
+              _endDate, _note, _amountQuotation, _amount, _typeIs.index) ==
           true) {
         Navigator.pop(context);
       }

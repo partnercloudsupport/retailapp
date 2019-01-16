@@ -104,7 +104,8 @@ enum item {
   determineThePeriodOfTime,
   filterIsAppliedOnlyToAPageAllPending,
   me,
-  theCustomerYouWantIsNotFound
+  theCustomerYouWantIsNotFound,
+  amountOfQuotation
 }
 
 String languageApp = 'en-US';
@@ -112,6 +113,9 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.amountOfQuotation:
+      return 'Amount of quotation';
+      break;
     case item.theCustomerYouWantIsNotFound:
       return 'The customer you want is not found';
       break;
@@ -429,6 +433,9 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.amountOfQuotation:
+      return 'مبلغ عرض الأسعار';
+      break;
     case item.theCustomerYouWantIsNotFound:
       return 'لم يتم العثور على الزبون الذي تريده';
       break;

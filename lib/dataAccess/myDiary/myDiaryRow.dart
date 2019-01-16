@@ -16,14 +16,18 @@ class Row {
   DateTime endDate;
   String durationHourF;
   String note;
+  double amountQuotation;
+  String amountQuotationF;
   double amount;
   String amountF;
+  double amountRemaining;
+  String amountRemainingF;
   int typeIs;
   GeoPoint mapLocation;
   int saveFrom;
 
-  Row(this.customer, this.beginDate, this.endDate, this.note, this.amount,
-      this.typeIs,
+  Row(this.customer, this.beginDate, this.endDate, this.note,
+      this.amountQuotation, this.amount, this.typeIs,
       {this.mapLocation = const GeoPoint(1, 1),
       this.saveFrom = 0,
       this.needInsert = true}) {
@@ -38,7 +42,10 @@ class Row {
     this.userID = int.parse(controlUser.drNow.documentID);
     this.user = controlUser.drNow.data['name'];
     this.durationHourF = '...';
+    this.amountQuotationF = this.amountQuotation.toStringAsFixed(0) + r' $';
     this.amountF = this.amount.toStringAsFixed(0) + r' $';
+    this.amountRemaining = this.amountQuotation - this.amount;
+    this.amountRemainingF = this.amountRemaining.toStringAsFixed(0) + r' $';
   }
 
   Row.fromSnapshot(DocumentSnapshot dr) {
@@ -55,8 +62,12 @@ class Row {
     endDate = dr["endDate"];
     durationHourF = dr["durationHourF"];
     note = dr["note"];
+    amountQuotation = dr["amountQuotation"];
+    amountQuotationF = dr["amountQuotationF"];
     amount = dr["amount"];
     amountF = dr["amountF"];
+    amountRemaining = dr["amountRemaining"];
+    amountRemainingF = dr["amountRemainingF"];
     typeIs = dr["typeIs"];
     mapLocation = dr["mapLocation"];
     saveFrom = dr["saveFrom"];
@@ -76,25 +87,71 @@ class Row {
       "endDate": endDate,
       "durationHourF": durationHourF,
       "note": note,
+      "amountQuotation": amountQuotation,
+      "amountQuotationF": amountQuotationF,
       "amount": amount,
       "amountF": amountF,
+      "amountRemaining": amountRemaining,
+      "amountRemainingF": amountRemainingF,
       "typeIs": typeIs,
       "mapLocation": mapLocation,
       "saveFrom": saveFrom,
     };
   }
+}
 
-  dynamic toJsonEdit() {
+class RowEdit {
+  String key;
+  bool needUpdate;
+  int customerID;
+  String customer;
+  DateTime beginDate;
+  DateTime endDate;
+  String durationHourF;
+  String note;
+  double amountQuotation;
+  String amountQuotationF;
+  double amount;
+  String amountF;
+  double amountRemaining;
+  String amountRemainingF;
+  int typeIs;
+
+  RowEdit(
+    this.customer,
+    this.beginDate,
+    this.endDate,
+    this.note,
+    this.amountQuotation,
+    this.amount,
+    this.typeIs,
+  ) {
+    DateTime fixDate = beginDate;
+    beginDate = myDateTime.getLess(fixDate, endDate);
+    endDate = myDateTime.getBiggest(fixDate, endDate);
+
+    this.needUpdate = true;
+    this.customerID = 0;
+    this.durationHourF = '...';
+    this.amountQuotationF = this.amountQuotation.toStringAsFixed(0) + r' $';
+    this.amountF = this.amount.toStringAsFixed(0) + r' $';
+    this.amountRemaining = this.amountQuotation - this.amount;
+    this.amountRemainingF = this.amountRemaining.toStringAsFixed(0) + r' $';
+  }
+
+  dynamic toJson() {
     return {
       "needUpdate": needUpdate,
       "customer": customer,
-      "userID": userID,
-      "user": user,
       "beginDate": beginDate,
       "endDate": endDate,
       "note": note,
+      "amountQuotation": amountQuotation,
+      "amountQuotationF": amountQuotationF,
       "amount": amount,
       "amountF": amountF,
+      "amountRemaining": amountRemaining,
+      "amountRemainingF": amountRemainingF,
       "typeIs": typeIs,
     };
   }

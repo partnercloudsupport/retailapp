@@ -6,7 +6,6 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
 import 'package:uuid/uuid.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLocation.dart' as myLocation;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myPermission.dart' as myPermission;
@@ -70,6 +69,7 @@ Future<bool> save(
     DateTime beginDate,
     DateTime endDate,
     String note,
+    double amountQuotation,
     double amount,
     int typeIs) async {
   try {
@@ -80,7 +80,8 @@ Future<bool> save(
     GeoPoint mapLocation = await myLocation.getByGeoPoint();
 
     await Firestore.instance.collection(_name).document(Uuid().v1()).setData(
-        myDiaryRow.Row(customer, beginDate, endDate, note, amount, typeIs,
+        myDiaryRow.Row(customer, beginDate, endDate, note, amountQuotation,
+                amount, typeIs,
                 mapLocation: mapLocation, saveFrom: 1)
             .toJson());
 
@@ -102,13 +103,22 @@ Future<bool> edit(
     DateTime beginDate,
     DateTime endDate,
     String note,
+    double amountQuotation,
     double amount,
     int typeIs) async {
   try {
-    await Firestore.instance.collection(_name).document(key).updateData(
-        myDiaryRow.Row(customer, beginDate, endDate, note, amount, typeIs,
-                needInsert: false)
-            .toJsonEdit());
+    await Firestore.instance
+        .collection(_name)
+        .document(key)
+        .updateData(myDiaryRow.RowEdit(
+          customer,
+          beginDate,
+          endDate,
+          note,
+          amountQuotation,
+          amount,
+          typeIs,
+        ).toJson());
 
     controlLiveVersion.save(_name);
     return true;
@@ -145,88 +155,24 @@ Stream<QuerySnapshot> getAllOrderByUser() {
       .snapshots();
 }
 
-Stream<QuerySnapshot> getToday() {
-  return Firestore.instance
-      .collection(_name)
-      .orderBy('beginDate', descending: true)
-      .where('beginDate',
-          isGreaterThanOrEqualTo: DateTime.utc(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day))
-      .where(
-        'beginDate',
-        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
-            DateTime.now().month, DateTime.now().day, 24, 60, 60),
-      )
-      .snapshots();
-}
+Future<bool> addSomeColumn() async {
+  try {
+    var i = await Firestore.instance.collection(_name).getDocuments();
 
-Stream<QuerySnapshot> getYesterday() {
-  return Firestore.instance
-      .collection(_name)
-      .orderBy('beginDate', descending: true)
-      .where('beginDate',
-          isGreaterThanOrEqualTo: DateTime.utc(
-                  DateTime.now().year, DateTime.now().month, DateTime.now().day)
-              .add(Duration(days: -1)))
-      .where(
-        'beginDate',
-        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
-                DateTime.now().month, DateTime.now().day, 24, 60, 60)
-            .add(Duration(days: -1)),
-      )
-      .snapshots();
-}
+    i.documents.forEach((ii) async {
+      await Firestore.instance
+          .collection(_name)
+          .document(ii.documentID)
+          .updateData({
+        "amountQuotation": 0.0,
+        "amountQuotationF": r'0 $',
+        "amountRemaining": 0.0,
+        "amountRemainingF": r'0 $',
+      });
+    });
 
-Stream<QuerySnapshot> getLastWeek() {
-  return Firestore.instance
-      .collection(_name)
-      .orderBy('beginDate', descending: true)
-      .where('beginDate',
-          isGreaterThanOrEqualTo: DateTime.utc(
-                  DateTime.now().year, DateTime.now().month, DateTime.now().day)
-              .add(Duration(days: -9)))
-      .where(
-        'beginDate',
-        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
-                DateTime.now().month, DateTime.now().day, 24, 60, 60)
-            .add(Duration(days: -2)),
-      )
-      .snapshots();
-}
+    return true;
+  } catch (e) {}
 
-Stream<QuerySnapshot> getAllBeforeLastWeek() {
-  return Firestore.instance
-      .collection(_name)
-      .orderBy('beginDate', descending: true)
-      .where(
-        'beginDate',
-        isLessThanOrEqualTo: DateTime.utc(DateTime.now().year,
-                DateTime.now().month, DateTime.now().day, 24, 60, 60)
-            .add(Duration(days: -9)),
-      )
-      .snapshots();
-}
-
-Stream<QuerySnapshot> getBetweenData(DateTime fromDate, DateTime toDate) {
-  fromDate = myDateTime.toMe(fromDate);
-  toDate = myDateTime.toMe(toDate);
-
-  if (fromDate.isAfter(toDate)) {
-    DateTime v = fromDate;
-    fromDate = toDate;
-    toDate = v;
-  }
-
-  return Firestore.instance
-      .collection(_name)
-      .orderBy('beginDate', descending: true)
-      .where('beginDate',
-          isGreaterThanOrEqualTo:
-              DateTime.utc(fromDate.year, fromDate.month, fromDate.day))
-      .where(
-        'beginDate',
-        isLessThanOrEqualTo:
-            DateTime.utc(toDate.year, toDate.month, toDate.day, 24, 60, 60),
-      )
-      .snapshots();
+  return false;
 }

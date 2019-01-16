@@ -28,10 +28,12 @@ class _UIState extends State<UI> {
   TimeOfDay _beginTime = TimeOfDay.now();
   TimeOfDay _endTime = TimeOfDay.now();
   String _note = '';
+  double _amountQuotation = 0;
   double _amount = 0;
   controlMyDiary.TypeIs _typeIs = controlMyDiary.TypeIs.visitCustomer;
 
   final FocusNode _focusNode1 = new FocusNode();
+  final FocusNode _focusNode2 = new FocusNode();
 
   @override
   void initState() {
@@ -43,6 +45,7 @@ class _UIState extends State<UI> {
     _endTime = TimeOfDay.fromDateTime(widget.dr['endDate']);
     _endTime = _endTime.replacing(hour: _endTime.hour);
     _note = widget.dr['note'];
+    _amountQuotation = widget.dr['amountQuotation'];
     _amount = widget.dr['amount'];
     _typeIs = controlMyDiary.typeCast(widget.dr['typeIs']);
     super.initState();
@@ -89,6 +92,7 @@ class _UIState extends State<UI> {
               _buildCustomerChoose(),
               _buildTimeFromTo(),
               _buildNote(),
+              _buildAmountQuotation(),
               _buildAmount(),
               _buildTypeIs(),
             ],
@@ -185,6 +189,27 @@ class _UIState extends State<UI> {
     );
   }
 
+  Widget _buildAmountQuotation() {
+    return TextFormField(
+        textInputAction: TextInputAction.next,
+        initialValue: _amountQuotation.toStringAsFixed(0),
+        keyboardType: TextInputType.numberWithOptions(),
+        inputFormatters: [
+          WhitelistingTextInputFormatter(myRegExp.number1To9999999),
+        ],
+        style: myStyle.style15Color1(),
+        decoration: InputDecoration(
+            prefix: Text(r'$ ', style: myStyle.style14Color1()),
+            suffix: Text(
+              'USD',
+              style: myStyle.style14Color1(),
+            ),
+            labelText: myLanguage.text(myLanguage.item.amountOfQuotation)),
+        onFieldSubmitted: (String v) =>
+            FocusScope.of(context).requestFocus(_focusNode2),
+        onSaved: (String v) => _amountQuotation = mydouble.to(v));
+  }
+
   Widget _buildAmount() {
     return TextFormField(
         initialValue: _amount.toStringAsFixed(0),
@@ -200,6 +225,7 @@ class _UIState extends State<UI> {
               style: myStyle.style14Color1(),
             ),
             labelText: myLanguage.text(myLanguage.item.resultingAmount)),
+        focusNode: _focusNode2,
         onSaved: (String v) => _amount = mydouble.to(v));
   }
 
@@ -320,8 +346,16 @@ class _UIState extends State<UI> {
   void _save() async {
     if (_saveValidator() == true) {
       formKey.currentState.save();
-      if (await controlMyDiary.edit(scaffoldKey, widget.dr.documentID,
-              _customer, _beginDate, _endDate, _note, _amount, _typeIs.index) ==
+      if (await controlMyDiary.edit(
+              scaffoldKey,
+              widget.dr.documentID,
+              _customer,
+              _beginDate,
+              _endDate,
+              _note,
+              _amountQuotation,
+              _amount,
+              _typeIs.index) ==
           true) {
         Navigator.pop(context);
       }
