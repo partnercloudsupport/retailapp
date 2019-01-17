@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
@@ -6,13 +8,15 @@ import 'package:retailapp/ui/request/requestListTabUI.dart' as requestListTabUI;
 import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
 import 'package:retailapp/ui/request/requestFilterUI.dart' as requestFilterUI;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
-
+import 'package:connectivity/connectivity.dart';
+import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
 
 String _filterType = '';
 String filterEmployee = '';
 bool _filterWithDate = false;
 DateTime _filterFromDate = DateTime.now();
 DateTime _filterToDate = DateTime.now();
+ConnectivityResult _connectionStatus = ConnectivityResult.none;
 
 class UI extends StatefulWidget {
   @override
@@ -22,11 +26,38 @@ class UI extends StatefulWidget {
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
   bool _searchActive = false;
   TabController _tabController;
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
+
+    _initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      setState(() {
+        _connectionStatus = result;
+      });
+    });
+  }
+
+  Future<Null> _initConnectivity() async {
+    ConnectivityResult connectionStatus;
+    try {
+      connectionStatus = await _connectivity.checkConnectivity();
+    } catch (e) {
+      connectionStatus = ConnectivityResult.none;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _connectionStatus = connectionStatus;
+    });
   }
 
   @override
@@ -47,7 +78,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 filterEmployee,
                 _filterWithDate,
                 _filterFromDate,
-                _filterToDate),
+                _filterToDate,
+                _connectionStatus),
             requestListTabUI.UI(
                 _searchActive,
                 controlRequest.TypeView.tomorrow,
@@ -55,7 +87,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 filterEmployee,
                 _filterWithDate,
                 _filterFromDate,
-                _filterToDate),
+                _filterToDate,
+                _connectionStatus),
             requestListTabUI.UI(
                 _searchActive,
                 controlRequest.TypeView.all,
@@ -63,7 +96,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 filterEmployee,
                 _filterWithDate,
                 _filterFromDate,
-                _filterToDate),
+                _filterToDate,
+                _connectionStatus),
             requestListTabUI.UI(
                 _searchActive,
                 controlRequest.TypeView.pending,
@@ -71,7 +105,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 filterEmployee,
                 _filterWithDate,
                 _filterFromDate,
-                _filterToDate),
+                _filterToDate,
+                _connectionStatus),
           ],
         ),
       ),
@@ -99,6 +134,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         ],
       ),
       actions: <Widget>[
+        _buildInternetStatus(),
         _buildSeach(),
         _buildFilter(),
       ],
@@ -129,6 +165,18 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       ),
       onPressed: _filterOpen,
     );
+  }
+
+  Widget _buildInternetStatus() {
+    return _connectionStatus == ConnectivityResult.none
+        ? IconButton(
+            icon: Icon(
+              Icons.warning,
+              color: Colors.red,
+            ),
+            onPressed: _internetStatusTooltip,
+          )
+        : SizedBox();
   }
 
   void _searchReactive() {
@@ -162,9 +210,21 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     });
   }
 
+  void _internetStatusTooltip() {
+    mySuperTooltip.show4(
+        context,
+        myLanguage.text(myLanguage.item.youAreNotConnectedToTheInternet) +
+            '\n\n 1-' +
+            myLanguage
+                .text(myLanguage.item.youWereUnableToAddOrEditAnyRequest) +
+            '\n 2-' +
+            myLanguage.text(myLanguage.item.currentDataMayHaveBeenChanged));
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
+    _connectivitySubscription.cancel();
     super.dispose();
   }
 }

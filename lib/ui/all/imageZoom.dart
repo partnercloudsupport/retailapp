@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -10,7 +11,7 @@ class UI extends StatelessWidget {
     return Scaffold(
       body: PhotoView(
         backgroundDecoration: BoxDecoration(color: Colors.white),
-        imageProvider: NetworkImage(_pathImage),
+        imageProvider: CachedNetworkImageProvider(_pathImage),
       ),
     );
   }

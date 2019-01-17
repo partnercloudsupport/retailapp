@@ -105,7 +105,10 @@ enum item {
   filterIsAppliedOnlyToAPageAllPending,
   me,
   theCustomerYouWantIsNotFound,
-  amountOfQuotation
+  amountOfQuotation,
+  youAreNotConnectedToTheInternet,
+  youWereUnableToAddOrEditAnyRequest,
+  currentDataMayHaveBeenChanged
 }
 
 String languageApp = 'en-US';
@@ -113,6 +116,15 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.currentDataMayHaveBeenChanged:
+      return 'Current data may have been changed';
+      break;
+    case item.youWereUnableToAddOrEditAnyRequest:
+      return 'You were unable to add or edit any request';
+      break;
+    case item.youAreNotConnectedToTheInternet:
+      return 'You are not connected to the Internet';
+      break;
     case item.amountOfQuotation:
       return 'Amount of quotation';
       break;
@@ -433,6 +445,15 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.currentDataMayHaveBeenChanged:
+      return 'البيانات الحالية قد تكون تغيرت';
+      break;
+    case item.youWereUnableToAddOrEditAnyRequest:
+      return 'لم تتمكن من إضافة أو تعديل أي طلب';
+      break;
+    case item.youAreNotConnectedToTheInternet:
+      return 'أنت غير متصل بالإنترنت';
+      break;
     case item.amountOfQuotation:
       return 'مبلغ عرض الأسعار';
       break;

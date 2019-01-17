@@ -302,7 +302,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _searchApply() {
     setState(() {
-      _search = _searchController.text;
+      _search = _searchController.text.toLowerCase();
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
 import 'package:retailapp/control/my/myStyle.dart' as myStyle;
@@ -33,9 +34,16 @@ class UI extends StatefulWidget {
   final bool filterWithDate;
   final DateTime filterFromDate;
   final DateTime filterToDate;
-
-  UI(this._searchActive, this._typeView, this.filterType, this.filterEmployee,
-      this.filterWithDate, this.filterFromDate, this.filterToDate);
+  final ConnectivityResult connectionStatus;
+  UI(
+      this._searchActive,
+      this._typeView,
+      this.filterType,
+      this.filterEmployee,
+      this.filterWithDate,
+      this.filterFromDate,
+      this.filterToDate,
+      this.connectionStatus);
 
   @override
   UIState createState() => UIState();
@@ -341,7 +349,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildWin(DocumentSnapshot dr) {
-    return _requestDelete
+    return _requestDelete && widget.connectionStatus != ConnectivityResult.none
         ? InkWell(
             child: Column(
               children: <Widget>[
@@ -363,7 +371,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildEdit(DocumentSnapshot dr) {
-    return _requestEdit
+    return _requestEdit && widget.connectionStatus != ConnectivityResult.none
         ? InkWell(
             child: Column(
               children: <Widget>[
@@ -409,7 +417,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildFloatingActionButton() {
-    return _requestInsert
+    return _requestInsert && widget.connectionStatus != ConnectivityResult.none
         ? FloatingActionButton(
             heroTag: UniqueKey(),
             child: Icon(Icons.add),

@@ -10,6 +10,9 @@ import 'package:retailapp/ui/all/imageZoom.dart' as imageZoom;
 import 'package:retailapp/ui/request/requestImageNewUI.dart'
     as requestImageNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
+import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
+import 'package:retailapp/control/my/myDialog.dart' as myDialog;
+import 'package:cached_network_image/cached_network_image.dart';
 
 class UI extends StatefulWidget {
   final double requestID;
@@ -143,6 +146,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         if (!v.hasData) return Center(child: CircularProgressIndicator());
         return Flexible(
           child: ListView(
+            padding: EdgeInsets.only(bottom: 70),
             children: v.data.documents.where((v) {
               return _cardValid(v);
             }).map((DocumentSnapshot dr) {
@@ -164,7 +168,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Text(
-                dr['note'] + dr.documentID,
+                dr['note'],
               ),
             ),
             Row(
@@ -199,7 +203,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildImage(DocumentSnapshot dr) {
-    return Container(height: 200, child: Image.network(dr['pathImage']));
+    return Container(
+        height: 200,
+        child: CachedNetworkImage(
+          imageUrl: dr['pathImage'],
+          placeholder: CircularProgressIndicator(),
+          errorWidget: Icon(Icons.error),
+        ));
+    // return Container(height: 200, child: Image.network(dr['pathImage']));
   }
 
   Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
@@ -264,6 +275,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildDelete(DocumentSnapshot dr) {
     return InkWell(
+      key: UniqueKey(),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
         child: Icon(
@@ -271,6 +283,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           color: Colors.red,
         ),
       ),
+      onTap: _deleteTooltip,
       onLongPress: () => _delete(dr),
     );
   }
@@ -301,8 +314,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return true;
   }
 
-  void _delete(DocumentSnapshot dr) {
-    controlRequestImage.delete(dr.documentID);
+  void _deleteTooltip() {
+    mySuperTooltip.show4(
+        context, myLanguage.text(myLanguage.item.pressForALongTimeToDeleteIt));
+  }
+
+  void _delete(DocumentSnapshot dr) async {
+    if (await myDialog.deleteAsk(context) == 'Yes') {
+      controlRequestImage.delete(dr.documentID);
+    }
   }
 
   void _filterReactive() {

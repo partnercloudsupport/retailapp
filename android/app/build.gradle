@@ -42,8 +42,8 @@ android {
         applicationId "com.smartsecurity.retailapp"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 12
-        versionName '1.12'
+        versionCode 13
+        versionName '1.13'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

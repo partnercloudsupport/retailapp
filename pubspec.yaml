@@ -32,12 +32,15 @@ dependencies:
   super_tooltip: ^0.9.0
   permission_handler: ^2.1.2
   multi_image_picker: ^2.3.29
-
-
+  connectivity: ^0.3.2
+  image_picker: ^0.4.12
+  cached_network_image: ^0.5.1
+  
+  
+  #http: ^0.12.0+1
   #location: ^1.4.1
   #multi_image_picker: ^2.3.29
-  image_picker: ^0.4.12
-    
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2

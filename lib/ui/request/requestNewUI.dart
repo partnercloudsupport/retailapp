@@ -17,6 +17,7 @@ import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 import 'package:retailapp/control/my/myString.dart' as myString;
+import 'package:retailapp/control/my/myInternetStatus.dart' as myInternetStatus;
 
 String _requiredImplementation = '';
 String _customer = '';
@@ -331,7 +332,8 @@ class _UIState extends State<UI> {
   }
 
   void _save() async {
-    if (_saveValidator() == true) {
+    if (_saveValidator() == true &&
+        await myInternetStatus.checkInternetWithTip(context) == true) {
       if (await controlRequest.save(
               scaffoldKey,
               _customer,
