@@ -8,6 +8,7 @@ import 'package:retailapp/control/customer/controlCustomer.dart'
 import 'package:retailapp/control/my/myString.dart' as myString;
 import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
 
 class UI extends StatefulWidget {
   final bool withdoAfterSave;
@@ -73,26 +74,27 @@ class _UIState extends State<UI> {
           key: formKey,
           child: ListView(
             children: <Widget>[
-              _buildNameFormField(),
-              _buildPhonesFormField(),
-              _buildAddressFormField(),
-              _buildEmailFormField(),
-              _buildNoteFormField(),
+              _buildName(),
+              _buildPhones(),
+              _buildAddress(),
+              _buildEmail(),
+              _buildNote(),
               _buildButtonMap()
             ],
           )),
     );
   }
 
-  Widget _buildNameFormField() {
+  Widget _buildName() {
     return TextFormField(
       textInputAction: TextInputAction.next,
       validator: (String v) => v.trim().isEmpty
           ? myLanguage.text(myLanguage.item.youMustInsertText)
           : null,
       style: myStyle.style15Color1(),
-      decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.name)),
+      decoration: InputDecoration(
+        labelText: myLanguage.text(myLanguage.item.name),
+      ),
       onSaved: (String v) => _name = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodePhones);
@@ -100,10 +102,13 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildPhonesFormField() {
+  Widget _buildPhones() {
     return TextFormField(
       focusNode: _focusNodePhones,
       textInputAction: TextInputAction.next,
+      validator: (String v) => v.trim().isEmpty
+          ? myLanguage.text(myLanguage.item.youMustInsertText)
+          : null,
       style: myStyle.style15Color1(),
       decoration:
           InputDecoration(labelText: myLanguage.text(myLanguage.item.phones)),
@@ -114,7 +119,7 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildAddressFormField() {
+  Widget _buildAddress() {
     return TextFormField(
       focusNode: _focusNodeAddress,
       textInputAction: TextInputAction.next,
@@ -129,7 +134,7 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildEmailFormField() {
+  Widget _buildEmail() {
     return TextFormField(
       focusNode: _focusNodeEmail,
       textInputAction: TextInputAction.next,
@@ -149,7 +154,7 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildNoteFormField() {
+  Widget _buildNote() {
     return TextFormField(
       focusNode: _focusNodeNote,
       textInputAction: TextInputAction.done,
@@ -183,12 +188,9 @@ class _UIState extends State<UI> {
   }
 
   bool _saveValidator() {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
-      return true;
-    } else {
-      return false;
-    }
+    if (formKey.currentState.validate() == false) return false;
+    formKey.currentState.save();
+    return true;
   }
 
   void _save() async {

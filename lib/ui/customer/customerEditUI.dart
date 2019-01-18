@@ -92,18 +92,18 @@ class _UIState extends State<UI> {
           key: formKey,
           child: ListView(
             children: <Widget>[
-              _buildNameFormField(),
-              _buildPhonesFormField(),
-              _buildAddressFormField(),
-              _buildEmailFormField(),
-              _buildNoteFormField(),
+              _buildName(),
+              _buildPhones(),
+              _buildAddress(),
+              _buildEmail(),
+              _buildNote(),
               _buildButtonMap()
             ],
           )),
     );
   }
 
-  Widget _buildNameFormField() {
+  Widget _buildName() {
     return TextFormField(
       initialValue: _name,
       textInputAction: TextInputAction.next,
@@ -120,12 +120,15 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildPhonesFormField() {
+  Widget _buildPhones() {
     return customerEditPhone
         ? TextFormField(
             initialValue: _phones,
             focusNode: _focusNodePhones,
             textInputAction: TextInputAction.next,
+            validator: (String v) => v.trim().isEmpty
+                ? myLanguage.text(myLanguage.item.youMustInsertText)
+                : null,
             style: myStyle.style15Color1(),
             decoration: InputDecoration(
                 labelText: myLanguage.text(myLanguage.item.phones)),
@@ -137,7 +140,7 @@ class _UIState extends State<UI> {
         : SizedBox();
   }
 
-  Widget _buildAddressFormField() {
+  Widget _buildAddress() {
     return TextFormField(
       initialValue: _address,
       focusNode: _focusNodeAddress,
@@ -153,7 +156,7 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildEmailFormField() {
+  Widget _buildEmail() {
     return TextFormField(
       focusNode: _focusNodeEmail,
       textInputAction: TextInputAction.next,
@@ -173,7 +176,7 @@ class _UIState extends State<UI> {
     );
   }
 
-  Widget _buildNoteFormField() {
+  Widget _buildNote() {
     return TextFormField(
       initialValue: _note,
       focusNode: _focusNodeNote,
