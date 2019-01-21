@@ -9,7 +9,6 @@ import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/employee/controlEmployeeRequestMonthlyReport.dart'
     as controlEmployeeRequestMonthlyReport;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 
 class UI extends StatefulWidget {
   @override
@@ -40,11 +39,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(child: _buildList()),
-        ],
-      ),
+      body: _buildList(),
     );
   }
 
@@ -73,72 +68,51 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildCard(DocumentSnapshot dr) {
     return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: ExpansionTile(
+        leading: Text(
+          dr['totalAmountRequestDF'],
+          style: myStyle.style20Color1(),
+        ),
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            dr['name'],
+            style: myStyle.style14Color1(),
+          ),
+        ),
         children: <Widget>[
-          ExpansionTile(
-            leading: Text(
-              dr['totalAmountRequestDF'],
-              style: myStyle.style20Color1(),
-            ),
-            title: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                dr['name'],
-                style: myStyle.style14Color1(),
-              ),
-            ),
-            children: <Widget>[
-              Container(
-                height: 150,
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: controlEmployeeRequestMonthlyReport
-                      .getOrderByMonthYearNumber(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
-                    if (!v.hasData) return _buildLoading();
-                    return GridView(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 2, crossAxisCount: 3),
-                      padding: EdgeInsets.only(bottom: 70),
-                      children: v.data.documents.where((v) {
-                        return (v.data['employeeID'].toString() ==
-                            dr.documentID);
-                      }).map((DocumentSnapshot dr) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: myColor.color1),
-                                borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(50),
-                                    topLeft: Radius.circular(50))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  dr['amountDF'] +
-                                      ' \\ ' +
-                                      dr.data['countIs'].toString(),
-                                  style: myStyle.style15Color1(),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  myDateTime.shortMMYYYY(dr.data['monthYearF']),
-                                  style: myStyle.style12Color3Italic(),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  },
-                ),
-              )
-            ],
+          StreamBuilder(
+            stream:
+                controlEmployeeRequestMonthlyReport.getOrderByMonthYearNumber(),
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
+              if (!v.hasData) return Text('Loading...');
+
+              List<DocumentSnapshot> list = v.data.documents.where((v) {
+                return (v.data['employeeID'].toString() == dr.documentID);
+              }).toList();
+
+              int c = list.length;
+              if (c == 0)
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'No data...',
+                    style: myStyle.style12Color3(),
+                  ),
+                );
+
+              return PaginatedDataTable(
+                rowsPerPage: c <= 3 ? c : 3,
+                header: Text('Request sales report'),
+                source: DataRows(list, c),
+                columns: <DataColumn>[
+                  DataColumn(label: Text('Month')),
+                  DataColumn(label: Text('Count')),
+                  DataColumn(label: Text('Total')),
+                  DataColumn(label: Text('Detail')),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -156,4 +130,45 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
     return true;
   }
+}
+
+class DataRows extends DataTableSource {
+  final List<DocumentSnapshot> list;
+  final int _rowCount;
+
+  DataRows(this.list, this._rowCount);
+
+  @override
+  DataRow getRow(int i) {
+    return DataRow(cells: [
+      DataCell(Text(
+        list[i].data['monthYearF'],
+        style: myStyle.style14Color1(),
+      )),
+      DataCell(Text(
+        list[i].data['countIs'].toString(),
+        style: myStyle.style14Color1(),
+      )),
+      DataCell(Text(
+        list[i].data['amountDF'],
+        style: myStyle.style14Color1(),
+      )),
+      DataCell(IconButton(
+        icon: Icon(
+          Icons.list,
+          color: myColor.color1,
+        ),
+        onPressed: () => {},
+      )),
+    ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => _rowCount;
+
+  @override
+  int get selectedRowCount => 0;
 }
