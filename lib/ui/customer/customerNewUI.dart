@@ -8,7 +8,6 @@ import 'package:retailapp/control/customer/controlCustomer.dart'
 import 'package:retailapp/control/my/myString.dart' as myString;
 import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
 
 class UI extends StatefulWidget {
   final bool withdoAfterSave;

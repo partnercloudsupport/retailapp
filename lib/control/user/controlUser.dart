@@ -131,6 +131,13 @@ Stream<QuerySnapshot> getAllOrderByName() {
   return Firestore.instance.collection(_name).orderBy('name').snapshots();
 }
 
+Stream<QuerySnapshot> getAllOrderByTotalAmountRequestD() {
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('myDiaryTotalAmountD', descending: true)
+      .snapshots();
+}
+
 Future<bool> addSomeColumn() async {
   try {
     var i = await Firestore.instance.collection(_name).getDocuments();
@@ -140,10 +147,10 @@ Future<bool> addSomeColumn() async {
           .collection(_name)
           .document(ii.documentID)
           .updateData({
-        "isEnabled": true,
+        "myDiaryTotalAmountD": 0.0,
+        "myDiaryTotalAmountDF": '',
       });
     });
-    print('Saved');
     return true;
   } catch (e) {
     print(e.toString());

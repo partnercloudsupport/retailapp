@@ -6,10 +6,15 @@ class Row {
   bool showInSchedule;
   bool needInsert;
   bool needUpdate;
+  double totalAmountRequestD;
+  String totalAmountRequestDF;
 
   Row(this.name, {this.needInsert = true}) {
     this.needUpdate = !this.needInsert;
     this.showInSchedule = true;
+    this.totalAmountRequestD = 0.0;
+    this.totalAmountRequestDF = r'0 $';
+
   }
 
   Row.fromSnapshot(DataSnapshot snapshot) {

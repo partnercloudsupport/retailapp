@@ -108,7 +108,9 @@ enum item {
   amountOfQuotation,
   youAreNotConnectedToTheInternet,
   youWereUnableToAddOrEditAnyRequest,
-  currentDataMayHaveBeenChanged
+  currentDataMayHaveBeenChanged,
+  statistics,
+  reports
 }
 
 String languageApp = 'en-US';
@@ -116,6 +118,12 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.reports:
+      return 'Reports';
+      break;
+    case item.statistics:
+      return 'Statistics';
+      break;
     case item.currentDataMayHaveBeenChanged:
       return 'Current data may have been changed';
       break;
@@ -445,6 +453,12 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.reports:
+      return 'تقارير';
+      break;
+    case item.statistics:
+      return 'احصائيات';
+      break;
     case item.currentDataMayHaveBeenChanged:
       return 'البيانات الحالية قد تكون تغيرت';
       break;

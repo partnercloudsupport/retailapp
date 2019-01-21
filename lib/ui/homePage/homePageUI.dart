@@ -5,6 +5,8 @@ import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 import 'package:retailapp/ui/myDiary/myDiaryListUI.dart' as myDiaryListUI;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/ui/reports/reportsRequestMyDiaryUI.dart'
+    as reportsRequestMyDiaryUI;
 
 int _currentIndex = 1;
 
@@ -24,8 +26,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
-    openUI(_currentIndex);
+    _tabController = TabController(length: 5, initialIndex: 0, vsync: this);
+    _openUI(_currentIndex);
   }
 
   @override
@@ -40,7 +42,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildBottomNavigationBar() {
     return BottomNavigationBar(
-      onTap: (int i) => openUI(i),
+      onTap: (int i) => _openUI(i),
       currentIndex: _currentIndex,
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
@@ -63,6 +65,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             activeIcon: _buildIconMyDiary(true),
             icon: _buildIconMyDiary(false),
             title: Text(myLanguage.text(myLanguage.item.myDiaries))),
+        BottomNavigationBarItem(
+            icon: Icon(
+              Icons.pie_chart,
+            ),
+            title: Text(myLanguage.text(myLanguage.item.reports))),
       ],
     );
   }
@@ -76,7 +83,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     );
   }
 
-  void openUI(int i) {
+  void _openUI(int i) {
     setState(() {
       _currentIndex = i;
 
@@ -92,6 +99,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           break;
         case 3:
           _ui = myDiaryListUI.UI();
+          break;
+        case 4:
+          _ui = reportsRequestMyDiaryUI.UI();
           break;
         default:
       }

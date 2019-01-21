@@ -130,6 +130,16 @@ String getStringFromNow(String format, {int extraDays = 0}) {
   }
 }
 
+String shortMMYYYY(String v) {
+  try {
+    if (v.substring(3) == DateTime.now().year.toString())
+      return v.substring(0, 2);
+  } catch (e) {
+    return v;
+  }
+  return v;
+}
+
 DateTime toMe(DateTime v) {
   return v == null ? DateTime.now() : v;
 }

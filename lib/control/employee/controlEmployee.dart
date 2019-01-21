@@ -55,6 +55,13 @@ Stream<QuerySnapshot> getShowInSchedule() {
       .snapshots();
 }
 
+Stream<QuerySnapshot> getAllOrderByTotalAmountRequestD() {
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('totalAmountRequestD', descending: true)
+      .snapshots();
+}
+
 Future<String> getKey(String v) async {
   try {
     QuerySnapshot dr = await Firestore.instance
@@ -67,4 +74,24 @@ Future<String> getKey(String v) async {
   } catch (e) {
     return "";
   }
+}
+
+Future<bool> addSomeColumn() async {
+  try {
+    var i = await Firestore.instance.collection(_name).getDocuments();
+
+    i.documents.forEach((ii) async {
+      await Firestore.instance
+          .collection(_name)
+          .document(ii.documentID)
+          .updateData({
+        "totalAmountRequestD": 0.0,
+        "totalAmountRequestDF": r'0 $',
+      });
+    });
+
+    return true;
+  } catch (e) {}
+
+  return false;
 }
