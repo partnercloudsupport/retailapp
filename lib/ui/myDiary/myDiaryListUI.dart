@@ -140,7 +140,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             builder: (context) => selectWithFilterUI.UI(
                   controlUser.getAllOrderByName(),
                   _filterApply,
-                  myLanguage.text(myLanguage.item.chooseAnUser),
+                  myLanguage.text(myLanguage.item.chooseAUser),
                   autofocus: false,
                 )));
   }

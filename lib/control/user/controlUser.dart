@@ -9,6 +9,7 @@ import 'package:retailapp/control/permission/controlPermission.dart'
 
 String _name = 'user';
 DocumentSnapshot drNow;
+bool isAdmin = false;
 
 Future<bool> signInByEmail(
     GlobalKey<ScaffoldState> scaffoldKey, String email, String password) async {
@@ -117,10 +118,11 @@ Future<bool> getMe() async {
         .collection(_name)
         .document(drNow.documentID)
         .get();
-    return drNow.exists;
+    if (drNow.exists == false) return false;
+    isAdmin = (drNow.data['name'].toString().toLowerCase() == 'admin');
   } catch (e) {}
 
-  return false;
+  return true;
 }
 
 Stream<QuerySnapshot> getAll() {
@@ -131,10 +133,17 @@ Stream<QuerySnapshot> getAllOrderByName() {
   return Firestore.instance.collection(_name).orderBy('name').snapshots();
 }
 
-Stream<QuerySnapshot> getAllOrderByTotalAmountRequestD() {
+Stream<QuerySnapshot> getAllOrderByMyDiaryTotalAmount() {
   return Firestore.instance
       .collection(_name)
       .orderBy('myDiaryTotalAmountD', descending: true)
+      .snapshots();
+}
+
+Stream<QuerySnapshot> getOnlyIsEnabled() {
+  return Firestore.instance
+      .collection(_name)
+      .where('isEnabled', isEqualTo: true)
       .snapshots();
 }
 

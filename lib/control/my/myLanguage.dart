@@ -97,7 +97,7 @@ enum item {
   win,
   view,
   editACallLog,
-  chooseAnUser,
+  chooseAUser,
   chooseImages,
   captureAnImage,
   itsMyPrivateImages,
@@ -110,7 +110,20 @@ enum item {
   youWereUnableToAddOrEditAnyRequest,
   currentDataMayHaveBeenChanged,
   statistics,
-  reports
+  reports,
+  thereAreNoData,
+  monthlySalesReportFromRequests,
+  month,
+  count,
+  total,
+  detail,
+  filterBy,
+  theFilterAppliesOnlyMonthly,
+  monthlySalesReportFromMyDiaries,
+  duration,
+  withZeroValues,
+  thisWillApplyToTheDetailsAsWell,
+  thisProcessIsSpecificOnlyToTheAdministrator
 }
 
 String languageApp = 'en-US';
@@ -118,6 +131,45 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.thisProcessIsSpecificOnlyToTheAdministrator:
+      return 'This process is specific only to the administrator';
+      break;
+    case item.thisWillApplyToTheDetailsAsWell:
+      return 'This will apply to the details as well';
+      break;
+    case item.withZeroValues:
+      return 'With zero values';
+      break;
+    case item.duration:
+      return 'Duration';
+      break;
+    case item.monthlySalesReportFromMyDiaries:
+      return 'Monthly sales report from my diaries';
+      break;
+    case item.theFilterAppliesOnlyMonthly:
+      return 'The filter applies only monthly';
+      break;
+    case item.filterBy:
+      return 'Filter by';
+      break;
+    case item.detail:
+      return 'Detail';
+      break;
+    case item.total:
+      return 'Total';
+      break;
+    case item.count:
+      return 'Count';
+      break;
+    case item.month:
+      return 'Month';
+      break;
+    case item.monthlySalesReportFromRequests:
+      return 'Monthly sales report from requests';
+      break;
+    case item.thereAreNoData:
+      return 'There are no data';
+      break;
     case item.reports:
       return 'Reports';
       break;
@@ -157,7 +209,7 @@ String _textEN(item t) {
     case item.chooseImages:
       return 'Choose images';
       break;
-    case item.chooseAnUser:
+    case item.chooseAUser:
       return 'Choose a user';
       break;
     case item.editACallLog:
@@ -311,7 +363,7 @@ String _textEN(item t) {
       return 'Requests';
       break;
     case item.viewLocation:
-      return 'view location';
+      return 'View location';
       break;
     case item.location:
       return 'Location';
@@ -453,6 +505,45 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.thisProcessIsSpecificOnlyToTheAdministrator:
+      return 'هذا العملية خاصة فقط بالمسؤول';
+      break;
+    case item.thisWillApplyToTheDetailsAsWell:
+      return 'سيتم تطبيق هذا على التفاصيل أيضا';
+      break;
+    case item.withZeroValues:
+      return 'مع القيم صفر';
+      break;
+    case item.duration:
+      return 'المدة الزمنية';
+      break;
+    case item.monthlySalesReportFromMyDiaries:
+      return 'تقرير المبيعات الشهري من يومياتي';
+      break;
+    case item.theFilterAppliesOnlyMonthly:
+      return 'التصفية تطبق  شهريا فقط';
+      break;
+    case item.filterBy:
+      return 'تصفية حسب';
+      break;
+    case item.detail:
+      return 'التفاصيل';
+      break;
+    case item.total:
+      return 'المجموع';
+      break;
+    case item.count:
+      return 'العدد';
+      break;
+    case item.month:
+      return 'الشهر';
+      break;
+    case item.monthlySalesReportFromRequests:
+      return 'تقرير المبيعات الشهري من الطلبات';
+      break;
+    case item.thereAreNoData:
+      return 'لا يوجد بيانات';
+      break;
     case item.reports:
       return 'تقارير';
       break;
@@ -492,7 +583,7 @@ String _textAR(item t) {
     case item.chooseImages:
       return 'اختر الصور';
       break;
-    case item.chooseAnUser:
+    case item.chooseAUser:
       return 'اختيار مستخدم';
       break;
     case item.editACallLog:

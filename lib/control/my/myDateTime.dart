@@ -166,3 +166,10 @@ int castDateToInt(DateTime v, {int addNumber = 0}) {
   } catch (e) {}
   return 0;
 }
+
+int castDateToYearMonthNumber(DateTime v) {
+  try {
+    return int.parse(format(v, format: 'yyyyMM'));
+  } catch (e) {}
+  return 0;
+}

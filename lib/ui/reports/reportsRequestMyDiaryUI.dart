@@ -5,6 +5,18 @@ import 'package:retailapp/ui/employee/employeeRequestReportTabUI.dart'
 import 'package:retailapp/ui/user/userMyDiaryReportTabUI.dart'
     as userMyDiaryReportTabUI;
 import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
+import 'package:retailapp/ui/employee/employeeRequestReportFilterUI.dart'
+    as employeeRequestReportFilterUI;
+import 'package:retailapp/ui/user/userMyDiaryReportFilterUI.dart'
+    as userMyDiaryReportFilterUI;
+import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+
+String _filterEmployee = '';
+String _filterUser = '';
+bool _filterWithDate = false;
+DateTime _filterFromDate = DateTime.now();
+DateTime _filterToDate = DateTime.now();
+bool _filterWithTotalZero = true;
 
 class UI extends StatefulWidget {
   @override
@@ -17,7 +29,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
+    _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
   }
 
   @override
@@ -31,8 +43,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            employeeRequestReportTabUI.UI(),
-            userMyDiaryReportTabUI.UI(),
+            employeeRequestReportTabUI.UI(_filterEmployee, _filterWithDate,
+                _filterFromDate, _filterToDate, _filterWithTotalZero),
+            userMyDiaryReportTabUI.UI(_filterUser, _filterWithDate,
+                _filterFromDate, _filterToDate, _filterWithTotalZero),
           ],
         ),
       ),
@@ -53,7 +67,82 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
+      actions: <Widget>[_buildFilter()],
     );
+  }
+
+  Widget _buildFilter() {
+    bool b = (_filterEmployee.isNotEmpty ||
+        _filterUser.isNotEmpty ||
+        _filterWithDate ||
+        _filterWithTotalZero == false);
+
+    return IconButton(
+      icon: Icon(
+        Icons.filter_list,
+        color: b ? Colors.white : Colors.grey,
+        size: b ? 32 : null,
+      ),
+      onPressed: _filterOpen,
+    );
+  }
+
+  void _filterOpen() {
+    if (_tabController.index == 0) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => employeeRequestReportFilterUI.UI(
+                  _filterEmployeeApply,
+                  _filterEmployee,
+                  _filterWithDate,
+                  _filterFromDate,
+                  _filterToDate,
+                  _filterWithTotalZero)));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => userMyDiaryReportFilterUI.UI(
+                  _filterUserApply,
+                  _filterUser,
+                  _filterWithDate,
+                  _filterFromDate,
+                  _filterToDate,
+                  _filterWithTotalZero)));
+    }
+  }
+
+  void _filterEmployeeApply(
+      String filterEmployee,
+      bool filterWithDate,
+      DateTime filterFromDate,
+      DateTime filterToDate,
+      bool filterWithTotalZero) {
+    setState(() {
+      _filterEmployee = filterEmployee;
+      _filterWithDate = filterWithDate;
+      DateTime fixDate = filterFromDate;
+      _filterFromDate = myDateTime.getLess(fixDate, filterToDate);
+      _filterToDate = myDateTime.getBiggest(fixDate, filterToDate);
+      _filterWithTotalZero = filterWithTotalZero;
+    });
+  }
+
+  void _filterUserApply(
+      String filterUser,
+      bool filterWithDate,
+      DateTime filterFromDate,
+      DateTime filterToDate,
+      bool filterWithTotalZero) {
+    setState(() {
+      _filterUser = filterUser;
+      _filterWithDate = filterWithDate;
+      DateTime fixDate = filterFromDate;
+      _filterFromDate = myDateTime.getLess(fixDate, filterToDate);
+      _filterToDate = myDateTime.getBiggest(fixDate, filterToDate);
+      _filterWithTotalZero = filterWithTotalZero;
+    });
   }
 
   @override

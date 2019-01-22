@@ -155,6 +155,13 @@ Stream<QuerySnapshot> getAllOrderByUser() {
       .snapshots();
 }
 
+Stream<QuerySnapshot> getAllOrderByamount() {
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('amount', descending: true)
+      .snapshots();
+}
+
 Future<bool> addSomeColumn() async {
   try {
     var i = await Firestore.instance.collection(_name).getDocuments();
