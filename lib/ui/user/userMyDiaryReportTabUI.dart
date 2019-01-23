@@ -9,6 +9,8 @@ import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 import 'package:retailapp/ui/myDiary/myDiaryDetailByUserUI.dart'
     as myDiaryDetailByUserUI;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final String _filterUser;
@@ -34,6 +36,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     super.initState();
     controlUser.getMe();
     setState(() {
@@ -129,7 +132,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 rowsPerPage: c <= 3 ? c : 3,
                 header: Text(myLanguage
                     .text(myLanguage.item.monthlySalesReportFromMyDiaries)),
-                source: DataRows(list, c, context, dr.documentID),
+                source: DataRows(list, c, context, dr.documentID,
+                    widget._filterWithTotalZero),
                 columns: <DataColumn>[
                   DataColumn(
                       label: Text(myLanguage.text(myLanguage.item.month))),
@@ -173,7 +177,9 @@ class DataRows extends DataTableSource {
   final int _rowCount;
   final BuildContext _context;
   final String _userID;
-  DataRows(this.list, this._rowCount, this._context, this._userID);
+  final bool _filterWithTotalZero;
+  DataRows(this.list, this._rowCount, this._context, this._userID,
+      this._filterWithTotalZero);
 
   @override
   DataRow getRow(int i) {
@@ -199,8 +205,8 @@ class DataRows extends DataTableSource {
           Navigator.push(
               _context,
               MaterialPageRoute(
-                  builder: (context) => myDiaryDetailByUserUI.UI(
-                      _userID, list[i].data['monthYearNumber'])));
+                  builder: (context) => myDiaryDetailByUserUI.UI(_userID,
+                      list[i].data['monthYearNumber'], _filterWithTotalZero)));
         },
       )),
     ]);

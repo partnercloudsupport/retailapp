@@ -10,6 +10,8 @@ import 'package:retailapp/control/request/controlRequestType.dart'
 import 'package:retailapp/control/my/mySharedPreferences.dart'
     as mySharedPreferences;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 String _filterType = '';
 String _filterEmployee = '';
@@ -34,6 +36,12 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    controlLiveVersion.checkupVersion(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(

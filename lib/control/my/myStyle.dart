@@ -31,17 +31,17 @@ TextStyle style16Color1() {
   return TextStyle(fontSize: 16.0, color: myColor.color1);
 }
 
+TextStyle style16Color1Italic() {
+  return TextStyle(
+      fontSize: 16.0, color: myColor.color1, fontStyle: FontStyle.italic);
+}
+
 TextStyle style16Color2() {
   return TextStyle(fontSize: 16.0, color: myColor.color2);
 }
 
 TextStyle style16Color4() {
   return TextStyle(fontSize: 16.0, color: myColor.color4);
-}
-
-TextStyle style16Color1Italic() {
-  return TextStyle(
-      fontSize: 16.0, color: myColor.color1, fontStyle: FontStyle.italic);
 }
 
 TextStyle style18Color1() {

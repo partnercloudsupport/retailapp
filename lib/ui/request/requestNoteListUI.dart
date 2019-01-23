@@ -4,9 +4,10 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/request/controlRequestNote.dart'
     as controlRequestNote;
-
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final double requestID;
@@ -27,7 +28,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    controlLiveVersion.checkupVersion(context);
     _ac =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
   }

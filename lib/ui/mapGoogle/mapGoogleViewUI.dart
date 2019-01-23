@@ -4,6 +4,8 @@ import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/control/my/myLocation.dart' as myLocation;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 CameraPosition _currentCameraPosition;
 
@@ -27,6 +29,7 @@ class _UIState extends State<UI> {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     initStateMe();
     super.initState();
   }

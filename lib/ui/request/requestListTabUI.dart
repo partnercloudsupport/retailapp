@@ -25,6 +25,8 @@ import 'package:retailapp/control/request/controlRequest.dart'
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
 import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final bool _searchActive;
@@ -72,6 +74,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    controlLiveVersion.checkupVersion(context);
     controlUser.getMe();
     controlPermission.getMe();
     setState(() {

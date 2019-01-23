@@ -123,7 +123,12 @@ enum item {
   duration,
   withZeroValues,
   thisWillApplyToTheDetailsAsWell,
-  thisProcessIsSpecificOnlyToTheAdministrator
+  thisProcessIsSpecificOnlyToTheAdministrator,
+  date,
+  customer,
+  pleaseUpdateYourApp,
+  fromCurrentVersion,
+  toTheNewVersion,
 }
 
 String languageApp = 'en-US';
@@ -131,6 +136,21 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.toTheNewVersion:
+      return 'To the new version';
+      break;
+    case item.fromCurrentVersion:
+      return 'From current version';
+      break;
+    case item.pleaseUpdateYourApp:
+      return 'Please update your app';
+      break;
+    case item.customer:
+      return 'Customer';
+      break;
+    case item.date:
+      return 'Date';
+      break;
     case item.thisProcessIsSpecificOnlyToTheAdministrator:
       return 'This process is specific only to the administrator';
       break;
@@ -505,6 +525,21 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.toTheNewVersion:
+      return 'إلى الإصدار الجديد';
+      break;
+    case item.fromCurrentVersion:
+      return 'من الإصدار الحالي';
+      break;
+    case item.pleaseUpdateYourApp:
+      return 'نرجو منك تحديث تطبيقك';
+      break;
+    case item.customer:
+      return 'الزبون';
+      break;
+    case item.date:
+      return 'التاريخ';
+      break;
     case item.thisProcessIsSpecificOnlyToTheAdministrator:
       return 'هذا العملية خاصة فقط بالمسؤول';
       break;

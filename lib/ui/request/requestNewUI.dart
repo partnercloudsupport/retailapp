@@ -18,6 +18,8 @@ import 'package:retailapp/control/request/controlRequestType.dart'
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 import 'package:retailapp/control/my/myString.dart' as myString;
 import 'package:retailapp/control/my/myInternetStatus.dart' as myInternetStatus;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 String _requiredImplementation = '';
 String _customer = '';
@@ -52,6 +54,12 @@ class _UIState extends State<UI> {
   final FocusNode _focusNode2 = new FocusNode();
 
   final dateFormat = DateFormat("EEEE, d-MM-yyyy 'at' h:mma");
+
+  @override
+  void initState() {
+    controlLiveVersion.checkupVersion(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

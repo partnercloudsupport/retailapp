@@ -8,6 +8,8 @@ import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final void Function(String) _save;
@@ -26,6 +28,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     initStateMe();
     super.initState();
   }
@@ -142,9 +145,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   Widget _buildCard(DocumentSnapshot dr) {
     return ListTile(
       onTap: () {
-
         print(dr['name']);
-        
+
         widget._save(dr['name']);
         Navigator.pop(context);
       },

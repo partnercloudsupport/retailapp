@@ -18,6 +18,8 @@ import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
 import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
 import 'package:retailapp/ui//all/imageViewAsset.dart' as imageViewAsset;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final DocumentSnapshot dr;
@@ -37,6 +39,12 @@ class _UIState extends State<UI> {
   List<Asset> _imagesGallery = List<Asset>();
   File _imageCamera;
   bool _isPrivate = false;
+
+  @override
+  void initState() {
+    controlLiveVersion.checkupVersion(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

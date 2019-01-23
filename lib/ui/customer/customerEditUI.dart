@@ -10,6 +10,8 @@ import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 DocumentSnapshot _dr;
 
@@ -40,6 +42,7 @@ class _UIState extends State<UI> {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     initStateMe();
     _mapLocation =
         LatLng(_mapLocationBase.latitude, _mapLocationBase.longitude);

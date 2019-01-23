@@ -9,8 +9,10 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
-import 'package:retailapp/ui/myDiary/myDiaryDetailByUserUI.dart'
-    as myDiaryDetailByUserUI;
+import 'package:retailapp/ui/request/requestHistoryDetailByEmployeeUI.dart'
+    as requestHistoryDetailByEmployeeUI;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final String _filterEmployee;
@@ -38,6 +40,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     super.initState();
     controlUser.getMe();
     setState(() {
@@ -134,8 +137,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 rowsPerPage: c <= 3 ? c : 3,
                 header: Text(myLanguage
                     .text(myLanguage.item.monthlySalesReportFromRequests)),
-                source: DataRows(list, c, context, widget._filterWithDate,
-                    _filterFromMonthYearNumber, _filterToMonthYearNumber),
+                source: DataRows(
+                    list,
+                    c,
+                    context,
+                    widget._filterWithDate,
+                    _filterFromMonthYearNumber,
+                    _filterToMonthYearNumber,
+                    widget._filterWithTotalZero),
                 columns: <DataColumn>[
                   DataColumn(
                       label: Text(myLanguage.text(myLanguage.item.month))),
@@ -181,9 +190,15 @@ class DataRows extends DataTableSource {
   final bool _filterWithDate;
   final int _filterFromMonthYearNumber;
   final int _filterToMonthYearNumber;
-
-  DataRows(this.list, this._rowCount, this._context, this._filterWithDate,
-      this._filterFromMonthYearNumber, this._filterToMonthYearNumber);
+  final bool _filterWithTotalZero;
+  DataRows(
+      this.list,
+      this._rowCount,
+      this._context,
+      this._filterWithDate,
+      this._filterFromMonthYearNumber,
+      this._filterToMonthYearNumber,
+      this._filterWithTotalZero);
 
   @override
   DataRow getRow(int i) {
@@ -209,8 +224,10 @@ class DataRows extends DataTableSource {
           Navigator.push(
               _context,
               MaterialPageRoute(
-                  builder: (context) => myDiaryDetailByUserUI.UI(
-                      list[i].data['userID'], list[i].data['monthYear'])));
+                  builder: (context) => requestHistoryDetailByEmployeeUI.UI(
+                      list[i].data['employeeID'].toString(),
+                      list[i].data['monthYearNumber'],
+                      _filterWithTotalZero)));
         },
       )),
     ]);

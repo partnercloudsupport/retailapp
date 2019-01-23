@@ -11,6 +11,8 @@ import 'package:retailapp/ui/customer/customerSelectUI.dart'
 import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final DocumentSnapshot dr;
@@ -37,6 +39,7 @@ class _UIState extends State<UI> {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     _customer = widget.dr['customer'];
     _beginDate = widget.dr['beginDate'];
     _endDate = widget.dr['endDate'];

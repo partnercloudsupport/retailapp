@@ -18,6 +18,8 @@ import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 import 'package:retailapp/control/my/myInternetStatus.dart' as myInternetStatus;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final DocumentSnapshot dr;
@@ -46,6 +48,7 @@ class _UIState extends State<UI> {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     _customer = widget.dr['customer'];
     _employee = widget.dr['employee'];
     _requiredImplementation = widget.dr['requiredImplementation'];

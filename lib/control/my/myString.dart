@@ -39,3 +39,11 @@ String toMef(var v) {
   } catch (e) {}
   return '';
 }
+
+String addEnterIfNotEmpty(String v) {
+  return v.trim().isNotEmpty ? v + '\n' : '';
+}
+
+String insertEnterIfNotEmpty(String v) {
+  return v.trim().isNotEmpty ? '\n' + v : '';
+}

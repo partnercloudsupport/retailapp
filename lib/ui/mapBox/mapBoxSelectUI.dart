@@ -5,6 +5,8 @@ import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/control/mapBox/controlMapBox.dart' as controlMapBox;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myLocation.dart' as myLocation;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 LatLng _currentPoint;
 void Function(LatLng) _save;
@@ -24,6 +26,7 @@ class _UIState extends State<UI> {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     super.initState();
     _map = MapController();
   }

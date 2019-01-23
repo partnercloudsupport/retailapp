@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final void Function(String) _save;
@@ -18,6 +20,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   String _filter = '';
   TextEditingController _textEditingController =
       TextEditingController(text: '');
+
+  @override
+  void initState() {
+    controlLiveVersion.checkupVersion(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +68,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     onChanged: (v) => _filterApply(v),
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText:
-                          myLanguage.text(myLanguage.item.search) + '...',
+                      hintText: myLanguage.text(myLanguage.item.search) + '...',
                     ),
                   ),
                 ),

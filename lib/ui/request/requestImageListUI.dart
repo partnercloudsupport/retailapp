@@ -13,6 +13,8 @@ import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
 import 'package:retailapp/control/my/myDialog.dart' as myDialog;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final double requestID;
@@ -30,8 +32,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     super.initState();
-
     _ac =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
   }

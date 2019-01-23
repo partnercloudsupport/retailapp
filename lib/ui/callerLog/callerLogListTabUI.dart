@@ -8,6 +8,8 @@ import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 import 'package:retailapp/ui/callerLog/callerLogEditUI.dart' as callerLogEditUI;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final Stream<QuerySnapshot> querySnapshot;
@@ -31,6 +33,7 @@ class _UIState extends State<UI> {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     super.initState();
 
     if (super.widget.withFilterAction && _fromDate != null && _toDate != null) {

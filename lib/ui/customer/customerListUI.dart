@@ -11,6 +11,8 @@ import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   @override
@@ -27,6 +29,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     super.initState();
     _ac =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));

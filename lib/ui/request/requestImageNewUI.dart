@@ -10,6 +10,8 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
 import 'package:retailapp/ui//all/imageViewAsset.dart' as imageViewAsset;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final double _requestID;
@@ -24,6 +26,12 @@ class _UIState extends State<UI> {
   List<Asset> _imagesGallery = List<Asset>();
   File _imageCamera;
   bool _isPrivate = false;
+
+  @override
+  void initState() {
+    controlLiveVersion.checkupVersion(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

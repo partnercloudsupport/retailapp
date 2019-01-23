@@ -4,6 +4,8 @@ import 'package:retailapp/control/my/myStyle.dart' as myStyle;
 import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
 import 'package:retailapp/control/callerLog/controlCallerLog.dart'
     as controlCallerLog;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final DocumentSnapshot dr;
@@ -18,6 +20,7 @@ class _UIState extends State<UI> {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     _note = widget.dr['noteIs'];
     super.initState();
   }

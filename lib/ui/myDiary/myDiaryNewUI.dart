@@ -10,6 +10,8 @@ import 'package:retailapp/ui/customer/customerSelectUI.dart'
 import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
 import 'package:retailapp/control/my/mydouble.dart' as mydouble;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -32,6 +34,12 @@ class _UIState extends State<UI> {
 
   final FocusNode _focusNode1 = new FocusNode();
   final FocusNode _focusNode2 = new FocusNode();
+
+  @override
+  void initState() {
+    controlLiveVersion.checkupVersion(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -8,6 +8,8 @@ import 'package:retailapp/control/customer/controlCustomer.dart'
 import 'package:retailapp/control/my/myString.dart' as myString;
 import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
 import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final bool withdoAfterSave;
@@ -33,6 +35,12 @@ class _UIState extends State<UI> {
   final FocusNode _focusNodeAddress = new FocusNode();
   final FocusNode _focusNodeEmail = new FocusNode();
   final FocusNode _focusNodeNote = new FocusNode();
+  
+  @override
+  void initState() {
+    controlLiveVersion.checkupVersion(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

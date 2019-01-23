@@ -13,6 +13,8 @@ import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 import 'package:retailapp/control/my/myDialog.dart' as myDialog;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 class UI extends StatefulWidget {
   final controlMyDiary.TypeView _typeView;
@@ -41,6 +43,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    controlLiveVersion.checkupVersion(context);
     super.initState();
     _searchController = TextEditingController(text: _searchText);
     _ac =

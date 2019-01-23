@@ -5,6 +5,8 @@ import 'package:retailapp/control/my/myColor.dart' as myColor;
 import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
+    as controlLiveVersion;
 
 String _filterUser = '';
 bool _filterWithDate = false;
@@ -34,6 +36,12 @@ class UI extends StatefulWidget {
 }
 
 class UIState extends State<UI> with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    controlLiveVersion.checkupVersion(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
