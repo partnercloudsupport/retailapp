@@ -11,7 +11,10 @@ Stream<QuerySnapshot> getAllOrderByEmployee() {
 }
 
 Stream<QuerySnapshot> getAllOrderByamount() {
-  return Firestore.instance.collection(_name).orderBy('amount').snapshots();
+  return Firestore.instance
+      .collection(_name)
+      .orderBy('amount', descending: true)
+      .snapshots();
 }
 
 Future<bool> addSomeColumn() async {

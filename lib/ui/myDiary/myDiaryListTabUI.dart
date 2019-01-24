@@ -375,7 +375,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _delete(DocumentSnapshot dr) async {
-    if (await myDialog.deleteAsk(context) == 'Yes') {
+    if (await myDialog.deleteAsk(context) == myDialog.ReturnDialog.yes) {
       controlMyDiary.delete(scaffoldKey, dr.documentID);
     }
   }

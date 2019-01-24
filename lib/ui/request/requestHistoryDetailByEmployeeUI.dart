@@ -43,11 +43,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             if (!v.hasData) return _buildLoading();
 
             List<DocumentSnapshot> list = v.data.documents.where((v) {
-              if (v.data['employeeID'].toString() != widget.filterByEmployeeID)
+              if (v.data['salsemanID'].toString() != widget.filterByEmployeeID)
                 return false;
 
               if (widget._filterWithTotalZero == false && v.data['amount'] == 0)
                 return false;
+
+              if (v.data['statusIs'] != 4) return false;
 
               if (myDateTime.castDateToYearMonthNumber(v.data['endIn']) !=
                   widget._filterMonthYearNumber) return false;
@@ -71,9 +73,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   .text(myLanguage.item.monthlySalesReportFromRequests)),
               source: DataRows(list, c),
               columns: <DataColumn>[
-                DataColumn(label: Text(myLanguage.text(myLanguage.item.customer))),
                 DataColumn(
-                    label: Text(myLanguage.text(myLanguage.item.date))),
+                    label: Text(myLanguage.text(myLanguage.item.customer))),
+                DataColumn(label: Text(myLanguage.text(myLanguage.item.date))),
                 DataColumn(
                     label: Text(myLanguage.text(myLanguage.item.amount))),
                 DataColumn(

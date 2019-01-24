@@ -170,7 +170,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Text(
-                dr['note'],
+                dr.documentID,
               ),
             ),
             Row(
@@ -322,7 +322,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _delete(DocumentSnapshot dr) async {
-    if (await myDialog.deleteAsk(context) == 'Yes') {
+    if (await myDialog.deleteAsk(context) == myDialog.ReturnDialog.yes) {
       controlRequestImage.delete(dr.documentID);
     }
   }

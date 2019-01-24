@@ -129,6 +129,8 @@ enum item {
   pleaseUpdateYourApp,
   fromCurrentVersion,
   toTheNewVersion,
+  whatsNew,
+  whatsNewInThisVersion
 }
 
 String languageApp = 'en-US';
@@ -136,6 +138,12 @@ String languageApp = 'en-US';
 
 String _textEN(item t) {
   switch (t) {
+    case item.whatsNewInThisVersion:
+      return 'What\'s new in this version';
+      break;
+    case item.whatsNew:
+      return 'What\'s new';
+      break;
     case item.toTheNewVersion:
       return 'To the new version';
       break;
@@ -525,6 +533,12 @@ String _textEN(item t) {
 
 String _textAR(item t) {
   switch (t) {
+    case item.whatsNewInThisVersion:
+      return 'ما هو الجديد في هذا الإصدار';
+      break;
+    case item.whatsNew:
+      return 'ما الجديد';
+      break;
     case item.toTheNewVersion:
       return 'إلى الإصدار الجديد';
       break;
