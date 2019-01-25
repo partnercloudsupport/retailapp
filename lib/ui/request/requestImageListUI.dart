@@ -212,7 +212,6 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           placeholder: CircularProgressIndicator(),
           errorWidget: Icon(Icons.error),
         ));
-    // return Container(height: 200, child: Image.network(dr['pathImage']));
   }
 
   Widget _buildNeedInsertOrUpdate(DocumentSnapshot dr) {
