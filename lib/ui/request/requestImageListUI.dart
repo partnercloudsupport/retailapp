@@ -170,7 +170,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Text(
-                dr.documentID,
+                dr['note'],
               ),
             ),
             Row(

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 enum Types { hhmma, kkmm, ddMMyyyy, ddMMyyyykk, ddMMyyyykkmm, ddMMyyyyhhmma }
 
-String _castTypesFormat(Types t) {
+String castTypesFormat(Types t) {
   switch (t) {
     case Types.hhmma:
       return 'hh:mm a';
@@ -41,7 +41,7 @@ String format(DateTime v, {String format = 'dd-MM-yyyy – hh:mm a'}) {
 
 String formatBy(DateTime v, Types t) {
   try {
-    return DateFormat(_castTypesFormat(t)).format(v).toString();
+    return DateFormat(castTypesFormat(t)).format(v).toString();
   } catch (e) {
     return '';
   }
@@ -49,7 +49,7 @@ String formatBy(DateTime v, Types t) {
 
 String formatTimeOfDayBy(TimeOfDay v, Types t) {
   try {
-    return DateFormat(_castTypesFormat(t))
+    return DateFormat(castTypesFormat(t))
         .format(DateTime.utc(2019, 1, 1, v.hour, v.minute))
         .toString();
   } catch (e) {
@@ -59,7 +59,7 @@ String formatTimeOfDayBy(TimeOfDay v, Types t) {
 
 String formatByFromString(String v, Types t) {
   try {
-    return DateFormat(_castTypesFormat(t)).format(DateTime.parse(v));
+    return DateFormat(castTypesFormat(t)).format(DateTime.parse(v));
   } catch (e) {
     return '';
   }
@@ -98,7 +98,7 @@ String formatAndShortBy(DateTime v, Types t) {
         v.day == DateTime.now().day) {
       return formatBy(v, Types.hhmma);
     } else {
-      return DateFormat(_castTypesFormat(t)).format(v).toString();
+      return DateFormat(castTypesFormat(t)).format(v).toString();
     }
   } catch (e) {
     return '';
@@ -114,7 +114,7 @@ String formatAndShortByFromString(String v, Types t) {
         v1.day == DateTime.now().day) {
       return formatBy(v1, Types.hhmma);
     } else {
-      return DateFormat(_castTypesFormat(t)).format(v1).toString();
+      return DateFormat(castTypesFormat(t)).format(v1).toString();
     }
   } catch (e) {
     return '';

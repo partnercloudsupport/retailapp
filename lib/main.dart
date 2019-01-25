@@ -10,6 +10,7 @@ import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 
 void main() {
+  //Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
   runApp(UI());
 }
 
