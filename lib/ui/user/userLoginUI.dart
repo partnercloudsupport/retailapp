@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
+import 'package:retailapp/control/my/myStyle.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/mySnackBar.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
-import 'package:retailapp/control/my/mySharedPreferences.dart'
-    as mySharedPreferences;
+import 'package:retailapp/control/my/mySharedPreferences.dart';
 
 String userName = '';
 
@@ -22,13 +21,13 @@ class _UIState extends State<UI> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
           title: Text(
-            myLanguage.text(myLanguage.item.smartSecurity),
-            style: myStyle.style20Color2(),
+            MyLanguage.text(myLanguageItem.smartSecurity),
+            style: MyStyle.style20Color2(),
           ),
         ),
         body: Container(
@@ -53,10 +52,10 @@ class _UIState extends State<UI> {
     return TextFormField(
       initialValue: userName,
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.yourName)),
-      style: myStyle.style20Color1(),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.yourName)),
+      style: MyStyle.style20Color1(),
       validator: (v) => v.isEmpty
-          ? myLanguage.text(myLanguage.item.youMustInsertYourName)
+          ? MyLanguage.text(myLanguageItem.youMustInsertYourName)
           : null,
       keyboardType: TextInputType.emailAddress,
       onSaved: (v) => userName = v.trim(),
@@ -67,24 +66,24 @@ class _UIState extends State<UI> {
     return TextFormField(
       initialValue: '',
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.yourPassword)),
+          labelText: MyLanguage.text(myLanguageItem.yourPassword)),
       validator: (v) {
         if (v.isEmpty)
-          return myLanguage.text(myLanguage.item.youMustInsertYourPassword);
+          return MyLanguage.text(myLanguageItem.youMustInsertYourPassword);
 
         return null;
       },
       onSaved: (v) => _userPassword = v.trim(),
       obscureText: true,
-      style: myStyle.style20Color1(),
+      style: MyStyle.style20Color1(),
     );
   }
 
   Widget _buildRaisedButtonLogin() {
     return RaisedButton(
       child: Text(
-        myLanguage.text(myLanguage.item.login),
-        style: myStyle.style18Color1(),
+        MyLanguage.text(myLanguageItem.login),
+        style: MyStyle.style18Color1(),
       ),
       onPressed: _save,
     );
@@ -95,8 +94,8 @@ class _UIState extends State<UI> {
       _formKey.currentState.save();
       return true;
     } else {
-      mySnackBar.show1(
-          scaffoldKey, myLanguage.text(myLanguage.item.theDataIsIncorrect));
+      MySnackBar.show1(
+          scaffoldKey, MyLanguage.text(myLanguageItem.theDataIsIncorrect));
       return false;
     }
   }
@@ -107,8 +106,8 @@ class _UIState extends State<UI> {
         if (await controlUser.signInByEmail(
                 scaffoldKey, 'samerbrees@gmail.com', '12345678') &&
             await controlUser.signIn(scaffoldKey, userName, _userPassword)) {
-          await mySharedPreferences.setUserName(userName);
-          await mySharedPreferences.setUserPassword(_userPassword);
+          await MySharedPreferences.setUserName(userName);
+          await MySharedPreferences.setUserPassword(_userPassword);
           _formKey.currentState.reset();
           Navigator.pushAndRemoveUntil(
               context,

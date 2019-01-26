@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/ui/myDiary/myDiaryListTabUI.dart' as myDiaryListTabUI;
 import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
 import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
@@ -29,7 +29,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         drawer: homeDrawer.buildDrawer(context),
         appBar: _buildAppBar(),
@@ -73,21 +73,21 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.myDiaries)),
+      title: Text(MyLanguage.text(myLanguageItem.myDiaries)),
       bottom: TabBar(
         controller: _tabController,
         tabs: <Tab>[
           Tab(
-            text: myLanguage.text(myLanguage.item.today),
+            text: MyLanguage.text(myLanguageItem.today),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.item.yesterday),
+            text: MyLanguage.text(myLanguageItem.yesterday),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.item.lastWeek),
+            text: MyLanguage.text(myLanguageItem.lastWeek),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.item.all),
+            text: MyLanguage.text(myLanguageItem.all),
           ),
         ],
       ),
@@ -140,7 +140,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             builder: (context) => selectWithFilterUI.UI(
                   controlUser.getAllOrderByName(),
                   _filterApply,
-                  myLanguage.text(myLanguage.item.chooseAUser),
+                  MyLanguage.text(myLanguageItem.chooseAUser),
                   autofocus: false,
                 )));
   }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
 import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
 import 'package:retailapp/ui/user/userLoginUI.dart' as userLoginUI;
-import 'package:retailapp/control/my/mySharedPreferences.dart'
-    as mySharedPreferences;
+import 'package:retailapp/control/my/mySharedPreferences.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 
@@ -27,14 +27,14 @@ class _UIState extends State<UI> {
   }
 
   void _initState() async {
-    myLanguage.setLanguage(await mySharedPreferences.getLanguageApp());
-    userLoginUI.userName = await mySharedPreferences.getUserName();
+    MyLanguage.setLanguage(await MySharedPreferences.getLanguageApp());
+    userLoginUI.userName = await MySharedPreferences.getUserName();
     requestListUI.filterEmployee =
-        await mySharedPreferences.getRequestFilterEmployee();
+        await MySharedPreferences.getRequestFilterEmployee();
 
     bool myAccountIsVaild = await controlUser.signInByAuto(
-        await mySharedPreferences.getUserName(),
-        await mySharedPreferences.getUserPassword());
+        await MySharedPreferences.getUserName(),
+        await MySharedPreferences.getUserPassword());
 
     setState(() {
       _myLanguageIsLoaded = true;
@@ -56,7 +56,7 @@ class _UIState extends State<UI> {
             )
           : _myAccountIsVaild ? homePageUI.UI(4) : userLoginUI.UI(),
       theme:
-          ThemeData(primarySwatch: Colors.blue, primaryColor: myColor.color1),
+          ThemeData(primarySwatch: Colors.blue, primaryColor: MyColor.color1),
       routes: <String, WidgetBuilder>{
         '/customerNewUI': (BuildContext context) => customerNewUI.UI(),
       },

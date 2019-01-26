@@ -4,11 +4,13 @@ import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/employee/controlEmployeeRequestMonthlyReport.dart'
     as controlEmployeeRequestMonthlyReport;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
+import 'package:retailapp/control/my/myDateTime.dart';
+
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/my/myLanguage.dart';
+
 import 'package:retailapp/ui/request/requestHistoryDetailByEmployeeUI.dart'
     as requestHistoryDetailByEmployeeUI;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -51,9 +53,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           ', ';
 
       _filterFromMonthYearNumber =
-          myDateTime.castDateToYearMonthNumber(widget._filterFromDate);
+          MyDateTime.castDateToYearMonthNumber(widget._filterFromDate);
       _filterToMonthYearNumber =
-          myDateTime.castDateToYearMonthNumber(widget._filterToDate);
+          MyDateTime.castDateToYearMonthNumber(widget._filterToDate);
     });
   }
 
@@ -92,13 +94,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       child: ExpansionTile(
         leading: Text(
           dr['totalAmountRequestDF'],
-          style: myStyle.style20Color1(),
+          style: MyStyle.style20Color1(),
         ),
         title: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             dr['name'],
-            style: myStyle.style14Color1(),
+            style: MyStyle.style14Color1(),
           ),
         ),
         children: <Widget>[
@@ -128,15 +130,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    myLanguage.text(myLanguage.item.thereAreNoData) + '...',
-                    style: myStyle.style12Color3(),
+                    MyLanguage.text(myLanguageItem.thereAreNoData) + '...',
+                    style: MyStyle.style12Color3(),
                   ),
                 );
 
               return PaginatedDataTable(
                 rowsPerPage: c <= 3 ? c : 3,
-                header: Text(myLanguage
-                    .text(myLanguage.item.monthlySalesReportFromRequests)),
+                header: Text(MyLanguage
+                    .text(myLanguageItem.monthlySalesReportFromRequests)),
                 source: DataRows(
                     list,
                     c,
@@ -147,13 +149,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     widget._filterWithTotalZero),
                 columns: <DataColumn>[
                   DataColumn(
-                      label: Text(myLanguage.text(myLanguage.item.month))),
+                      label: Text(MyLanguage.text(myLanguageItem.month))),
                   DataColumn(
-                      label: Text(myLanguage.text(myLanguage.item.count))),
+                      label: Text(MyLanguage.text(myLanguageItem.count))),
                   DataColumn(
-                      label: Text(myLanguage.text(myLanguage.item.total))),
+                      label: Text(MyLanguage.text(myLanguageItem.total))),
                   DataColumn(
-                      label: Text(myLanguage.text(myLanguage.item.detail))),
+                      label: Text(MyLanguage.text(myLanguageItem.detail))),
                 ],
               );
             },
@@ -205,20 +207,20 @@ class DataRows extends DataTableSource {
     return DataRow(cells: [
       DataCell(Text(
         list[i].data['monthYearF'],
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(Text(
         list[i].data['countIs'].toString(),
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(Text(
         list[i].data['amountDF'],
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(IconButton(
         icon: Icon(
           Icons.list,
-          color: myColor.color1,
+          color: MyColor.color1,
         ),
         onPressed: () {
           Navigator.push(

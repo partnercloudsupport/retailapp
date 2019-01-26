@@ -1,2 +1,2 @@
-enum Filter { none, equal, range }
+enum MyFilterItem { none, equal, range }
 

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
+import 'package:retailapp/control/my/myDateTime.dart';
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+
+
 import 'package:retailapp/ui/all/imageZoom.dart' as imageZoom;
 import 'package:retailapp/ui/request/requestImageNewUI.dart'
     as requestImageNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
+import 'package:retailapp/control/my/mySuperTooltip.dart';
 import 'package:retailapp/control/my/myDialog.dart' as myDialog;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -41,7 +43,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         appBar: _buildAppBar(),
         body: Center(
@@ -61,7 +63,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return _filterActive
         ? null
         : AppBar(
-            title: Text(myLanguage.text(myLanguage.item.timelineImages)),
+            title: Text(MyLanguage.text(myLanguageItem.timelineImages)),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
@@ -83,7 +85,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom:
-                              BorderSide(width: 1.0, color: myColor.color1))),
+                              BorderSide(width: 1.0, color: MyColor.color1))),
                   padding: EdgeInsets.only(top: 25.0),
                   child: Row(
                     children: <Widget>[
@@ -92,7 +94,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         child: InkWell(
                           child: Icon(
                             Icons.arrow_back,
-                            color: myColor.color1,
+                            color: MyColor.color1,
                           ),
                           onTap: _filterReactive,
                         ),
@@ -100,13 +102,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                       Flexible(
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.style15Color1(),
+                          style: MyStyle.style15Color1(),
                           controller: _filterController,
                           onChanged: (v) => _filterApply(v),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.item.search) + '...',
+                                MyLanguage.text(myLanguageItem.search) + '...',
                           ),
                         ),
                       ),
@@ -117,7 +119,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                             : InkWell(
                                 child: Icon(
                                   Icons.clear,
-                                  color: myColor.color1,
+                                  color: MyColor.color1,
                                 ),
                                 onTap: _filterClear,
                               ),
@@ -129,7 +131,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     height: 1,
                     decoration: BoxDecoration(boxShadow: [
                       BoxShadow(
-                          color: myColor.color1,
+                          color: MyColor.color1,
                           blurRadius: 5.0,
                           offset: Offset(0.0, 5.0)),
                     ])),
@@ -181,11 +183,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   ),
                 ),
                 Text(
-                  myDateTime.formatAndShortByFromString(
+                  MyDateTime.formatAndShortByFromString(
                       dr['dateTimeIs'].toString(),
-                      myDateTime.Types.ddMMyyyyhhmma),
+                      MyDateTimeFormatTypes.ddMMyyyyhhmma),
                   textAlign: TextAlign.end,
-                  style: myStyle.style12Color3(),
+                  style: MyStyle.style12Color3(),
                 ),
                 SizedBox(
                   width: 8.0,
@@ -268,7 +270,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
     return Image.asset(
       t,
-      color: myColor.color1,
+      color: MyColor.color1,
       height: 16.0,
       width: 16.0,
     );
@@ -293,7 +295,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: _new,
-      backgroundColor: myColor.color1,
+      backgroundColor: MyColor.color1,
     );
   }
 
@@ -316,8 +318,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _deleteTooltip() {
-    mySuperTooltip.show4(
-        context, myLanguage.text(myLanguage.item.pressForALongTimeToDeleteIt));
+    MySuperTooltip.show4(
+        context, MyLanguage.text(myLanguageItem.pressForALongTimeToDeleteIt));
   }
 
   void _delete(DocumentSnapshot dr) async {

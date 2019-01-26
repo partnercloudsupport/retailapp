@@ -2,15 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/my/myDateTime.dart';
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myStyle.dart';
+
+
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/ui/request/requestNoteListUI.dart'
     as requestNoteListUI;
 import 'package:retailapp/ui/request/requestEditUI.dart' as requestEditUI;
-import 'package:retailapp/control/my/myString.dart' as myString;
+import 'package:retailapp/control/my/myString.dart';
 import 'package:retailapp/ui/request/requestWinUI.dart' as requestWinUI;
 import 'package:retailapp/ui/request/requestImageListUI.dart'
     as requestImageListUI;
@@ -24,7 +26,7 @@ import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
+import 'package:retailapp/control/my/mySnackBar.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -64,8 +66,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   String _search = '';
   TextEditingController _searchController = TextEditingController(text: '');
-  int _dateTodayNumber = myDateTime.castDateNowToInt();
-  int _dateTomorrowNumber = myDateTime.castDateNowToInt(addNumber: 1);
+  int _dateTodayNumber = MyDateTime.castDateNowToInt();
+  int _dateTomorrowNumber = MyDateTime.castDateNowToInt(addNumber: 1);
   int dateFilterNumberFrom = 0;
   int dateFilterNumberTo = 0;
   DocumentSnapshot drCustomer;
@@ -87,8 +89,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       _requestEdit = controlPermission.drNow.data['requestEdit'];
       _requestDelete = controlPermission.drNow.data['requestDelete'];
     });
-    dateFilterNumberFrom = myDateTime.castDateToInt(widget.filterFromDate);
-    dateFilterNumberTo = myDateTime.castDateToInt(widget.filterToDate);
+    dateFilterNumberFrom = MyDateTime.castDateToInt(widget.filterFromDate);
+    dateFilterNumberTo = MyDateTime.castDateToInt(widget.filterToDate);
   }
 
   @override
@@ -111,7 +113,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               Container(
                 decoration: BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(width: 1.0, color: myColor.color1))),
+                        bottom: BorderSide(width: 1.0, color: MyColor.color1))),
                 child: Row(
                   children: <Widget>[
                     Flexible(
@@ -119,12 +121,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.style15Color1(),
+                          style: MyStyle.style15Color1(),
                           controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.item.search) + '...',
+                                MyLanguage.text(myLanguageItem.search) + '...',
                           ),
                           onChanged: _searchApply,
                         ),
@@ -137,7 +139,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           : InkWell(
                               child: Icon(
                                 Icons.clear,
-                                color: myColor.color1,
+                                color: MyColor.color1,
                               ),
                               onTap: _searchClear,
                             ),
@@ -149,7 +151,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   height: 1,
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
-                        color: myColor.color1,
+                        color: MyColor.color1,
                         blurRadius: 5.0,
                         offset: Offset(0.0, 5.0)),
                   ])),
@@ -194,7 +196,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 dr['customer'],
-                style: myStyle.style16Color1Italic(),
+                style: MyStyle.style16Color1Italic(),
               ),
             ),
             children: <Widget>[
@@ -204,13 +206,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(dr['requiredImplementation'],
-                        style: myStyle.style16Color1Italic()),
+                        style: MyStyle.style16Color1Italic()),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FutureBuilder(
                       future: controlCustomer
-                          .getDataRow(myString.toMe(dr.data['customerID'])),
+                          .getDataRow(MyString.toMe(dr.data['customerID'])),
                       builder:
                           (BuildContext b, AsyncSnapshot<DocumentSnapshot> v) {
                         try {
@@ -218,8 +220,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(myString.toMe(v.data.data['phones'])),
-                                    Text(myString.toMe(v.data.data['address'])),
+                                    Text(MyString.toMe(v.data.data['phones'])),
+                                    Text(MyString.toMe(v.data.data['address'])),
                                   ],
                                 )
                               : SizedBox();
@@ -236,11 +238,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
                     child: Text(
-                      myDateTime.formatAndShortByFromString(
+                      MyDateTime.formatAndShortByFromString(
                           dr['appointment'].toString(),
-                          myDateTime.Types.ddMMyyyyhhmma),
+                          MyDateTimeFormatTypes.ddMMyyyyhhmma),
                       textAlign: TextAlign.end,
-                      style: myStyle.style12Color3(),
+                      style: MyStyle.style12Color3(),
                     ),
                   ),
                   Padding(
@@ -273,15 +275,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         children: <Widget>[
           Icon(
             Icons.note_add,
-            color: myColor.color1,
+            color: MyColor.color1,
           ),
           Text(
-            myLanguage.text(myLanguage.item.notes) +
+            MyLanguage.text(myLanguageItem.notes) +
                 (dr['notesCount'] == 0
                     ? ''
                     : ' ' +
-                        myString.betweenBrackets(dr['notesCount'].toString())),
-            style: myStyle.style14Color1(),
+                        MyString.betweenBrackets(dr['notesCount'].toString())),
+            style: MyStyle.style14Color1(),
           ),
         ],
       ),
@@ -299,15 +301,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         children: <Widget>[
           Icon(
             Icons.image,
-            color: myColor.color1,
+            color: MyColor.color1,
           ),
           Text(
-            myLanguage.text(myLanguage.item.images) +
+            MyLanguage.text(myLanguageItem.images) +
                 (dr['imageCount'] == 0
                     ? ''
                     : ' ' +
-                        myString.betweenBrackets(dr['imageCount'].toString())),
-            style: myStyle.style14Color1(),
+                        MyString.betweenBrackets(dr['imageCount'].toString())),
+            style: MyStyle.style14Color1(),
           ),
         ],
       ),
@@ -321,11 +323,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         children: <Widget>[
           Icon(
             Icons.location_on,
-            color: myColor.color1,
+            color: MyColor.color1,
           ),
           Text(
-            myLanguage.text(myLanguage.item.view),
-            style: myStyle.style14Color1(),
+            MyLanguage.text(myLanguageItem.view),
+            style: MyStyle.style14Color1(),
           ),
         ],
       ),
@@ -339,11 +341,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         children: <Widget>[
           Icon(
             Icons.location_on,
-            color: myColor.color1,
+            color: MyColor.color1,
           ),
           Text(
-            myLanguage.text(myLanguage.item.edit),
-            style: myStyle.style14Color1(),
+            MyLanguage.text(myLanguageItem.edit),
+            style: MyStyle.style14Color1(),
           ),
         ],
       ),
@@ -358,13 +360,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               children: <Widget>[
                 Image.asset(
                   'lib/res/image/Win_001_32.png',
-                  color: myColor.color1,
+                  color: MyColor.color1,
                   width: 24,
                   height: 24,
                 ),
                 Text(
-                  myLanguage.text(myLanguage.item.win),
-                  style: myStyle.style14Color1(),
+                  MyLanguage.text(myLanguageItem.win),
+                  style: MyStyle.style14Color1(),
                 ),
               ],
             ),
@@ -380,11 +382,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               children: <Widget>[
                 Icon(
                   Icons.edit,
-                  color: myColor.color1,
+                  color: MyColor.color1,
                 ),
                 Text(
-                  myLanguage.text(myLanguage.item.edit),
-                  style: myStyle.style14Color1(),
+                  MyLanguage.text(myLanguageItem.edit),
+                  style: MyStyle.style14Color1(),
                 ),
               ],
             ),
@@ -425,13 +427,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             heroTag: UniqueKey(),
             child: Icon(Icons.add),
             onPressed: _new,
-            backgroundColor: myColor.color1,
+            backgroundColor: MyColor.color1,
           )
         : null;
   }
 
   bool _cardValid(DocumentSnapshot dr) {
-    int dateNumber = myDateTime.castDateToInt(dr['appointment']);
+    int dateNumber = MyDateTime.castDateToInt(dr['appointment']);
 
     switch (widget._typeView) {
       case controlRequest.TypeView.today:
@@ -524,8 +526,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     drCustomer =
         await controlCustomer.getDataRow(dr.data['customerID'].toString());
     if (drCustomer.exists == false) {
-      mySnackBar.showInHomePage1(
-          myLanguage.text(myLanguage.item.theCustomerYouWantIsNotFound));
+      MySnackBar.showInHomePage1(
+          MyLanguage.text(myLanguageItem.theCustomerYouWantIsNotFound));
       return;
     }
 
@@ -542,8 +544,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     drCustomer =
         await controlCustomer.getDataRow(dr.data['customerID'].toString());
     if (drCustomer.exists == false) {
-      mySnackBar.showInHomePage1(
-          myLanguage.text(myLanguage.item.theCustomerYouWantIsNotFound));
+      MySnackBar.showInHomePage1(
+          MyLanguage.text(myLanguageItem.theCustomerYouWantIsNotFound));
       return;
     }
 

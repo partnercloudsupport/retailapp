@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -30,7 +31,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         appBar: _buildAppBar(),
         body: Column(
@@ -45,7 +46,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.chooseACustomer)),
+      title: Text(MyLanguage.text(myLanguageItem.chooseACustomer)),
     );
   }
 
@@ -55,7 +56,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         Container(
           decoration: BoxDecoration(
               border: Border(
-                  bottom: BorderSide(width: 1.0, color: myColor.color1))),
+                  bottom: BorderSide(width: 1.0, color: MyColor.color1))),
           child: Row(
             children: <Widget>[
               Flexible(
@@ -63,12 +64,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     autofocus: true,
-                    style: myStyle.style15Color1(),
+                    style: MyStyle.style15Color1(),
                     controller: _textEditingController,
                     onChanged: (v) => _filterApply(v),
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: myLanguage.text(myLanguage.item.search) + '...',
+                      hintText: MyLanguage.text(myLanguageItem.search) + '...',
                     ),
                   ),
                 ),
@@ -80,7 +81,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     : InkWell(
                         child: Icon(
                           Icons.clear,
-                          color: myColor.color1,
+                          color: MyColor.color1,
                         ),
                         onTap: _filterClear,
                       ),
@@ -92,7 +93,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             height: 1,
             decoration: BoxDecoration(boxShadow: [
               BoxShadow(
-                  color: myColor.color1,
+                  color: MyColor.color1,
                   blurRadius: 5.0,
                   offset: Offset(0.0, 5.0)),
             ])),
@@ -126,7 +127,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       },
       title: Text(
         dr['name'],
-        style: myStyle.style20Color1(),
+        style: MyStyle.style20Color1(),
       ),
     );
   }

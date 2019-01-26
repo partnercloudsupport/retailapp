@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
+import 'package:retailapp/control/my/mySnackBar.dart';
 import 'package:retailapp/dataAccess/request/requestRow.dart' as requestRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
@@ -41,7 +41,7 @@ Future<bool> save(
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -75,7 +75,7 @@ Future<bool> edit(
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -95,7 +95,7 @@ Future<bool> win(GlobalKey<ScaffoldState> scaffoldKey, String key,
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
+import 'package:retailapp/control/my/myDateTime.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/request/controlRequestHistory.dart'
     as controlRequestHistory;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/my/myLanguage.dart';
+
 
 class UI extends StatefulWidget {
   final String filterByEmployeeID;
@@ -20,7 +21,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         appBar: _buildAppBar(),
         body: _buildList(),
@@ -30,7 +31,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.requests)),
+      title: Text(MyLanguage.text(myLanguageItem.requests)),
     );
   }
 
@@ -51,7 +52,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
               if (v.data['statusIs'] != 4) return false;
 
-              if (myDateTime.castDateToYearMonthNumber(v.data['endIn']) !=
+              if (MyDateTime.castDateToYearMonthNumber(v.data['endIn']) !=
                   widget._filterMonthYearNumber) return false;
 
               return true;
@@ -62,25 +63,25 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  myLanguage.text(myLanguage.item.thereAreNoData) + '...',
-                  style: myStyle.style12Color3(),
+                  MyLanguage.text(myLanguageItem.thereAreNoData) + '...',
+                  style: MyStyle.style12Color3(),
                 ),
               );
 
             return PaginatedDataTable(
               rowsPerPage: c <= 8 ? c : 8,
-              header: Text(myLanguage
-                  .text(myLanguage.item.monthlySalesReportFromRequests)),
+              header: Text(MyLanguage
+                  .text(myLanguageItem.monthlySalesReportFromRequests)),
               source: DataRows(list, c),
               columns: <DataColumn>[
                 DataColumn(
-                    label: Text(myLanguage.text(myLanguage.item.customer))),
-                DataColumn(label: Text(myLanguage.text(myLanguage.item.date))),
+                    label: Text(MyLanguage.text(myLanguageItem.customer))),
+                DataColumn(label: Text(MyLanguage.text(myLanguageItem.date))),
                 DataColumn(
-                    label: Text(myLanguage.text(myLanguage.item.amount))),
+                    label: Text(MyLanguage.text(myLanguageItem.amount))),
                 DataColumn(
                     label: Text(
-                        myLanguage.text(myLanguage.item.textToBeImplemented))),
+                        MyLanguage.text(myLanguageItem.textToBeImplemented))),
               ],
             );
           },
@@ -106,19 +107,19 @@ class DataRows extends DataTableSource {
     return DataRow(cells: [
       DataCell(Text(
         list[i].data['customer'],
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(Text(
-        myDateTime.formatBy(list[i].data['endIn'], myDateTime.Types.ddMMyyyy),
-        style: myStyle.style14Color1(),
+        MyDateTime.formatBy(list[i].data['endIn'], MyDateTimeFormatTypes.ddMMyyyy),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(Text(
         list[i].data['amountF'],
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(Text(
         list[i].data['requiredImplementation'],
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
     ]);
   }

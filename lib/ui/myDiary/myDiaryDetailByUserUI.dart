@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
+import 'package:retailapp/control/my/myDateTime.dart';
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+
 import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
-import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
+import 'package:retailapp/control/my/mySnackBar.dart';
+import 'package:retailapp/control/my/mySuperTooltip.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+
 
 class UI extends StatefulWidget {
   final String filterByUesrID;
@@ -36,7 +38,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         appBar: _buildAppBar(),
         body: _buildList(),
@@ -46,7 +48,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.myDiaries)),
+      title: Text(MyLanguage.text(myLanguageItem.myDiaries)),
     );
   }
 
@@ -64,7 +66,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               if (widget._filterWithTotalZero == false && v.data['amount'] == 0)
                 return false;
 
-              if (myDateTime.castDateToYearMonthNumber(v.data['beginDate']) !=
+              if (MyDateTime.castDateToYearMonthNumber(v.data['beginDate']) !=
                   widget._filterMonthYearNumber) return false;
 
               return true;
@@ -75,24 +77,24 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  myLanguage.text(myLanguage.item.thereAreNoData) + '...',
-                  style: myStyle.style12Color3(),
+                  MyLanguage.text(myLanguageItem.thereAreNoData) + '...',
+                  style: MyStyle.style12Color3(),
                 ),
               );
 
             return PaginatedDataTable(
               rowsPerPage: c <= 8 ? c : 8,
-              header: Text(myLanguage
-                  .text(myLanguage.item.monthlySalesReportFromMyDiaries)),
+              header: Text(MyLanguage
+                  .text(myLanguageItem.monthlySalesReportFromMyDiaries)),
               source: DataRows(list, c, context),
               columns: <DataColumn>[
                 DataColumn(
-                    label: Text(myLanguage.text(myLanguage.item.customer))),
+                    label: Text(MyLanguage.text(myLanguageItem.customer))),
                 DataColumn(
-                    label: Text(myLanguage.text(myLanguage.item.duration))),
-                DataColumn(label: Text(myLanguage.text(myLanguage.item.total))),
+                    label: Text(MyLanguage.text(myLanguageItem.duration))),
+                DataColumn(label: Text(MyLanguage.text(myLanguageItem.total))),
                 DataColumn(
-                    label: Text(myLanguage.text(myLanguage.item.viewLocation))),
+                    label: Text(MyLanguage.text(myLanguageItem.viewLocation))),
               ],
             );
           },
@@ -119,20 +121,20 @@ class DataRows extends DataTableSource {
     return DataRow(cells: [
       DataCell(Text(
         list[i].data['customer'],
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(Text(
         list[i].data['durationHourF'],
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(Text(
         list[i].data['amountF'].toString(),
-        style: myStyle.style14Color1(),
+        style: MyStyle.style14Color1(),
       )),
       DataCell(IconButton(
         icon: Icon(
           Icons.location_on,
-          color: myColor.color1,
+          color: MyColor.color1,
         ),
         onPressed: () => _viewMap(list[i]),
       )),
@@ -150,10 +152,10 @@ class DataRows extends DataTableSource {
 
   void _viewMap(DocumentSnapshot dr) async {
     if (controlUser.isAdmin == false) {
-      mySuperTooltip.show4(
+      MySuperTooltip.show4(
           _context,
-          myLanguage.text(
-              myLanguage.item.thisProcessIsSpecificOnlyToTheAdministrator));
+          MyLanguage.text(
+              myLanguageItem.thisProcessIsSpecificOnlyToTheAdministrator));
       return;
     }
 
@@ -162,8 +164,8 @@ class DataRows extends DataTableSource {
     drCustomer =
         await controlCustomer.getDataRow(dr.data['customerID'].toString());
     if (drCustomer.exists == false) {
-      mySnackBar.showInHomePage1(
-          myLanguage.text(myLanguage.item.theCustomerYouWantIsNotFound));
+      MySnackBar.showInHomePage1(
+          MyLanguage.text(myLanguageItem.theCustomerYouWantIsNotFound));
       return;
     }
 

@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+
+import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/dataAccess/callerLog/callerLogRow.dart'
     as callerLogRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
+import 'package:retailapp/control/my/mySnackBar.dart';
 
 String _name = 'callerLog';
 
@@ -20,7 +21,7 @@ Future<bool> editNote(
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -88,8 +89,8 @@ Stream<QuerySnapshot> getAllBeforeLastWeek() {
 }
 
 Stream<QuerySnapshot> getBetweenData(DateTime fromDate, DateTime toDate) {
-  fromDate = myDateTime.toMe(fromDate);
-  toDate = myDateTime.toMe(toDate);
+  fromDate = MyDateTime.toMe(fromDate);
+  toDate = MyDateTime.toMe(toDate);
 
   if (fromDate.isAfter(toDate)) {
     DateTime v = fromDate;

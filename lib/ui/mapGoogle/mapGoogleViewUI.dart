@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/myLocation.dart' as myLocation;
+
+import 'package:retailapp/control/my/MyLocation.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -35,13 +36,13 @@ class _UIState extends State<UI> {
   }
 
   void initStateMe() async {
-    _myLocation = await myLocation.getByLatLngGoogle();
+    _myLocation = await MyLocation.getByLatLngGoogle();
     _c.addMarker(MarkerOptions(
         icon:
             BitmapDescriptor.fromAsset('lib/res/image/ic_launcher_001_96.png'),
         position: _myLocation,
         infoWindowText: InfoWindowText(
-            myLanguage.text(myLanguage.item.me), 'Smart Security')));
+            MyLanguage.text(myLanguageItem.me), 'Smart Security')));
 
     _myCameraPosition = CameraPosition(
         target: LatLng(_myLocation.latitude, _myLocation.longitude),
@@ -72,7 +73,7 @@ class _UIState extends State<UI> {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.viewLocation)),
+      title: Text(MyLanguage.text(myLanguageItem.viewLocation)),
     );
   }
 
@@ -84,7 +85,7 @@ class _UIState extends State<UI> {
           heroTag: null,
           child: Icon(Icons.contacts),
           onPressed: () => (_reviewLocation(_currentCameraPosition)),
-          backgroundColor: myColor.color1,
+          backgroundColor: MyColor.color1,
         ),
         SizedBox(
           width: 5,
@@ -96,7 +97,7 @@ class _UIState extends State<UI> {
             Icons.my_location,
           ),
           onPressed: () => _reviewLocation(_myCameraPosition),
-          backgroundColor: myColor.color1,
+          backgroundColor: MyColor.color1,
         ),
       ],
     );

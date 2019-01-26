@@ -7,7 +7,7 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 import 'package:retailapp/dataAccess/request/requestImageRow.dart'
     as requestImageRow;
-import 'package:retailapp/control/my/myString.dart' as myString;
+import 'package:retailapp/control/my/myString.dart';
 import 'package:uuid/uuid.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
@@ -21,7 +21,7 @@ Future<bool> saveByPath(
 ) async {
   try {
     String id = Uuid().v1();
-    String name = id + myString.getExtensionWithDot(pathImage);
+    String name = id + MyString.getExtensionWithDot(pathImage);
     StorageReference reference =
         FirebaseStorage.instance.ref().child(_name + '/' + id);
 

@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:retailapp/control/my/myPermission.dart';
 import 'package:retailapp/dataAccess/myDiary/myDiaryRow.dart' as myDiaryRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 import 'package:uuid/uuid.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/control/my/myLocation.dart' as myLocation;
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myPermission.dart' as myPermission;
+import 'package:retailapp/control/my/MyLocation.dart';
+import 'package:retailapp/control/my/mySnackBar.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 
 String _name = 'myDiary';
 
@@ -73,11 +73,11 @@ Future<bool> save(
     double amount,
     int typeIs) async {
   try {
-    if (await myPermission.checkPermissionThenrequest(
-            scaffoldKey, myPermission.MyPermissionGroup.location) ==
+    if (await MyPermission.checkPermissionThenrequest(
+            scaffoldKey, MyPermissionItem.location) ==
         false) return false;
 
-    GeoPoint mapLocation = await myLocation.getByGeoPoint();
+    GeoPoint mapLocation = await MyLocation.getByGeoPoint();
 
     await Firestore.instance.collection(_name).document(Uuid().v1()).setData(
         myDiaryRow.Row(customer, beginDate, endDate, note, amountQuotation,
@@ -86,11 +86,11 @@ Future<bool> save(
             .toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar
-        .showInHomePage1(myLanguage.text(myLanguage.item.saveSuccessfully));
+    MySnackBar
+        .showInHomePage1(MyLanguage.text(myLanguageItem.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -123,7 +123,7 @@ Future<bool> edit(
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -138,7 +138,7 @@ Future<bool> delete(GlobalKey<ScaffoldState> scaffoldKey, String key) async {
     controlLiveVersion.save(_name);
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;

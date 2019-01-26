@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myString.dart' as myString;
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myString.dart';
 import 'package:retailapp/control/my/myDialog.dart' as myDialog;
 import 'package:launch_review/launch_review.dart';
 
@@ -38,36 +38,36 @@ void checkupVersion(BuildContext context) async {
     if (dr.data['version'] != _currentVersion) {
       myDialog.ReturnDialog returnDialog = await myDialog.show(
           context,
-          myLanguage.text(myLanguage.item.pleaseUpdateYourApp),
-          myLanguage.text(myLanguage.item.fromCurrentVersion) +
+          MyLanguage.text(myLanguageItem.pleaseUpdateYourApp),
+          MyLanguage.text(myLanguageItem.fromCurrentVersion) +
               ': $_currentVersion ' +
-              myLanguage.text(myLanguage.item.to).toLowerCase() +
+              MyLanguage.text(myLanguageItem.to).toLowerCase() +
               ' ' +
-              myString.addEnterIfNotEmpty(dr.data['version']),
+              MyString.addEnterIfNotEmpty(dr.data['version']),
           [
-            myDialog.itemAction(context, myLanguage.text(myLanguage.item.ok),
+            myDialog.itemAction(context, MyLanguage.text(myLanguageItem.ok),
                 myDialog.ReturnDialog.ok),
             myDialog.itemAction(
                 context,
-                myLanguage.text(myLanguage.item.whatsNew),
+                MyLanguage.text(myLanguageItem.whatsNew),
                 myDialog.ReturnDialog.news)
           ]);
 
       if (returnDialog == myDialog.ReturnDialog.news) {
         returnDialog = await myDialog.show(
             context,
-            myLanguage.text(myLanguage.item.whatsNewInThisVersion),
-            myString.addEnterIfNotEmpty(dr.data['news1']) +
-                myString.addEnterIfNotEmpty(dr.data['news2']) +
-                myString.addEnterIfNotEmpty(dr.data['news3']) +
-                myString.addEnterIfNotEmpty(dr.data['news4']) +
-                myString.addEnterIfNotEmpty(dr.data['news5']) +
-                myString.addEnterIfNotEmpty(dr.data['news6']) +
-                myString.addEnterIfNotEmpty(dr.data['news7']) +
-                myString.addEnterIfNotEmpty(dr.data['news8']) +
+            MyLanguage.text(myLanguageItem.whatsNewInThisVersion),
+            MyString.addEnterIfNotEmpty(dr.data['news1']) +
+                MyString.addEnterIfNotEmpty(dr.data['news2']) +
+                MyString.addEnterIfNotEmpty(dr.data['news3']) +
+                MyString.addEnterIfNotEmpty(dr.data['news4']) +
+                MyString.addEnterIfNotEmpty(dr.data['news5']) +
+                MyString.addEnterIfNotEmpty(dr.data['news6']) +
+                MyString.addEnterIfNotEmpty(dr.data['news7']) +
+                MyString.addEnterIfNotEmpty(dr.data['news8']) +
                 dr.data['news9'],
             [
-              myDialog.itemAction(context, myLanguage.text(myLanguage.item.ok),
+              myDialog.itemAction(context, MyLanguage.text(myLanguageItem.ok),
                   myDialog.ReturnDialog.ok)
             ]);
       }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/mySharedPreferences.dart'
-    as mySharedPreferences;
+import 'package:retailapp/control/my/myStyle.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/mySharedPreferences.dart';
 import 'package:retailapp/ui/user/userLoginUI.dart' as userLoginUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
@@ -13,10 +12,10 @@ Widget buildDrawer(BuildContext bc) {
         UserAccountsDrawerHeader(
           accountName: Text(
             'Smart Security',
-            style: myStyle.style20Color2(),
+            style: MyStyle.style20Color2(),
           ),
           accountEmail: Text(controlUser.drNow.data['name'],
-              style: myStyle.style16Color2()),
+              style: MyStyle.style16Color2()),
           currentAccountPicture: Container(
             height: 150.0,
             width: 150.0,
@@ -29,24 +28,24 @@ Widget buildDrawer(BuildContext bc) {
           ),
         ),
         ListTile(
-          title: Text('Language EN', style: myStyle.style16Color1()),
+          title: Text('Language EN', style: MyStyle.style16Color1()),
           onTap: () {
-            myLanguage.setLanguageEN();
+            MyLanguage.setLanguageEN();
           },
         ),
         Divider(),
         ListTile(
-          title: Text('Language AR', style: myStyle.style16Color1()),
+          title: Text('Language AR', style: MyStyle.style16Color1()),
           onTap: () {
-            myLanguage.setLanguageAR();
+            MyLanguage.setLanguageAR();
           },
         ),
         Divider(),
         ListTile(
           trailing: Icon(Icons.exit_to_app),
-          title: Text('Logout', style: myStyle.style16Color1()),
+          title: Text('Logout', style: MyStyle.style16Color1()),
           onTap: () {
-            mySharedPreferences.setUserPassword('');
+            MySharedPreferences.setUserPassword('');
             Navigator.pushAndRemoveUntil(
                 bc,
                 MaterialPageRoute(builder: (context) => userLoginUI.UI()),

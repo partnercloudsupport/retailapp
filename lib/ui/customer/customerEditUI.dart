@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myStyle.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
-import 'package:retailapp/control/my/myString.dart' as myString;
+import 'package:retailapp/control/my/myString.dart';
 import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -60,7 +61,7 @@ class _UIState extends State<UI> {
   Widget build(BuildContext context) {
     _context = context;
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildAppBar(),
@@ -83,8 +84,8 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.item.editContact),
-      style: myStyle.style18Color2(),
+      MyLanguage.text(myLanguageItem.editContact),
+      style: MyStyle.style18Color2(),
     );
   }
 
@@ -111,11 +112,11 @@ class _UIState extends State<UI> {
       initialValue: _name,
       textInputAction: TextInputAction.next,
       validator: (String v) => v.trim().isEmpty
-          ? myLanguage.text(myLanguage.item.youMustInsertText)
+          ? MyLanguage.text(myLanguageItem.youMustInsertText)
           : null,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.name)),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.name)),
       onSaved: (String v) => _name = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodePhones);
@@ -130,11 +131,11 @@ class _UIState extends State<UI> {
             focusNode: _focusNodePhones,
             textInputAction: TextInputAction.next,
             validator: (String v) => v.trim().isEmpty
-                ? myLanguage.text(myLanguage.item.youMustInsertText)
+                ? MyLanguage.text(myLanguageItem.youMustInsertText)
                 : null,
-            style: myStyle.style15Color1(),
+            style: MyStyle.style15Color1(),
             decoration: InputDecoration(
-                labelText: myLanguage.text(myLanguage.item.phones)),
+                labelText: MyLanguage.text(myLanguageItem.phones)),
             onSaved: (String v) => _phones = v,
             onFieldSubmitted: (v) {
               FocusScope.of(context).requestFocus(_focusNodeAddress);
@@ -149,9 +150,9 @@ class _UIState extends State<UI> {
       focusNode: _focusNodeAddress,
       textInputAction: TextInputAction.next,
       maxLines: 2,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.address)),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.address)),
       onSaved: (String v) => _address = v,
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(_focusNodeEmail);
@@ -164,12 +165,12 @@ class _UIState extends State<UI> {
       focusNode: _focusNodeEmail,
       textInputAction: TextInputAction.next,
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.email)),
-      style: myStyle.style15Color1(),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.email)),
+      style: MyStyle.style15Color1(),
       validator: (v) => v.trim().isEmpty
           ? null
-          : myString.isEmail(v) == false
-              ? myLanguage.text(myLanguage.item.emailIsInvalid)
+          : MyString.isEmail(v) == false
+              ? MyLanguage.text(myLanguageItem.emailIsInvalid)
               : null,
       keyboardType: TextInputType.emailAddress,
       onSaved: (v) => _email = v.trim(),
@@ -185,9 +186,9 @@ class _UIState extends State<UI> {
       focusNode: _focusNodeNote,
       textInputAction: TextInputAction.done,
       maxLines: 2,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.note)),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.note)),
       onSaved: (String v) => _note = v,
     );
   }
@@ -200,11 +201,11 @@ class _UIState extends State<UI> {
           children: <Widget>[
             Icon(
               Icons.edit_location,
-              color: myColor.color1,
+              color: MyColor.color1,
             ),
             Text(
-              myLanguage.text(myLanguage.item.location),
-              style: myStyle.style18Color1(),
+              MyLanguage.text(myLanguageItem.location),
+              style: MyStyle.style18Color1(),
             )
           ],
         ),

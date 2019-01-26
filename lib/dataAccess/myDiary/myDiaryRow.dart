@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+
 
 class Row {
   String key;
@@ -32,8 +33,8 @@ class Row {
       this.saveFrom = 0,
       this.needInsert = true}) {
     DateTime fixDate = beginDate;
-    beginDate = myDateTime.getLess(fixDate, endDate);
-    endDate = myDateTime.getBiggest(fixDate, endDate);
+    beginDate = MyDateTime.getLess(fixDate, endDate);
+    endDate = MyDateTime.getBiggest(fixDate, endDate);
 
     this.needUpdate = !this.needInsert;
     this.needDelete = false;
@@ -127,8 +128,8 @@ class RowEdit {
     this.typeIs,
   ) {
     DateTime fixDate = beginDate;
-    beginDate = myDateTime.getLess(fixDate, endDate);
-    endDate = myDateTime.getBiggest(fixDate, endDate);
+    beginDate = MyDateTime.getLess(fixDate, endDate);
+    endDate = MyDateTime.getBiggest(fixDate, endDate);
 
     this.needUpdate = true;
     this.customerID = 0;

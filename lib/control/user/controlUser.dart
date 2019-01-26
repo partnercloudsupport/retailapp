@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/mySnackBar.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
 
@@ -19,7 +19,7 @@ Future<bool> signInByEmail(
 
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -31,12 +31,12 @@ Future<bool> createByEmail(
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
 
-    mySnackBar.show1(scaffoldKey,
-        myLanguage.text(myLanguage.item.yourAccountWasSuccessfullyCreated));
+    MySnackBar.show1(scaffoldKey,
+        MyLanguage.text(myLanguageItem.yourAccountWasSuccessfullyCreated));
 
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -50,7 +50,7 @@ Future<bool> signOutByEmail(
 
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
   return false;
 }
@@ -66,8 +66,8 @@ Future<bool> signIn(
         .first;
 
     if (dr.documents.length != 1) {
-      mySnackBar.show1(scaffoldKey,
-          myLanguage.text(myLanguage.item.yourNameOrPasswordIsNotCorrect));
+      MySnackBar.show1(scaffoldKey,
+          MyLanguage.text(myLanguageItem.yourNameOrPasswordIsNotCorrect));
 
       return false;
     }
@@ -79,15 +79,15 @@ Future<bool> signIn(
         .get();
 
     if (await controlPermission.getMe() == false) {
-      mySnackBar.show1(scaffoldKey,
-          myLanguage.text(myLanguage.item.weCantGetPermissionForYou));
+      MySnackBar.show1(scaffoldKey,
+          MyLanguage.text(myLanguageItem.weCantGetPermissionForYou));
 
       return false;
     }
 
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;

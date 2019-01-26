@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/myDiary/controlMyDiary.dart'
-    as controlMyDiary;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/ui/customer/customerSelectUI.dart'
-    as customerSelectUI;
-import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
-import 'package:retailapp/control/my/mydouble.dart' as mydouble;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
+import 'package:retailapp/control/my/myDateTime.dart';
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myDouble.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myRegExp.dart';
+import 'package:retailapp/control/my/myStyle.dart';
+import 'package:retailapp/control/myDiary/controlMyDiary.dart'
+    as controlMyDiary;
+import 'package:retailapp/ui/customer/customerSelectUI.dart'
+    as customerSelectUI;
 
 final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -44,7 +44,7 @@ class _UIState extends State<UI> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildAppBar(),
@@ -67,8 +67,8 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.item.newADailyEvent),
-      style: myStyle.style18Color2(),
+      MyLanguage.text(myLanguageItem.newADailyEvent),
+      style: MyStyle.style18Color2(),
     );
   }
 
@@ -94,33 +94,33 @@ class _UIState extends State<UI> {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
               children: <Widget>[
-                Text('*', style: myStyle.style16Color4()),
+                Text('*', style: MyStyle.style16Color4()),
                 SizedBox(
                   width: 7,
                 ),
                 Text(
-                  myLanguage.text(myLanguage.item.chooseACustomer),
-                  style: myStyle.style12Color3(),
+                  MyLanguage.text(myLanguageItem.chooseACustomer),
+                  style: MyStyle.style12Color3(),
                 ),
               ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_customer, style: myStyle.style15Color1()),
+              child: Text(_customer, style: MyStyle.style15Color1()),
             ),
             _customerValid
                 ? SizedBox()
                 : Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                     child: Text(
-                        myLanguage.text(myLanguage.item.youMustChooseAValue),
-                        style: myStyle.style14Color4()))
+                        MyLanguage.text(myLanguageItem.youMustChooseAValue),
+                        style: MyStyle.style14Color4()))
           ],
         ),
       ),
@@ -131,34 +131,34 @@ class _UIState extends State<UI> {
   Widget _buildTimeFromTo() {
     return Row(
       children: <Widget>[
-        _buildTime(_chooseBeginTime, myLanguage.item.from, _beginTime),
-        _buildTime(_chooseEndTime, myLanguage.item.to, _endTime),
+        _buildTime(_chooseBeginTime, myLanguageItem.from, _beginTime),
+        _buildTime(_chooseEndTime, myLanguageItem.to, _endTime),
       ],
     );
   }
 
   Widget _buildTime(
-      void Function() save, myLanguage.item _text, TimeOfDay time) {
+      void Function() save, myLanguageItem _text, TimeOfDay time) {
     return InkWell(
       child: Container(
         width: (MediaQuery.of(context).size.width - 20) / 2,
         padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              myLanguage.text(_text) +
+              MyLanguage.text(_text) +
                   ' ' +
-                  myDateTime.formatDateAndShort(_beginDate),
-              style: myStyle.style12Color3(),
+                  MyDateTime.formatDateAndShort(_beginDate),
+              style: MyStyle.style12Color3(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                  myDateTime.formatTimeOfDayBy(time, myDateTime.Types.hhmma),
-                  style: myStyle.style15Color1()),
+                  MyDateTime.formatTimeOfDayBy(time, MyDateTimeFormatTypes.hhmma),
+                  style: MyStyle.style15Color1()),
             ),
           ],
         ),
@@ -171,9 +171,9 @@ class _UIState extends State<UI> {
     return TextFormField(
       initialValue: _note,
       maxLines: 4,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.weTalkedAbout)),
+          labelText: MyLanguage.text(myLanguageItem.weTalkedAbout)),
       onSaved: (String v) => _note = v,
       focusNode: _focusNode1,
     );
@@ -185,19 +185,19 @@ class _UIState extends State<UI> {
         initialValue: '0',
         keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: [
-          WhitelistingTextInputFormatter(myRegExp.number1To9999999),
+          WhitelistingTextInputFormatter(MyRegExp.number1To9999999),
         ],
-        style: myStyle.style15Color1(),
+        style: MyStyle.style15Color1(),
         decoration: InputDecoration(
-            prefix: Text(r'$ ', style: myStyle.style14Color1()),
+            prefix: Text(r'$ ', style: MyStyle.style14Color1()),
             suffix: Text(
               'USD',
-              style: myStyle.style14Color1(),
+              style: MyStyle.style14Color1(),
             ),
-            labelText: myLanguage.text(myLanguage.item.amountOfQuotation)),
+            labelText: MyLanguage.text(myLanguageItem.amountOfQuotation)),
         onFieldSubmitted: (String v) =>
             FocusScope.of(context).requestFocus(_focusNode2),
-        onSaved: (String v) => _amountQuotation = mydouble.to(v));
+        onSaved: (String v) => _amountQuotation = MyDouble.toMe(v));
   }
 
   Widget _buildAmount() {
@@ -205,24 +205,24 @@ class _UIState extends State<UI> {
         initialValue: '0',
         keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: [
-          WhitelistingTextInputFormatter(myRegExp.number1To9999999),
+          WhitelistingTextInputFormatter(MyRegExp.number1To9999999),
         ],
-        style: myStyle.style15Color1(),
+        style: MyStyle.style15Color1(),
         decoration: InputDecoration(
-            prefix: Text(r'$ ', style: myStyle.style14Color1()),
+            prefix: Text(r'$ ', style: MyStyle.style14Color1()),
             suffix: Text(
               'USD',
-              style: myStyle.style14Color1(),
+              style: MyStyle.style14Color1(),
             ),
-            labelText: myLanguage.text(myLanguage.item.resultingAmount)),
+            labelText: MyLanguage.text(myLanguageItem.resultingAmount)),
         focusNode: _focusNode2,
-        onSaved: (String v) => _amount = mydouble.to(v));
+        onSaved: (String v) => _amount = MyDouble.toMe(v));
   }
 
   Widget _buildTypeIs() {
     return Container(
       decoration:
-          UnderlineTabIndicator(borderSide: BorderSide(color: myColor.color1)),
+          UnderlineTabIndicator(borderSide: BorderSide(color: MyColor.color1)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -230,16 +230,16 @@ class _UIState extends State<UI> {
             height: 10.0,
           ),
           Text(
-            myLanguage.text(myLanguage.item.type),
-            style: myStyle.style12Color3(),
+            MyLanguage.text(myLanguageItem.type),
+            style: MyStyle.style12Color3(),
           ),
           Wrap(
             children: <Widget>[
-              _buildTypeItem(myLanguage.text(myLanguage.item.showroom),
+              _buildTypeItem(MyLanguage.text(myLanguageItem.showroom),
                   controlMyDiary.TypeIs.showroom),
-              _buildTypeItem(myLanguage.text(myLanguage.item.outgoingCall),
+              _buildTypeItem(MyLanguage.text(myLanguageItem.outgoingCall),
                   controlMyDiary.TypeIs.outgoingCall),
-              _buildTypeItem(myLanguage.text(myLanguage.item.visitCustomer),
+              _buildTypeItem(MyLanguage.text(myLanguageItem.visitCustomer),
                   controlMyDiary.TypeIs.visitCustomer),
             ],
           )
@@ -258,10 +258,10 @@ class _UIState extends State<UI> {
             groupValue: _typeIs,
             onChanged: _chooseType,
           ),
-          controlMyDiary.buildType(valueIs.index, myColor.color1),
+          controlMyDiary.buildType(valueIs.index, MyColor.color1),
           Text(
             _text,
-            style: myStyle.style15Color1(),
+            style: MyStyle.style15Color1(),
           ),
         ],
       ),

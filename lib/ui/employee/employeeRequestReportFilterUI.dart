@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/my/myDateTime.dart';
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myStyle.dart';
+
 import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -46,7 +48,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         appBar: _buildAppBar(),
         body: Padding(
@@ -70,7 +72,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.filterBy)),
+      title: Text(MyLanguage.text(myLanguageItem.filterBy)),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.save),
@@ -84,7 +86,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -95,13 +97,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                     height: 10.0,
                   ),
                   Text(
-                    myLanguage.text(myLanguage.item.chooseAnEmployee),
-                    style: myStyle.style12Color3(),
+                    MyLanguage.text(myLanguageItem.chooseAnEmployee),
+                    style: MyStyle.style12Color3(),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                     child:
-                        Text(_filterEmployee, style: myStyle.style15Color1()),
+                        Text(_filterEmployee, style: MyStyle.style15Color1()),
                   ),
                 ],
               ),
@@ -131,12 +133,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                myLanguage.text(myLanguage.item.determineThePeriodOfTime),
-                style: myStyle.style16Color1(),
+                MyLanguage.text(myLanguageItem.determineThePeriodOfTime),
+                style: MyStyle.style16Color1(),
               ),
               Text(
-                myLanguage.text(myLanguage.item.theFilterAppliesOnlyMonthly),
-                style: myStyle.style12Color3Italic(),
+                MyLanguage.text(myLanguageItem.theFilterAppliesOnlyMonthly),
+                style: MyStyle.style12Color3Italic(),
               ),
             ],
           )
@@ -151,32 +153,32 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         ? Row(
             children: <Widget>[
               _buildTime(
-                  _chooseFromDate, myLanguage.item.from, _filterFromDate),
-              _buildTime(_chooseToDate, myLanguage.item.to, _filterToDate),
+                  _chooseFromDate, myLanguageItem.from, _filterFromDate),
+              _buildTime(_chooseToDate, myLanguageItem.to, _filterToDate),
             ],
           )
         : SizedBox();
   }
 
   Widget _buildTime(
-      void Function() save, myLanguage.item _text, DateTime date) {
+      void Function() save, myLanguageItem _text, DateTime date) {
     return InkWell(
       child: Container(
         width: (MediaQuery.of(context).size.width - 20) / 2,
         padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              myLanguage.text(_text),
-              style: myStyle.style12Color3(),
+              MyLanguage.text(_text),
+              style: MyStyle.style12Color3(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Text(myDateTime.formatBy(date, myDateTime.Types.ddMMyyyy),
-                  style: myStyle.style15Color1()),
+              child: Text(MyDateTime.formatBy(date, MyDateTimeFormatTypes.ddMMyyyy),
+                  style: MyStyle.style15Color1()),
             ),
           ],
         ),
@@ -197,13 +199,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                myLanguage.text(myLanguage.item.withZeroValues),
-                style: myStyle.style16Color1(),
+                MyLanguage.text(myLanguageItem.withZeroValues),
+                style: MyStyle.style16Color1(),
               ),
               Text(
-                myLanguage
-                    .text(myLanguage.item.thisWillApplyToTheDetailsAsWell),
-                style: myStyle.style12Color3Italic(),
+                MyLanguage
+                    .text(myLanguageItem.thisWillApplyToTheDetailsAsWell),
+                style: MyStyle.style12Color3Italic(),
               ),
             ],
           )
@@ -220,7 +222,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             builder: (context) => selectWithFilterUI.UI(
                   controlEmployee.getShowInSchedule(),
                   _chooseEmployee,
-                  myLanguage.text(myLanguage.item.chooseAnEmployee),
+                  MyLanguage.text(myLanguageItem.chooseAnEmployee),
                   autofocus: false,
                 )));
   }

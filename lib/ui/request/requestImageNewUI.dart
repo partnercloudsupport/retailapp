@@ -4,9 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
+
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
 import 'package:retailapp/ui//all/imageViewAsset.dart' as imageViewAsset;
@@ -36,7 +37,7 @@ class _UIState extends State<UI> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         appBar: _buildAppBar(),
         body: _buildForm(),
@@ -60,8 +61,8 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.item.newImage),
-      style: myStyle.style18Color2(),
+      MyLanguage.text(myLanguageItem.newImage),
+      style: MyStyle.style18Color2(),
     );
   }
 
@@ -99,7 +100,7 @@ class _UIState extends State<UI> {
                 child: new Icon(
                   Icons.image,
                   size: 250.0,
-                  color: myColor.color1,
+                  color: MyColor.color1,
                 ),
               );
   }
@@ -112,21 +113,21 @@ class _UIState extends State<UI> {
             onPressed: _loadImagesGallery,
             icon: Icon(
               Icons.image,
-              color: myColor.color1,
+              color: MyColor.color1,
             ),
             label: Text(
-              myLanguage.text(myLanguage.item.chooseImages),
-              style: myStyle.style16Color1(),
+              MyLanguage.text(myLanguageItem.chooseImages),
+              style: MyStyle.style16Color1(),
             )),
         RaisedButton.icon(
             onPressed: _takeImageCamera,
             icon: Icon(
               Icons.camera,
-              color: myColor.color1,
+              color: MyColor.color1,
             ),
             label: Text(
-              myLanguage.text(myLanguage.item.captureAnImage),
-              style: myStyle.style16Color1(),
+              MyLanguage.text(myLanguageItem.captureAnImage),
+              style: MyStyle.style16Color1(),
             ))
       ],
     );
@@ -137,9 +138,9 @@ class _UIState extends State<UI> {
       initialValue: _note,
       textInputAction: TextInputAction.done,
       maxLines: 4,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.note)),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.note)),
       onSaved: (String v) => _note = v,
       focusNode: _focusNode1,
     );
@@ -154,8 +155,8 @@ class _UIState extends State<UI> {
             onChanged: (v) => chooseIsPrivate(),
           ),
           Text(
-            myLanguage.text(myLanguage.item.itsMyPrivateImages),
-            style: myStyle.style16Color1(),
+            MyLanguage.text(myLanguageItem.itsMyPrivateImages),
+            style: MyStyle.style16Color1(),
           )
         ],
       ),

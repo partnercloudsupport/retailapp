@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/mySuperTooltip.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 
-Future<ConnectivityResult> getStatusNow() async {
-  return await Connectivity().checkConnectivity();
-}
+class MyInternetStatus {
+  static Future<ConnectivityResult> getStatusNow() async {
+    return await Connectivity().checkConnectivity();
+  }
 
-Future<bool> checkInternetWithTip(BuildContext context) async {
-  var result = await Connectivity().checkConnectivity();
+  static Future<bool> checkInternetWithTip(BuildContext context) async {
+    var result = await Connectivity().checkConnectivity();
 
-  if (result == ConnectivityResult.none)
-    mySuperTooltip.show4(context,
-        myLanguage.text(myLanguage.item.youAreNotConnectedToTheInternet));
+    if (result == ConnectivityResult.none)
+      MySuperTooltip.show4(context,
+          MyLanguage.text(myLanguageItem.youAreNotConnectedToTheInternet));
 
-  return (result != ConnectivityResult.none);
+    return (result != ConnectivityResult.none);
+  }
 }

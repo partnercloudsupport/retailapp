@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
+import 'package:retailapp/control/my/myDateTime.dart';
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
 import 'package:retailapp/ui/myDiary/myDiaryEditUI.dart' as myDiaryEditUI;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+
 import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
 import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+import 'package:retailapp/control/my/mySuperTooltip.dart';
+
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 import 'package:retailapp/control/my/myDialog.dart' as myDialog;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -80,7 +82,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
               Container(
                 decoration: BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(width: 1.0, color: myColor.color1))),
+                        bottom: BorderSide(width: 1.0, color: MyColor.color1))),
                 child: Row(
                   children: <Widget>[
                     Flexible(
@@ -88,12 +90,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
                           autofocus: true,
-                          style: myStyle.style15Color1(),
+                          style: MyStyle.style15Color1(),
                           controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText:
-                                myLanguage.text(myLanguage.item.search) + '...',
+                                MyLanguage.text(myLanguageItem.search) + '...',
                           ),
                           onChanged: _searchApply,
                         ),
@@ -106,7 +108,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                           : InkWell(
                               child: Icon(
                                 Icons.clear,
-                                color: myColor.color1,
+                                color: MyColor.color1,
                               ),
                               onTap: _searchClear,
                             ),
@@ -118,7 +120,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                   height: 1,
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
-                        color: myColor.color1,
+                        color: MyColor.color1,
                         blurRadius: 5.0,
                         offset: Offset(0.0, 5.0)),
                   ])),
@@ -153,7 +155,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       ),
       title: Text(
         dr['customer'],
-        style: myStyle.style20Color1(),
+        style: MyStyle.style20Color1(),
       ),
       trailing: controlUser.drNow.data['name'] != dr['user']
           ? Text(
@@ -169,7 +171,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   dr['note'],
-                  style: myStyle.style16Color1Italic(),
+                  style: MyStyle.style16Color1Italic(),
                 ),
               ),
             ),
@@ -184,14 +186,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 children: <Widget>[
                   Icon(
                     Icons.timer,
-                    color: myColor.grey,
+                    color: MyColor.grey,
                   ),
                   Text(dr['durationHourF'],
-                      style: myStyle.style12Color3Italic()),
+                      style: MyStyle.style12Color3Italic()),
                 ],
               ),
             ),
-            controlMyDiary.buildType(dr['typeIs'], myColor.grey),
+            controlMyDiary.buildType(dr['typeIs'], MyColor.grey),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -218,11 +220,11 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
           children: <Widget>[
             Text(
               'Request',
-              style: myStyle.style14Color1(),
+              style: MyStyle.style14Color1(),
             ),
             Icon(
               Icons.add,
-              color: myColor.color1,
+              color: MyColor.color1,
             ),
           ],
         ),
@@ -236,7 +238,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         ? IconButton(
             icon: Icon(
               Icons.location_on,
-              color: myColor.color1,
+              color: MyColor.color1,
             ),
             onPressed: () => _viewMap(dr),
           )
@@ -247,7 +249,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return IconButton(
       icon: Icon(
         Icons.edit,
-        color: myColor.color1,
+        color: MyColor.color1,
       ),
       onPressed: () => _edit(dr),
     );
@@ -295,24 +297,24 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       heroTag: UniqueKey(),
       child: Icon(Icons.add),
       onPressed: _new,
-      backgroundColor: myColor.color1,
+      backgroundColor: MyColor.color1,
     );
   }
 
   bool _cardValid(DocumentSnapshot dr) {
-    int dateNumber = myDateTime.castDateToInt(dr['beginDate']);
+    int dateNumber = MyDateTime.castDateToInt(dr['beginDate']);
 
     switch (widget._typeView) {
       case controlMyDiary.TypeView.today:
-        if (dateNumber != myDateTime.castDateNowToInt()) return false;
+        if (dateNumber != MyDateTime.castDateNowToInt()) return false;
         break;
       case controlMyDiary.TypeView.yesterday:
-        if (dateNumber != myDateTime.castDateNowToInt(addNumber: -1))
+        if (dateNumber != MyDateTime.castDateNowToInt(addNumber: -1))
           return false;
         break;
       case controlMyDiary.TypeView.lastWeek:
-        if (dateNumber <= myDateTime.castDateNowToInt(addNumber: -9) ||
-            dateNumber >= myDateTime.castDateNowToInt(addNumber: -1))
+        if (dateNumber <= MyDateTime.castDateNowToInt(addNumber: -9) ||
+            dateNumber >= MyDateTime.castDateNowToInt(addNumber: -1))
           return false;
         break;
       default:
@@ -370,8 +372,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _deleteTooltip() {
-    mySuperTooltip.show4(
-        context, myLanguage.text(myLanguage.item.pressForALongTimeToDeleteIt));
+    MySuperTooltip.show4(
+        context, MyLanguage.text(myLanguageItem.pressForALongTimeToDeleteIt));
   }
 
   void _delete(DocumentSnapshot dr) async {

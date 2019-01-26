@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myDateTime.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/ui/employee/employeeRequestReportTabUI.dart'
     as employeeRequestReportTabUI;
 import 'package:retailapp/ui/user/userMyDiaryReportTabUI.dart'
@@ -9,7 +10,7 @@ import 'package:retailapp/ui/employee/employeeRequestReportFilterUI.dart'
     as employeeRequestReportFilterUI;
 import 'package:retailapp/ui/user/userMyDiaryReportFilterUI.dart'
     as userMyDiaryReportFilterUI;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+
 
 String _filterEmployee = '';
 String _filterUser = '';
@@ -35,7 +36,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         drawer: homeDrawer.buildDrawer(context),
         appBar: _buildAppBar(),
@@ -55,15 +56,15 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.reports)),
+      title: Text(MyLanguage.text(myLanguageItem.reports)),
       bottom: TabBar(
         controller: _tabController,
         tabs: <Tab>[
           Tab(
-            text: myLanguage.text(myLanguage.item.requests),
+            text: MyLanguage.text(myLanguageItem.requests),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.item.myDiaries),
+            text: MyLanguage.text(myLanguageItem.myDiaries),
           ),
         ],
       ),
@@ -123,8 +124,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       _filterEmployee = filterEmployee;
       _filterWithDate = filterWithDate;
       DateTime fixDate = filterFromDate;
-      _filterFromDate = myDateTime.getLess(fixDate, filterToDate);
-      _filterToDate = myDateTime.getBiggest(fixDate, filterToDate);
+      _filterFromDate = MyDateTime.getLess(fixDate, filterToDate);
+      _filterToDate = MyDateTime.getBiggest(fixDate, filterToDate);
       _filterWithTotalZero = filterWithTotalZero;
     });
   }
@@ -139,8 +140,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       _filterUser = filterUser;
       _filterWithDate = filterWithDate;
       DateTime fixDate = filterFromDate;
-      _filterFromDate = myDateTime.getLess(fixDate, filterToDate);
-      _filterToDate = myDateTime.getBiggest(fixDate, filterToDate);
+      _filterFromDate = MyDateTime.getLess(fixDate, filterToDate);
+      _filterToDate = MyDateTime.getBiggest(fixDate, filterToDate);
       _filterWithTotalZero = filterWithTotalZero;
     });
   }

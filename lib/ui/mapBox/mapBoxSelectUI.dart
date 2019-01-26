@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+
 import 'package:retailapp/control/mapBox/controlMapBox.dart' as controlMapBox;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myLocation.dart' as myLocation;
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/MyLocation.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -53,7 +54,7 @@ class _UIState extends State<UI> {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.detectLocation)),
+      title: Text(MyLanguage.text(myLanguageItem.detectLocation)),
       actions: _buildAppBarActions(),
     );
   }
@@ -63,7 +64,7 @@ class _UIState extends State<UI> {
       IconButton(
         icon: Icon(
           Icons.save,
-          color: myColor.color2,
+          color: MyColor.color2,
         ),
         onPressed: _saveLocation,
       )
@@ -83,7 +84,7 @@ class _UIState extends State<UI> {
       point: _currentPoint,
       builder: (ctx) => Icon(
             Icons.location_on,
-            color: myColor.color1,
+            color: MyColor.color1,
           ),
     );
   }
@@ -92,7 +93,7 @@ class _UIState extends State<UI> {
     return FloatingActionButton(
       child: Icon(Icons.my_location),
       onPressed: _setMyLocation,
-      backgroundColor: myColor.color1,
+      backgroundColor: MyColor.color1,
     );
   }
 
@@ -103,7 +104,7 @@ class _UIState extends State<UI> {
   }
 
   void _setMyLocation() async {
-    _myLocation = await myLocation.getByLatLng();
+    _myLocation = await MyLocation.getByLatLng();
 
     setState(() {
       _currentPoint = _myLocation;

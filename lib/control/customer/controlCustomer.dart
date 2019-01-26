@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/mySnackBar.dart' as mySnackBar;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/mySnackBar.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/dataAccess/customer/customerRow.dart' as customerRow;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
@@ -22,11 +22,11 @@ Future<bool> save(
             .toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show1(
-        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
+    MySnackBar.show1(
+        scaffoldKey, MyLanguage.text(myLanguageItem.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -48,11 +48,11 @@ Future<bool> edit(
             .toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show1(
-        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
+    MySnackBar.show1(
+        scaffoldKey, MyLanguage.text(myLanguageItem.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;
@@ -67,11 +67,11 @@ Future<bool> editLocation(GlobalKey<ScaffoldState> scaffoldKey, String key,
         .updateData(customerRow.EditMapLocation(mapLocation).toJson());
 
     controlLiveVersion.save(_name);
-    mySnackBar.show1(
-        scaffoldKey, myLanguage.text(myLanguage.item.saveSuccessfully));
+    MySnackBar.show1(
+        scaffoldKey, MyLanguage.text(myLanguageItem.saveSuccessfully));
     return true;
   } catch (e) {
-    mySnackBar.show1(scaffoldKey, e.toString());
+    MySnackBar.show1(scaffoldKey, e.toString());
   }
 
   return false;

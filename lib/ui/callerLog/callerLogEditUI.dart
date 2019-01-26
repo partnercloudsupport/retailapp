@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myStyle.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/callerLog/controlCallerLog.dart'
     as controlCallerLog;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -28,7 +28,7 @@ class _UIState extends State<UI> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildAppBar(),
@@ -51,8 +51,8 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.item.editACallLog),
-      style: myStyle.style18Color2(),
+      MyLanguage.text(myLanguageItem.editACallLog),
+      style: MyStyle.style18Color2(),
     );
   }
 
@@ -73,9 +73,9 @@ class _UIState extends State<UI> {
     return TextFormField(
       initialValue: _note,
       maxLines: 4,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.note)),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.note)),
       onSaved: (String v) => _note = v,
     );
   }

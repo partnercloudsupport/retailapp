@@ -1,49 +1,51 @@
 import 'package:intl/intl.dart';
 
-bool isEmail(String em) {
-  String p =
-      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+class MyString {
+  static bool isEmail(String em) {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
-  RegExp regExp = new RegExp(p);
+    RegExp regExp = new RegExp(p);
 
-  return regExp.hasMatch(em);
-}
+    return regExp.hasMatch(em);
+  }
 
-String betweenBrackets(String v) {
-  return '(' + v + ')';
-}
+  static String betweenBrackets(String v) {
+    return '(' + v + ')';
+  }
 
-String getExtension(String v) {
-  return v.split('.').last;
-}
+  static String getExtension(String v) {
+    return v.split('.').last;
+  }
 
-String getExtensionWithDot(String v) {
-  String o = v.split('.').last;
-  return o.isEmpty ? '' : '.' + o;
-}
+  static String getExtensionWithDot(String v) {
+    String o = v.split('.').last;
+    return o.isEmpty ? '' : '.' + o;
+  }
 
-String formatNumber(dynamic v, {String pattern = '0'}) {
-  return NumberFormat(pattern).format(v);
-}
+  static String formatNumber(dynamic v, {String pattern = '0'}) {
+    return NumberFormat(pattern).format(v);
+  }
 
-String toMe(dynamic v) {
-  try {
-    return v == null ? '' : v.toString();
-  } catch (e) {}
-  return '';
-}
+  static String toMe(dynamic v) {
+    try {
+      return v == null ? '' : v.toString();
+    } catch (e) {}
+    return '';
+  }
 
-String toMef(var v) {
-  try {
-    return v == null ? '' : v.toString();
-  } catch (e) {}
-  return '';
-}
+  static String toMef(var v) {
+    try {
+      return v == null ? '' : v.toString();
+    } catch (e) {}
+    return '';
+  }
 
-String addEnterIfNotEmpty(String v) {
-  return v.trim().isNotEmpty ? v + '\n' : '';
-}
+  static String addEnterIfNotEmpty(String v) {
+    return v.trim().isNotEmpty ? v + '\n' : '';
+  }
 
-String insertEnterIfNotEmpty(String v) {
-  return v.trim().isNotEmpty ? '\n' + v : '';
+  static String insertEnterIfNotEmpty(String v) {
+    return v.trim().isNotEmpty ? '\n' + v : '';
+  }
 }

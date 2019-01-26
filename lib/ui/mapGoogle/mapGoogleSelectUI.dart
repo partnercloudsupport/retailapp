@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+
 
 CameraPosition _currentCameraPosition;
 void Function(LatLng) _save;
@@ -46,7 +47,7 @@ class _UIState extends State<UI> {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.viewLocation)),
+      title: Text(MyLanguage.text(myLanguageItem.viewLocation)),
       actions: _buildAppBarActions(),
     );
   }
@@ -56,7 +57,7 @@ class _UIState extends State<UI> {
       IconButton(
         icon: Icon(
           Icons.save,
-          color: myColor.color2,
+          color: MyColor.color2,
         ),
         onPressed: _saveLocation,
       )
@@ -67,7 +68,7 @@ class _UIState extends State<UI> {
     return FloatingActionButton(
       child: Icon(Icons.center_focus_strong),
       onPressed: _reviewLocation,
-      backgroundColor: myColor.color1,
+      backgroundColor: MyColor.color1,
     );
   }
 

@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/ui/request/requestListTabUI.dart' as requestListTabUI;
 import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
 import 'package:retailapp/ui/request/requestFilterUI.dart' as requestFilterUI;
-import 'package:retailapp/control/my/myDateTime.dart' as myDateTime;
+
 import 'package:connectivity/connectivity.dart';
-import 'package:retailapp/control/my/mySuperTooltip.dart' as mySuperTooltip;
+import 'package:retailapp/control/my/mySuperTooltip.dart';
 
 String _filterType = '';
 String filterEmployee = '';
@@ -63,7 +64,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         drawer: homeDrawer.buildDrawer(context),
         appBar: _buildAppBar(),
@@ -115,21 +116,21 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.requests)),
+      title: Text(MyLanguage.text(myLanguageItem.requests)),
       bottom: TabBar(
         controller: _tabController,
         tabs: <Tab>[
           Tab(
-            text: myLanguage.text(myLanguage.item.today),
+            text: MyLanguage.text(myLanguageItem.today),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.item.tomorrow),
+            text: MyLanguage.text(myLanguageItem.tomorrow),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.item.all),
+            text: MyLanguage.text(myLanguageItem.all),
           ),
           Tab(
-            text: myLanguage.text(myLanguage.item.pending),
+            text: MyLanguage.text(myLanguageItem.pending),
           ),
         ],
       ),
@@ -205,20 +206,20 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       filterEmployee = _filterEmployee;
       _filterWithDate = filterWithDate;
       DateTime fixDate = filterFromDate;
-      _filterFromDate = myDateTime.getLess(fixDate, filterToDate);
-      _filterToDate = myDateTime.getBiggest(fixDate, filterToDate);
+      _filterFromDate = MyDateTime.getLess(fixDate, filterToDate);
+      _filterToDate = MyDateTime.getBiggest(fixDate, filterToDate);
     });
   }
 
   void _internetStatusTooltip() {
-    mySuperTooltip.show4(
+    MySuperTooltip.show4(
         context,
-        myLanguage.text(myLanguage.item.youAreNotConnectedToTheInternet) +
+        MyLanguage.text(myLanguageItem.youAreNotConnectedToTheInternet) +
             '\n\n 1-' +
-            myLanguage
-                .text(myLanguage.item.youWereUnableToAddOrEditAnyRequest) +
+            MyLanguage
+                .text(myLanguageItem.youWereUnableToAddOrEditAnyRequest) +
             '\n 2-' +
-            myLanguage.text(myLanguage.item.currentDataMayHaveBeenChanged));
+            MyLanguage.text(myLanguageItem.currentDataMayHaveBeenChanged));
   }
 
   @override

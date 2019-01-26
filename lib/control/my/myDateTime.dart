@@ -1,175 +1,178 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-enum Types { hhmma, kkmm, ddMMyyyy, ddMMyyyykk, ddMMyyyykkmm, ddMMyyyyhhmma }
+enum MyDateTimeFormatTypes { hhmma, kkmm, ddMMyyyy, ddMMyyyykk, ddMMyyyykkmm, ddMMyyyyhhmma }
 
-String castTypesFormat(Types t) {
-  switch (t) {
-    case Types.hhmma:
-      return 'hh:mm a';
-      break;
-    case Types.kkmm:
-      return 'kk:mm';
-      break;
-    case Types.ddMMyyyy:
-      return 'dd-MM-yyyy';
-      break;
-    case Types.ddMMyyyykk:
-      return 'dd-MM-yyyy – kk';
-      break;
-    case Types.ddMMyyyykkmm:
-      return 'dd-MM-yyyy – kk:mm';
-      break;
-    case Types.ddMMyyyyhhmma:
-      return 'dd-MM-yyyy – hh:mm a';
-      break;
-    default:
-      {
+class MyDateTime {
+  static String castTypesFormat(MyDateTimeFormatTypes t) {
+    switch (t) {
+      case MyDateTimeFormatTypes.hhmma:
+        return 'hh:mm a';
+        break;
+      case MyDateTimeFormatTypes.kkmm:
+        return 'kk:mm';
+        break;
+      case MyDateTimeFormatTypes.ddMMyyyy:
+        return 'dd-MM-yyyy';
+        break;
+      case MyDateTimeFormatTypes.ddMMyyyykk:
+        return 'dd-MM-yyyy – kk';
+        break;
+      case MyDateTimeFormatTypes.ddMMyyyykkmm:
+        return 'dd-MM-yyyy – kk:mm';
+        break;
+      case MyDateTimeFormatTypes.ddMMyyyyhhmma:
         return 'dd-MM-yyyy – hh:mm a';
-      }
-      break;
+        break;
+      default:
+        {
+          return 'dd-MM-yyyy – hh:mm a';
+        }
+        break;
+    }
   }
-}
 
-String format(DateTime v, {String format = 'dd-MM-yyyy – hh:mm a'}) {
-  try {
-    return DateFormat(format).format(v).toString();
-  } catch (e) {
-    return '';
-  }
-}
-
-String formatBy(DateTime v, Types t) {
-  try {
-    return DateFormat(castTypesFormat(t)).format(v).toString();
-  } catch (e) {
-    return '';
-  }
-}
-
-String formatTimeOfDayBy(TimeOfDay v, Types t) {
-  try {
-    return DateFormat(castTypesFormat(t))
-        .format(DateTime.utc(2019, 1, 1, v.hour, v.minute))
-        .toString();
-  } catch (e) {
-    return '';
-  }
-}
-
-String formatByFromString(String v, Types t) {
-  try {
-    return DateFormat(castTypesFormat(t)).format(DateTime.parse(v));
-  } catch (e) {
-    return '';
-  }
-}
-
-String formatAndShort(DateTime v, {String format = 'dd-MM-yyyy – hh:mm a'}) {
-  try {
-    if (v.isBefore(DateTime.now())) {
+  static String format(DateTime v, {String format = 'dd-MM-yyyy – hh:mm a'}) {
+    try {
       return DateFormat(format).format(v).toString();
-    } else {
-      return formatBy(v, Types.hhmma);
-    }
-  } catch (e) {
-    return '';
-  }
-}
-
-String formatDateAndShort(DateTime v, {String format = 'dd-MM-yyyy'}) {
-  try {
-    if (v.year == DateTime.now().year &&
-        v.month == DateTime.now().month &&
-        v.day == DateTime.now().day) {
+    } catch (e) {
       return '';
-    } else {
-      return formatBy(v, Types.ddMMyyyy);
     }
-  } catch (e) {
-    return '';
   }
-}
 
-String formatAndShortBy(DateTime v, Types t) {
-  try {
-    if (v.year == DateTime.now().year &&
-        v.month == DateTime.now().month &&
-        v.day == DateTime.now().day) {
-      return formatBy(v, Types.hhmma);
-    } else {
+  static String formatBy(DateTime v, MyDateTimeFormatTypes t) {
+    try {
       return DateFormat(castTypesFormat(t)).format(v).toString();
+    } catch (e) {
+      return '';
     }
-  } catch (e) {
-    return '';
   }
-}
 
-String formatAndShortByFromString(String v, Types t) {
-  try {
-    DateTime v1 = DateTime.parse(v);
-
-    if (v1.year == DateTime.now().year &&
-        v1.month == DateTime.now().month &&
-        v1.day == DateTime.now().day) {
-      return formatBy(v1, Types.hhmma);
-    } else {
-      return DateFormat(castTypesFormat(t)).format(v1).toString();
+  static String formatTimeOfDayBy(TimeOfDay v, MyDateTimeFormatTypes t) {
+    try {
+      return DateFormat(castTypesFormat(t))
+          .format(DateTime.utc(2019, 1, 1, v.hour, v.minute))
+          .toString();
+    } catch (e) {
+      return '';
     }
-  } catch (e) {
-    return '';
   }
-}
 
-String getStringFromNow(String format, {int extraDays = 0}) {
-  try {
-    return DateFormat(format)
-        .format(DateTime.now().add(Duration(days: extraDays)));
-  } catch (e) {
-    return e.toString();
+  static String formatByFromString(String v, MyDateTimeFormatTypes t) {
+    try {
+      return DateFormat(castTypesFormat(t)).format(DateTime.parse(v));
+    } catch (e) {
+      return '';
+    }
   }
-}
 
-String shortMMYYYY(String v) {
-  try {
-    if (v.substring(3) == DateTime.now().year.toString())
-      return v.substring(0, 2);
-  } catch (e) {
+  static String formatAndShort(DateTime v,
+      {String format = 'dd-MM-yyyy – hh:mm a'}) {
+    try {
+      if (v.isBefore(DateTime.now())) {
+        return DateFormat(format).format(v).toString();
+      } else {
+        return formatBy(v, MyDateTimeFormatTypes.hhmma);
+      }
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static String formatDateAndShort(DateTime v, {String format = 'dd-MM-yyyy'}) {
+    try {
+      if (v.year == DateTime.now().year &&
+          v.month == DateTime.now().month &&
+          v.day == DateTime.now().day) {
+        return '';
+      } else {
+        return formatBy(v, MyDateTimeFormatTypes.ddMMyyyy);
+      }
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static String formatAndShortBy(DateTime v, MyDateTimeFormatTypes t) {
+    try {
+      if (v.year == DateTime.now().year &&
+          v.month == DateTime.now().month &&
+          v.day == DateTime.now().day) {
+        return formatBy(v, MyDateTimeFormatTypes.hhmma);
+      } else {
+        return DateFormat(castTypesFormat(t)).format(v).toString();
+      }
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static String formatAndShortByFromString(String v, MyDateTimeFormatTypes t) {
+    try {
+      DateTime v1 = DateTime.parse(v);
+
+      if (v1.year == DateTime.now().year &&
+          v1.month == DateTime.now().month &&
+          v1.day == DateTime.now().day) {
+        return formatBy(v1, MyDateTimeFormatTypes.hhmma);
+      } else {
+        return DateFormat(castTypesFormat(t)).format(v1).toString();
+      }
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static String getStringFromNow(String format, {int extraDays = 0}) {
+    try {
+      return DateFormat(format)
+          .format(DateTime.now().add(Duration(days: extraDays)));
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  static String shortMMYYYY(String v) {
+    try {
+      if (v.substring(3) == DateTime.now().year.toString())
+        return v.substring(0, 2);
+    } catch (e) {
+      return v;
+    }
     return v;
   }
-  return v;
-}
 
-DateTime toMe(DateTime v) {
-  return v == null ? DateTime.now() : v;
-}
+  static DateTime toMe(DateTime v) {
+    return v == null ? DateTime.now() : v;
+  }
 
-DateTime getLess(DateTime v, DateTime v1) {
-  return v.isBefore(v1) ? v : v1;
-}
+  static DateTime getLess(DateTime v, DateTime v1) {
+    return v.isBefore(v1) ? v : v1;
+  }
 
-DateTime getBiggest(DateTime v, DateTime v1) {
-  return v.isAfter(v1) ? v : v1;
-}
+  static DateTime getBiggest(DateTime v, DateTime v1) {
+    return v.isAfter(v1) ? v : v1;
+  }
 
-int castDateNowToInt({int addNumber = 0}) {
-  try {
-    DateTime v = DateTime.now();
-    return v.year + v.month + v.day + addNumber;
-  } catch (e) {}
-  return 0;
-}
+  static int castDateNowToInt({int addNumber = 0}) {
+    try {
+      DateTime v = DateTime.now();
+      return v.year + v.month + v.day + addNumber;
+    } catch (e) {}
+    return 0;
+  }
 
-int castDateToInt(DateTime v, {int addNumber = 0}) {
-  try {
-    return v.year + v.month + v.day + addNumber;
-  } catch (e) {}
-  return 0;
-}
+  static int castDateToInt(DateTime v, {int addNumber = 0}) {
+    try {
+      return v.year + v.month + v.day + addNumber;
+    } catch (e) {}
+    return 0;
+  }
 
-int castDateToYearMonthNumber(DateTime v) {
-  try {
-    return int.parse(format(v, format: 'yyyyMM'));
-  } catch (e) {}
-  return 0;
+  static int castDateToYearMonthNumber(DateTime v) {
+    try {
+      return int.parse(format(v, format: 'yyyyMM'));
+    } catch (e) {}
+    return 0;
+  }
 }

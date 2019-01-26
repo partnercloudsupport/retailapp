@@ -7,11 +7,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/mydouble.dart' as mydouble;
+
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myDouble.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myRegExp.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
 import 'package:retailapp/control/request/controlRequestImage.dart'
@@ -50,7 +51,7 @@ class _UIState extends State<UI> {
   Widget build(BuildContext context) {
     _context = context;
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         key: _scaffoldKey,
         appBar: _buildAppBar(),
@@ -73,8 +74,8 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.item.requestCompleted),
-      style: myStyle.style18Color2(),
+      MyLanguage.text(myLanguageItem.requestCompleted),
+      style: MyStyle.style18Color2(),
     );
   }
 
@@ -103,7 +104,7 @@ class _UIState extends State<UI> {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -111,12 +112,12 @@ class _UIState extends State<UI> {
               height: 10.0,
             ),
             Text(
-              myLanguage.text(myLanguage.item.chooseAnEmployee),
-              style: myStyle.style12Color3(),
+              MyLanguage.text(myLanguageItem.chooseAnEmployee),
+              style: MyStyle.style12Color3(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_paidByEmployee, style: myStyle.style15Color1()),
+              child: Text(_paidByEmployee, style: MyStyle.style15Color1()),
             ),
           ],
         ),
@@ -129,18 +130,18 @@ class _UIState extends State<UI> {
     return TextFormField(
       keyboardType: TextInputType.numberWithOptions(),
       inputFormatters: [
-        WhitelistingTextInputFormatter(myRegExp.number1To9999999),
+        WhitelistingTextInputFormatter(MyRegExp.number1To9999999),
       ],
       textInputAction: TextInputAction.next,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration: InputDecoration(
-          prefix: Text(r'$ ', style: myStyle.style14Color1()),
+          prefix: Text(r'$ ', style: MyStyle.style14Color1()),
           suffix: Text(
             'USD',
-            style: myStyle.style14Color1(),
+            style: MyStyle.style14Color1(),
           ),
-          labelText: myLanguage.text(myLanguage.item.amount)),
-      onSaved: (String v) => _amount = mydouble.to(v),
+          labelText: MyLanguage.text(myLanguageItem.amount)),
+      onSaved: (String v) => _amount = MyDouble.toMe(v),
       focusNode: _focusNode1,
       onFieldSubmitted: (v) => FocusScope.of(context).requestFocus(_focusNode2),
     );
@@ -150,9 +151,9 @@ class _UIState extends State<UI> {
     return TextFormField(
       textInputAction: TextInputAction.done,
       maxLines: 3,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.note)),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.note)),
       onSaved: (String v) => _deleteNote = v,
       focusNode: _focusNode2,
     );
@@ -172,7 +173,7 @@ class _UIState extends State<UI> {
                 child: new Icon(
                   Icons.image,
                   size: 250.0,
-                  color: myColor.color1,
+                  color: MyColor.color1,
                 ),
               );
   }
@@ -185,21 +186,21 @@ class _UIState extends State<UI> {
             onPressed: _loadImagesGallery,
             icon: Icon(
               Icons.image,
-              color: myColor.color1,
+              color: MyColor.color1,
             ),
             label: Text(
-              myLanguage.text(myLanguage.item.chooseImages),
-              style: myStyle.style16Color1(),
+              MyLanguage.text(myLanguageItem.chooseImages),
+              style: MyStyle.style16Color1(),
             )),
         RaisedButton.icon(
             onPressed: _takeImageCamera,
             icon: Icon(
               Icons.camera,
-              color: myColor.color1,
+              color: MyColor.color1,
             ),
             label: Text(
-              myLanguage.text(myLanguage.item.captureAnImage),
-              style: myStyle.style16Color1(),
+              MyLanguage.text(myLanguageItem.captureAnImage),
+              style: MyStyle.style16Color1(),
             ))
       ],
     );
@@ -214,8 +215,8 @@ class _UIState extends State<UI> {
             onChanged: (v) => chooseIsPrivate(),
           ),
           Text(
-            myLanguage.text(myLanguage.item.itsMyPrivateImages),
-            style: myStyle.style16Color1(),
+            MyLanguage.text(myLanguageItem.itsMyPrivateImages),
+            style: MyStyle.style16Color1(),
           )
         ],
       ),
@@ -230,7 +231,7 @@ class _UIState extends State<UI> {
             builder: (context) => selectWithFilterUI.UI(
                   controlEmployee.getShowInSchedule(),
                   _chooseEmployee,
-                  myLanguage.text(myLanguage.item.chooseAnEmployee),
+                  MyLanguage.text(myLanguageItem.chooseAnEmployee),
                   autofocus: false,
                 )));
   }

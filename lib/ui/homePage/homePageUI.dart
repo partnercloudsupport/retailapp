@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/ui/callerLog/callerLogListUI.dart' as callerLogListUI;
 import 'package:retailapp/ui/customer/customerListUI.dart' as customerListUI;
 import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 import 'package:retailapp/ui/myDiary/myDiaryListUI.dart' as myDiaryListUI;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+import 'package:retailapp/control/my/myLanguage.dart';
+
 import 'package:retailapp/ui/reports/reportsRequestMyDiaryUI.dart'
     as reportsRequestMyDiaryUI;
 
@@ -50,26 +51,26 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             icon: Icon(
               Icons.contacts,
             ),
-            title: Text(myLanguage.text(myLanguage.item.contacts))),
+            title: Text(MyLanguage.text(myLanguageItem.contacts))),
         BottomNavigationBarItem(
             icon: Icon(
               Icons.remove_from_queue,
             ),
-            title: Text(myLanguage.text(myLanguage.item.requests))),
+            title: Text(MyLanguage.text(myLanguageItem.requests))),
         BottomNavigationBarItem(
             icon: Icon(
               Icons.call,
             ),
-            title: Text(myLanguage.text(myLanguage.item.callerLog))),
+            title: Text(MyLanguage.text(myLanguageItem.callerLog))),
         BottomNavigationBarItem(
             activeIcon: _buildIconMyDiary(true),
             icon: _buildIconMyDiary(false),
-            title: Text(myLanguage.text(myLanguage.item.myDiaries))),
+            title: Text(MyLanguage.text(myLanguageItem.myDiaries))),
         BottomNavigationBarItem(
             icon: Icon(
               Icons.pie_chart,
             ),
-            title: Text(myLanguage.text(myLanguage.item.reports))),
+            title: Text(MyLanguage.text(myLanguageItem.reports))),
       ],
     );
   }
@@ -77,7 +78,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   Widget _buildIconMyDiary(bool activeIcon) {
     return Image.asset(
       'lib/res/image/My_Diary_001_32.png',
-      color: activeIcon ? myColor.color1 : myColor.grey,
+      color: activeIcon ? MyColor.color1 : MyColor.grey,
       height: 24,
       width: 24,
     );

@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+
 import 'package:retailapp/control/mapBox/controlMapBox.dart' as controlMapBox;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/myStyle.dart';
 
 LatLng _currentPoint;
 
@@ -38,7 +39,7 @@ class _UIState extends State<UI> {
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(myLanguage.text(myLanguage.item.viewLocation)),
+      title: Text(MyLanguage.text(myLanguageItem.viewLocation)),
     );
   }
 
@@ -57,11 +58,11 @@ class _UIState extends State<UI> {
             children: <Widget>[
               Icon(
                 Icons.location_on,
-                color: myColor.color1,
+                color: MyColor.color1,
               ),
               Text(
                 widget._name,
-                style: myStyle.style16Color1(),
+                style: MyStyle.style16Color1(),
               )
             ],
           ),

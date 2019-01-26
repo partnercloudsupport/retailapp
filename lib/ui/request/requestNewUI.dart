@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:retailapp/control/my/myStyle.dart' as myStyle;
-import 'package:retailapp/control/my/myLanguage.dart' as myLanguage;
+import 'package:retailapp/control/my/MyInternetStatus.dart';
+import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myDouble.dart';
+import 'package:retailapp/control/my/myStyle.dart';
+import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
-import 'package:retailapp/control/my/myColor.dart' as myColor;
+
 import 'package:retailapp/ui/customer/customerSelectUI.dart'
     as customerSelectUI;
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:retailapp/control/my/myRegExp.dart' as myRegExp;
+import 'package:retailapp/control/my/myRegExp.dart';
 import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
-import 'package:retailapp/control/my/mydouble.dart' as mydouble;
-import 'package:retailapp/control/my/myString.dart' as myString;
-import 'package:retailapp/control/my/myInternetStatus.dart' as myInternetStatus;
+import 'package:retailapp/control/my/myString.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -65,7 +66,7 @@ class _UIState extends State<UI> {
   Widget build(BuildContext context) {
     _context = context;
     return Directionality(
-      textDirection: myLanguage.rtl(),
+      textDirection: MyLanguage.rtl(),
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildAppBar(),
@@ -88,8 +89,8 @@ class _UIState extends State<UI> {
 
   Widget _buildTitle() {
     return Text(
-      myLanguage.text(myLanguage.item.newRequest),
-      style: myStyle.style18Color2(),
+      MyLanguage.text(myLanguageItem.newRequest),
+      style: MyStyle.style18Color2(),
     );
   }
 
@@ -116,17 +117,17 @@ class _UIState extends State<UI> {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              myLanguage.text(myLanguage.item.chooseACustomer),
-              style: myStyle.style12Color3(),
+              MyLanguage.text(myLanguageItem.chooseACustomer),
+              style: MyStyle.style12Color3(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_customer, style: myStyle.style15Color1()),
+              child: Text(_customer, style: MyStyle.style15Color1()),
             ),
           ],
         ),
@@ -139,7 +140,7 @@ class _UIState extends State<UI> {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -147,12 +148,12 @@ class _UIState extends State<UI> {
               height: 10.0,
             ),
             Text(
-              myLanguage.text(myLanguage.item.chooseAnEmployee),
-              style: myStyle.style12Color3(),
+              MyLanguage.text(myLanguageItem.chooseAnEmployee),
+              style: MyStyle.style12Color3(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_employee, style: myStyle.style15Color1()),
+              child: Text(_employee, style: MyStyle.style15Color1()),
             ),
           ],
         ),
@@ -166,9 +167,9 @@ class _UIState extends State<UI> {
       initialValue: _requiredImplementation,
       textInputAction: TextInputAction.done,
       maxLines: 4,
-      style: myStyle.style15Color1(),
+      style: MyStyle.style15Color1(),
       decoration:
-          InputDecoration(labelText: myLanguage.text(myLanguage.item.subject)),
+          InputDecoration(labelText: MyLanguage.text(myLanguageItem.subject)),
       onSaved: (String v) => _requiredImplementation = v,
       focusNode: _focusNode1,
     );
@@ -180,7 +181,7 @@ class _UIState extends State<UI> {
       editable: false,
       format: dateFormat,
       decoration: InputDecoration(
-          labelText: myLanguage.text(myLanguage.item.chooseAnAppointment)),
+          labelText: MyLanguage.text(myLanguageItem.chooseAnAppointment)),
       onChanged: _chooseAppointment,
     );
   }
@@ -189,7 +190,7 @@ class _UIState extends State<UI> {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -197,12 +198,12 @@ class _UIState extends State<UI> {
               height: 10.0,
             ),
             Text(
-              myLanguage.text(myLanguage.item.chooseASalseman),
-              style: myStyle.style12Color3(),
+              MyLanguage.text(myLanguageItem.chooseASalseman),
+              style: MyStyle.style12Color3(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_salseman, style: myStyle.style15Color1()),
+              child: Text(_salseman, style: MyStyle.style15Color1()),
             ),
           ],
         ),
@@ -213,16 +214,16 @@ class _UIState extends State<UI> {
 
   Widget _buildTargetPrice() {
     return TextFormField(
-        initialValue: myString.formatNumber(_targetPrice),
+        initialValue: MyString.formatNumber(_targetPrice),
         keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: [
-          WhitelistingTextInputFormatter(myRegExp.number1To9999999),
+          WhitelistingTextInputFormatter(MyRegExp.number1To9999999),
         ],
         textInputAction: TextInputAction.done,
-        style: myStyle.style15Color1(),
+        style: MyStyle.style15Color1(),
         decoration:
-            InputDecoration(labelText: myLanguage.text(myLanguage.item.target)),
-        onSaved: (String v) => _targetPrice = mydouble.to(v),
+            InputDecoration(labelText: MyLanguage.text(myLanguageItem.target)),
+        onSaved: (String v) => _targetPrice = MyDouble.toMe(v),
         focusNode: _focusNode2);
   }
 
@@ -230,7 +231,7 @@ class _UIState extends State<UI> {
     return InkWell(
       child: Container(
         decoration: UnderlineTabIndicator(
-            borderSide: BorderSide(color: myColor.color1)),
+            borderSide: BorderSide(color: MyColor.color1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -238,12 +239,12 @@ class _UIState extends State<UI> {
               height: 10.0,
             ),
             Text(
-              myLanguage.text(myLanguage.item.chooseARequestType),
-              style: myStyle.style12Color3(),
+              MyLanguage.text(myLanguageItem.chooseARequestType),
+              style: MyStyle.style12Color3(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(_typeIs, style: myStyle.style15Color1()),
+              child: Text(_typeIs, style: MyStyle.style15Color1()),
             ),
           ],
         ),
@@ -277,7 +278,7 @@ class _UIState extends State<UI> {
             builder: (context) => selectWithFilterUI.UI(
                   controlEmployee.getShowInSchedule(),
                   _chooseEmployee,
-                  myLanguage.text(myLanguage.item.chooseAnEmployee),
+                  MyLanguage.text(myLanguageItem.chooseAnEmployee),
                   autofocus: false,
                 )));
   }
@@ -301,7 +302,7 @@ class _UIState extends State<UI> {
             builder: (context) => selectWithFilterUI.UI(
                   controlEmployee.getShowInSchedule(),
                   _chooseSalseman,
-                  myLanguage.text(myLanguage.item.chooseASalseman),
+                  MyLanguage.text(myLanguageItem.chooseASalseman),
                   autofocus: false,
                 )));
   }
@@ -319,7 +320,7 @@ class _UIState extends State<UI> {
             builder: (context) => selectWithFilterUI.UI(
                   controlRequestType.getAll(),
                   _chooseRequestType,
-                  myLanguage.text(myLanguage.item.chooseARequestType),
+                  MyLanguage.text(myLanguageItem.chooseARequestType),
                   autofocus: false,
                 )));
   }
@@ -341,7 +342,7 @@ class _UIState extends State<UI> {
 
   void _save() async {
     if (_saveValidator() == true &&
-        await myInternetStatus.checkInternetWithTip(context) == true) {
+        await MyInternetStatus.checkInternetWithTip(context) == true) {
       if (await controlRequest.save(
               scaffoldKey,
               _customer,
