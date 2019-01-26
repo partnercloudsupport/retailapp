@@ -16,21 +16,21 @@ import 'package:retailapp/ui/request/requestHistoryDetailByEmployeeUI.dart'
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class EmployeeRequestReportTabUI extends StatefulWidget {
   final String _filterEmployee;
   final bool _filterWithDate;
   final DateTime _filterFromDate;
   final DateTime _filterToDate;
   final bool _filterWithTotalZero;
 
-  UI(this._filterEmployee, this._filterWithDate, this._filterFromDate,
+  EmployeeRequestReportTabUI(this._filterEmployee, this._filterWithDate, this._filterFromDate,
       this._filterToDate, this._filterWithTotalZero);
 
   @override
-  UIState createState() => UIState();
+  EmployeeRequestReportTabUIState createState() => EmployeeRequestReportTabUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI> with SingleTickerProviderStateMixin {
   String _followUpEmployeeRequest = controlUser
           .drNow.data['followUpEmployeeRequest']
           .toString()

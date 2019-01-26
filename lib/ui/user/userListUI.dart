@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
+import 'package:retailapp/ui/homePage/homeDrawerUI.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/user/controluser.dart' as controlUser;
@@ -33,7 +33,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: MyLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(context),
+        drawer: HomeDrawerUI.buildDrawer(context),
         appBar: _buildAppBar(),
         body: Center(
           child: Column(

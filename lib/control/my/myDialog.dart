@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:retailapp/control/my/myClipper.dart' as myClipper;
+import 'package:retailapp/control/my/myClipper.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
@@ -10,7 +10,7 @@ Widget _title(String title) {
   return Directionality(
     textDirection: MyLanguage.rtl(),
     child: ClipPath(
-      clipper: myClipper.MyClipper1(),
+      clipper: MyClipper1(),
       child: Container(
         padding: EdgeInsets.all(20),
         height: 100,

@@ -4,13 +4,10 @@ import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/user/controlUserMyDiaryMonthlyReport.dart'
     as controlUserMyDiaryMonthlyReport;
-
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLanguage.dart';
-
-import 'package:retailapp/ui/myDiary/myDiaryDetailByUserUI.dart'
-    as myDiaryDetailByUserUI;
+import 'package:retailapp/ui/myDiary/myDiaryDetailByUserUI.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -207,7 +204,7 @@ class DataRows extends DataTableSource {
           Navigator.push(
               _context,
               MaterialPageRoute(
-                  builder: (context) => myDiaryDetailByUserUI.UI(_userID,
+                  builder: (context) => MyDiaryDetailByUserUI(_userID,
                       list[i].data['monthYearNumber'], _filterWithTotalZero)));
         },
       )),

@@ -10,16 +10,16 @@ import 'package:retailapp/control/my/myStyle.dart';
 
 LatLng _currentPoint;
 
-class UI extends StatefulWidget {
+class MapBoxViewUI extends StatefulWidget {
   final String _name;
-  UI(this._name, GeoPoint mapLocation) {
+  MapBoxViewUI(this._name, GeoPoint mapLocation) {
     _currentPoint = LatLng(mapLocation.latitude, mapLocation.longitude);
   }
 
-  _UIState createState() => _UIState();
+  _MapBoxViewUIState createState() => _MapBoxViewUIState();
 }
 
-class _UIState extends State<UI> {
+class _MapBoxViewUIState extends State<MapBoxViewUI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

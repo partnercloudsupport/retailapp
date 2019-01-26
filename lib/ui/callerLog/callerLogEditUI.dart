@@ -7,13 +7,13 @@ import 'package:retailapp/control/callerLog/controlCallerLog.dart'
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class CallerLogEditUI extends StatefulWidget {
   final DocumentSnapshot dr;
-  UI(this.dr);
-  _UIState createState() => _UIState();
+  CallerLogEditUI(this.dr);
+  _CallerLogEditUIState createState() => _CallerLogEditUIState();
 }
 
-class _UIState extends State<UI> {
+class _CallerLogEditUIState extends State<CallerLogEditUI> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String _note = '';

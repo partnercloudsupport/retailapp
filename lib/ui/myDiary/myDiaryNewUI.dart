@@ -10,8 +10,7 @@ import 'package:retailapp/control/my/myRegExp.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-import 'package:retailapp/ui/customer/customerSelectUI.dart'
-    as customerSelectUI;
+import 'package:retailapp/ui/customer/customerSelectUI.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -273,7 +272,7 @@ class _UIState extends State<UI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => customerSelectUI.UI(
+            builder: (context) => CustomerSelectUI(
                   _chooseCustomer,
                   withNew: true,
                 )));

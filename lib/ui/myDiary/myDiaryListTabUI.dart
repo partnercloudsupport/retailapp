@@ -6,13 +6,11 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-import 'package:retailapp/ui/myDiary/myDiaryEditUI.dart' as myDiaryEditUI;
-
-import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
+import 'package:retailapp/ui/myDiary/myDiaryEditUI.dart';
+import 'package:retailapp/ui/GoogleMap/GoogleMapViewUI.dart';
 import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart';
-
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 import 'package:retailapp/control/my/myDialog.dart' as myDialog;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -360,14 +358,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _edit(DocumentSnapshot dr) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => myDiaryEditUI.UI(dr)));
+        context, MaterialPageRoute(builder: (context) => MyDiaryEditUI(dr)));
   }
 
   void _viewMap(DocumentSnapshot dr) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => mapGoogleViewUI.UI(
+            builder: (BuildContext context) => GoogleMapViewUI(
                 dr.data['customer'], dr.data['note'], dr.data['mapLocation'])));
   }
 

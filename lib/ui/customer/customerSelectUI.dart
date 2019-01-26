@@ -5,23 +5,22 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
-
-import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
+import 'package:retailapp/ui/customer/customerNewUI.dart';
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class CustomerSelectUI extends StatefulWidget {
   final void Function(String) _save;
   final bool withNew;
-  UI(this._save, {this.withNew = false});
+  CustomerSelectUI(this._save, {this.withNew = false});
 
   @override
-  UIState createState() => UIState();
+  CustomerSelectUIState createState() => CustomerSelectUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class CustomerSelectUIState extends State<CustomerSelectUI> with SingleTickerProviderStateMixin {
   bool customerInsert = controlPermission.drNow.data['customerInsert'];
   String _filter = '';
   TextEditingController _textEditingController =
@@ -194,7 +193,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => customerNewUI.UI(
+            builder: (context) => CustomerNewUI(
                   withdoAfterSave: widget.withNew,
                   doAfterSave: widget._save,
                 )));

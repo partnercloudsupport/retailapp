@@ -6,9 +6,7 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
-
-
-import 'package:retailapp/ui/all/imageZoom.dart' as imageZoom;
+import 'package:retailapp/ui/all/imageZoomUI.dart';
 import 'package:retailapp/ui/request/requestImageNewUI.dart'
     as requestImageNewUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
@@ -200,7 +198,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         ),
         onTap: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (c) => imageZoom.UI(dr['pathImage'])));
+              MaterialPageRoute(builder: (c) => ImageZoomUI(dr['pathImage'])));
         },
       ),
     );

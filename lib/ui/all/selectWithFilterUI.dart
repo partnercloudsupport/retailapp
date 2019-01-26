@@ -4,20 +4,19 @@ import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-class UI extends StatefulWidget {
+class SelectWithFilterUI extends StatefulWidget {
   final Stream<QuerySnapshot> _querySnapshot;
   final void Function(String) _save;
   final String _titleUI;
   final bool autofocus;
 
-  UI(this._querySnapshot, this._save, this._titleUI, {this.autofocus = true});
+  SelectWithFilterUI(this._querySnapshot, this._save, this._titleUI, {this.autofocus = true});
 
   @override
-  UIState createState() => UIState();
+  SelectWithFilterUIState createState() => SelectWithFilterUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class SelectWithFilterUIState extends State<SelectWithFilterUI> with SingleTickerProviderStateMixin {
   String _filter = '';
   TextEditingController _textEditingController =
       TextEditingController(text: '');

@@ -5,8 +5,7 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-
-import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
+import 'package:retailapp/ui/GoogleMap/GoogleMapViewUI.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
@@ -16,18 +15,17 @@ import 'package:retailapp/control/my/mySuperTooltip.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-
-class UI extends StatefulWidget {
+class MyDiaryDetailByUserUI extends StatefulWidget {
   final String filterByUesrID;
   final int _filterMonthYearNumber;
   final bool _filterWithTotalZero;
-  UI(this.filterByUesrID, this._filterMonthYearNumber,
+  MyDiaryDetailByUserUI(this.filterByUesrID, this._filterMonthYearNumber,
       this._filterWithTotalZero);
   @override
-  UIState createState() => UIState();
+  MyDiaryDetailByUserUIState createState() => MyDiaryDetailByUserUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class MyDiaryDetailByUserUIState extends State<MyDiaryDetailByUserUI> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
@@ -172,7 +170,7 @@ class DataRows extends DataTableSource {
     Navigator.push(
         _context,
         MaterialPageRoute(
-            builder: (BuildContext context) => mapGoogleViewUI.UI(
+            builder: (BuildContext context) => GoogleMapViewUI(
                 drCustomer.data['name'],
                 drCustomer.data['phones'],
                 drCustomer.data['mapLocation'])));

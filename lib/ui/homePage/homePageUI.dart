@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myColor.dart';
-import 'package:retailapp/ui/callerLog/callerLogListUI.dart' as callerLogListUI;
-import 'package:retailapp/ui/customer/customerListUI.dart' as customerListUI;
+import 'package:retailapp/ui/callerLog/callerLogListUI.dart';
+import 'package:retailapp/ui/customer/customerListUI.dart';
 import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 import 'package:retailapp/ui/myDiary/myDiaryListUI.dart' as myDiaryListUI;
 import 'package:retailapp/control/my/myLanguage.dart';
-
 import 'package:retailapp/ui/reports/reportsRequestMyDiaryUI.dart'
     as reportsRequestMyDiaryUI;
 
@@ -13,16 +12,16 @@ int _currentIndex = 1;
 
 final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
-class UI extends StatefulWidget {
-  UI(_currentIndex);
+class HomePageUI extends StatefulWidget {
+  HomePageUI(_currentIndex);
 
   @override
-  UIState createState() => UIState();
+  HomePageUIState createState() => HomePageUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class HomePageUIState extends State<HomePageUI> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  Widget _ui = callerLogListUI.UI();
+  Widget _ui = CallerLogListUI();
 
   @override
   void initState() {
@@ -90,13 +89,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
       switch (_currentIndex) {
         case 0:
-          _ui = customerListUI.UI();
+          _ui = CustomerListUI();
           break;
         case 1:
           _ui = requestListUI.UI();
           break;
         case 2:
-          _ui = callerLogListUI.UI();
+          _ui = CallerLogListUI();
           break;
         case 3:
           _ui = myDiaryListUI.UI();

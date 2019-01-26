@@ -6,7 +6,6 @@ import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 
-
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/ui/request/requestNoteListUI.dart'
@@ -17,10 +16,10 @@ import 'package:retailapp/ui/request/requestWinUI.dart' as requestWinUI;
 import 'package:retailapp/ui/request/requestImageListUI.dart'
     as requestImageListUI;
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
+import 'package:retailapp/ui/GoogleMap/GoogleMapViewUI.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
-import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
+import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart';
 import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
@@ -534,7 +533,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => mapGoogleViewUI.UI(
+            builder: (BuildContext context) => GoogleMapViewUI(
                 drCustomer.data['name'],
                 drCustomer.data['phones'],
                 drCustomer.data['mapLocation'])));
@@ -556,7 +555,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) =>
-                mapBoxSelectUI.UI(_saveLocation, _mapLocation)));
+                MapBoxSelectUI(_saveLocation, _mapLocation)));
   }
 
   void _saveLocation(LatLng location) async {

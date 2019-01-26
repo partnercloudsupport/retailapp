@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/asset.dart';
 
-class UI extends StatefulWidget {
+class ImageViewAssetUI extends StatefulWidget {
   final Asset _asset;
-  UI(this._asset);
+  ImageViewAssetUI(this._asset);
 
   @override
   State<StatefulWidget> createState() => _UI(this._asset);
 }
 
-class _UI extends State<UI> {
+class _UI extends State<ImageViewAssetUI> {
   Asset _asset;
   _UI(this._asset);
 

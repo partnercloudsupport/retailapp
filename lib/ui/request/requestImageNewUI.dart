@@ -10,7 +10,7 @@ import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
-import 'package:retailapp/ui//all/imageViewAsset.dart' as imageViewAsset;
+import 'package:retailapp/ui//all/imageViewAssetUI.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -91,7 +91,7 @@ class _UIState extends State<UI> {
         ? GridView.count(
             crossAxisCount: 3,
             children: List.generate(_imagesGallery.length, (index) {
-              return imageViewAsset.UI(_imagesGallery[index]);
+              return ImageViewAssetUI(_imagesGallery[index]);
             }),
           )
         : _imageCamera != null

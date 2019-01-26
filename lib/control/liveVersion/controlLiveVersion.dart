@@ -6,7 +6,7 @@ import 'package:retailapp/control/my/myDialog.dart' as myDialog;
 import 'package:launch_review/launch_review.dart';
 
 String _name = 'liveVersion';
-String _currentVersion = '1.15';
+String _currentVersion = '1.17';
 
 Future<bool> save(String document) async {
   try {

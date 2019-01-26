@@ -7,19 +7,18 @@ import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
 import 'package:retailapp/control/my/myString.dart';
-import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
-
+import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class CustomerNewUI extends StatefulWidget {
   final bool withdoAfterSave;
   final void Function(String) doAfterSave;
-  UI({this.withdoAfterSave = false, this.doAfterSave});
-  _UIState createState() => _UIState();
+  CustomerNewUI({this.withdoAfterSave = false, this.doAfterSave});
+  _CustomerNewUIState createState() => _CustomerNewUIState();
 }
 
-class _UIState extends State<UI> {
+class _CustomerNewUIState extends State<CustomerNewUI> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   BuildContext _context;
@@ -36,7 +35,7 @@ class _UIState extends State<UI> {
   final FocusNode _focusNodeAddress = new FocusNode();
   final FocusNode _focusNodeEmail = new FocusNode();
   final FocusNode _focusNodeNote = new FocusNode();
-  
+
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
@@ -225,7 +224,7 @@ class _UIState extends State<UI> {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) =>
-                mapBoxSelectUI.UI(_saveLocation, _mapLocation)));
+                MapBoxSelectUI(_saveLocation, _mapLocation)));
   }
 
   void _saveLocation(LatLng location) {

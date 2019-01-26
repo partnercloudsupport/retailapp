@@ -6,7 +6,7 @@ import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/ui/request/requestListTabUI.dart' as requestListTabUI;
-import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
+import 'package:retailapp/ui/homePage/homeDrawerUI.dart';
 import 'package:retailapp/ui/request/requestFilterUI.dart' as requestFilterUI;
 
 import 'package:connectivity/connectivity.dart';
@@ -66,7 +66,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: MyLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(context),
+        drawer: HomeDrawerUI.buildDrawer(context),
         appBar: _buildAppBar(),
         resizeToAvoidBottomPadding: false,
         body: TabBarView(

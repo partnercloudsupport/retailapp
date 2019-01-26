@@ -11,16 +11,15 @@ import 'package:retailapp/control/my/myRegExp.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
-import 'package:retailapp/ui/customer/customerSelectUI.dart'
-    as customerSelectUI;
+import 'package:retailapp/ui/customer/customerSelectUI.dart';
 
-class UI extends StatefulWidget {
+class MyDiaryEditUI extends StatefulWidget {
   final DocumentSnapshot dr;
-  UI(this.dr);
-  _UIState createState() => _UIState();
+  MyDiaryEditUI(this.dr);
+  _MyDiaryEditUIState createState() => _MyDiaryEditUIState();
 }
 
-class _UIState extends State<UI> {
+class _MyDiaryEditUIState extends State<MyDiaryEditUI> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool _customerValid = true;
@@ -286,7 +285,7 @@ class _UIState extends State<UI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => customerSelectUI.UI(_chooseCustomer)));
+            builder: (context) => CustomerSelectUI(_chooseCustomer)));
   }
 
   void _chooseCustomer(String v) {

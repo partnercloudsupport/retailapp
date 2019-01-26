@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/CallerLog/controlCallerLog.dart'
     as controlCallerLog;
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/callerLog/callerLogListTabUI.dart'
-    as callerLogListTabUI;
-import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
+import 'package:retailapp/ui/callerLog/callerLogListTabUI.dart';
+import 'package:retailapp/ui/homePage/homeDrawerUI.dart';
 
-class UI extends StatefulWidget {
+class CallerLogListUI extends StatefulWidget {
   @override
-  UIState createState() => UIState();
+  CallerLogListUIState createState() => CallerLogListUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class CallerLogListUIState extends State<CallerLogListUI> with SingleTickerProviderStateMixin {
   TabController _tabController;
 
   @override
@@ -25,16 +24,16 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: MyLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(context),
+        drawer: HomeDrawerUI.buildDrawer(context),
         appBar: _buildAppBar(),
         resizeToAvoidBottomPadding: false,
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            callerLogListTabUI.UI(controlCallerLog.getToday()),
-            callerLogListTabUI.UI(controlCallerLog.getYesterday()),
-            callerLogListTabUI.UI(controlCallerLog.getLastWeek()),
-            callerLogListTabUI.UI(
+            CallerLogListTabUI(controlCallerLog.getToday()),
+            CallerLogListTabUI(controlCallerLog.getYesterday()),
+            CallerLogListTabUI(controlCallerLog.getLastWeek()),
+            CallerLogListTabUI(
               null,
               withFilterAction: true,
             ),

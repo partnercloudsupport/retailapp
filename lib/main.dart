@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
-import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
+import 'package:retailapp/ui/customer/customerNewUI.dart';
+import 'package:retailapp/ui/homePage/homePageUI.dart';
 import 'package:retailapp/ui/user/userLoginUI.dart' as userLoginUI;
 import 'package:retailapp/control/my/mySharedPreferences.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
@@ -54,11 +54,11 @@ class _UIState extends State<UI> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : _myAccountIsVaild ? homePageUI.UI(4) : userLoginUI.UI(),
+          : _myAccountIsVaild ? HomePageUI(4) : userLoginUI.UI(),
       theme:
           ThemeData(primarySwatch: Colors.blue, primaryColor: MyColor.color1),
       routes: <String, WidgetBuilder>{
-        '/customerNewUI': (BuildContext context) => customerNewUI.UI(),
+        '/customerNewUI': (BuildContext context) => CustomerNewUI(),
       },
     );
   }

@@ -4,9 +4,9 @@ import 'package:photo_view/photo_view.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatelessWidget {
+class ImageZoomUI extends StatelessWidget {
   final String _pathImage;
-  UI(this._pathImage);
+  ImageZoomUI(this._pathImage);
 
   @override
   Widget build(BuildContext context) {

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 
-class UI extends StatefulWidget {
-  _UIState createState() => _UIState();
+class MapBoxUI extends StatefulWidget {
+  _MapBoxUIState createState() => _MapBoxUIState();
 }
 
-class _UIState extends State<UI> {
+class _MapBoxUIState extends State<MapBoxUI> {
   Marker map = Marker(
     width: 100.0,
     height: 100.0,

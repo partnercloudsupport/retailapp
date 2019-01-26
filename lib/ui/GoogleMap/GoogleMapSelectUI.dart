@@ -7,10 +7,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 CameraPosition _currentCameraPosition;
 void Function(LatLng) _save;
 
-class UI extends StatefulWidget {
+class GoogleMapSelectUI extends StatefulWidget {
   final String _name;
   final String _phones;
-  UI(void Function(LatLng) save, this._name, this._phones,
+  GoogleMapSelectUI(void Function(LatLng) save, this._name, this._phones,
       LatLng currentPoint) {
     _currentCameraPosition = CameraPosition(
         target: LatLng(currentPoint.latitude, currentPoint.longitude),
@@ -18,10 +18,10 @@ class UI extends StatefulWidget {
     _save = save;
   }
 
-  _UIState createState() => _UIState();
+  _GoogleMapSelectUIState createState() => _GoogleMapSelectUIState();
 }
 
-class _UIState extends State<UI> {
+class _GoogleMapSelectUIState extends State<GoogleMapSelectUI> {
   GoogleMapController _c;
 
   @override

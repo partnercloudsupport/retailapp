@@ -5,19 +5,18 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
-
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class EmployeeSelectUI extends StatefulWidget {
   final void Function(String) _save;
-  UI(this._save);
+  EmployeeSelectUI(this._save);
 
   @override
-  UIState createState() => UIState();
+  EmployeeSelectUIState createState() => EmployeeSelectUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class EmployeeSelectUIState extends State<EmployeeSelectUI> with SingleTickerProviderStateMixin {
   String _filter = '';
   TextEditingController _textEditingController =
       TextEditingController(text: '');

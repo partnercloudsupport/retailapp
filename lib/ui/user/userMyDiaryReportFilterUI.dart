@@ -4,7 +4,7 @@ import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 
-import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:retailapp/ui/all/selectWithFilterUI.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -217,7 +217,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => selectWithFilterUI.UI(
+            builder: (context) => SelectWithFilterUI(
                   controlUser.getOnlyIsEnabled(),
                   _chooseUser,
                   MyLanguage.text(myLanguageItem.chooseAnEmployee),

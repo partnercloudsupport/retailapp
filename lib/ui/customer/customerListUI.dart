@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
+import 'package:retailapp/ui/homePage/homeDrawerUI.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
-import 'package:retailapp/ui/customer/customerNewUI.dart' as customerNewUI;
-import 'package:retailapp/ui/customer/customerEditUI.dart' as customerEditUI;
-
-import 'package:retailapp/ui/mapGoogle/mapGoogleViewUI.dart' as mapGoogleViewUI;
+import 'package:retailapp/ui/customer/customerNewUI.dart';
+import 'package:retailapp/ui/customer/customerEditUI.dart';
+import 'package:retailapp/ui/GoogleMap/GoogleMapViewUI.dart';
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class CustomerListUI extends StatefulWidget {
   @override
-  UIState createState() => UIState();
+  CustomerListUIState createState() => CustomerListUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class CustomerListUIState extends State<CustomerListUI>
+    with SingleTickerProviderStateMixin {
   bool _customerInsert = controlPermission.drNow.data['customerInsert'];
   bool _customerEdit = controlPermission.drNow.data['customerEdit'];
   bool _searchActive = false;
@@ -46,7 +46,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: MyLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(context),
+        drawer: HomeDrawerUI.buildDrawer(context),
         appBar: _buildAppBar(),
         body: Center(
           child: Column(
@@ -319,12 +319,12 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _new() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => customerNewUI.UI()));
+        context, MaterialPageRoute(builder: (context) => CustomerNewUI()));
   }
 
   void _edit(DocumentSnapshot dr) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => customerEditUI.UI(dr)));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CustomerEditUI(dr)));
 
     // Navigator.pushAndRemoveUntil(
     //   this.context,
@@ -338,7 +338,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => mapGoogleViewUI.UI(
+            builder: (BuildContext context) => GoogleMapViewUI(
                 dr.data['name'], dr.data['phones'], dr.data['mapLocation'])));
   }
 

@@ -7,8 +7,7 @@ import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
 import 'package:retailapp/control/my/myString.dart';
-import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart' as mapBoxSelectUI;
-
+import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart';
 import 'package:retailapp/control/permission/controlPermission.dart'
     as controlPermission;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
@@ -16,15 +15,15 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
 
 DocumentSnapshot _dr;
 
-class UI extends StatefulWidget {
-  UI(DocumentSnapshot dr) {
+class CustomerEditUI extends StatefulWidget {
+  CustomerEditUI(DocumentSnapshot dr) {
     _dr = dr;
   }
 
-  _UIState createState() => _UIState();
+  _CustomerEditUIState createState() => _CustomerEditUIState();
 }
 
-class _UIState extends State<UI> {
+class _CustomerEditUIState extends State<CustomerEditUI> {
   bool customerEditPhone = controlPermission.drNow.data['customerEditPhone'];
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   BuildContext _context;
@@ -245,7 +244,7 @@ class _UIState extends State<UI> {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) =>
-                mapBoxSelectUI.UI(_saveLocation, _mapLocation)));
+                MapBoxSelectUI(_saveLocation, _mapLocation)));
   }
 
   void _saveLocation(LatLng location) {

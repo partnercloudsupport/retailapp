@@ -4,7 +4,7 @@ import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 
-import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:retailapp/ui/all/selectWithFilterUI.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/request/controlRequestType.dart'
@@ -228,7 +228,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => selectWithFilterUI.UI(
+            builder: (context) => SelectWithFilterUI(
                   controlEmployee.getShowInSchedule(),
                   _chooseEmployee,
                   MyLanguage.text(myLanguageItem.chooseAnEmployee),
@@ -252,7 +252,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => selectWithFilterUI.UI(
+            builder: (context) => SelectWithFilterUI(
                   controlRequestType.getAll(),
                   _chooseRequestType,
                   MyLanguage.text(myLanguageItem.chooseARequestType),

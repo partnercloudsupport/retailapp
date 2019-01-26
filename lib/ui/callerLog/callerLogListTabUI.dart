@@ -3,28 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myStyle.dart';
-
 import 'package:retailapp/control/CallerLog/controlCallerLog.dart'
     as controlCallerLog;
 import 'package:retailapp/control/my/myLanguage.dart';
-
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
-import 'package:retailapp/ui/callerLog/callerLogEditUI.dart' as callerLogEditUI;
+import 'package:retailapp/ui/callerLog/callerLogEditUI.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class CallerLogListTabUI extends StatefulWidget {
   final Stream<QuerySnapshot> querySnapshot;
-  UI(this.querySnapshot, {this.withFilterAction = false});
+  CallerLogListTabUI(this.querySnapshot, {this.withFilterAction = false});
 
   final bool withFilterAction;
 
   @override
-  _UIState createState() => _UIState(querySnapshot);
+  _CallerLogListTabUIState createState() => _CallerLogListTabUIState(querySnapshot);
 }
 
-class _UIState extends State<UI> {
-  _UIState(Stream<QuerySnapshot> querySnapshot) {
+class _CallerLogListTabUIState extends State<CallerLogListTabUI> {
+  _CallerLogListTabUIState(Stream<QuerySnapshot> querySnapshot) {
     _querySnapshot = querySnapshot;
   }
 
@@ -105,8 +103,8 @@ class _UIState extends State<UI> {
               style: MyStyle.style20Color1(),
             ),
             trailing: Text(
-              MyDateTime.formatAndShortByFromString(
-                  dr['dateTimeIs'].toString(), MyDateTimeFormatTypes.ddMMyyyyhhmma),
+              MyDateTime.formatAndShortByFromString(dr['dateTimeIs'].toString(),
+                  MyDateTimeFormatTypes.ddMMyyyyhhmma),
             ),
             children: <Widget>[
               Column(
@@ -212,7 +210,8 @@ class _UIState extends State<UI> {
                 ),
                 RaisedButton(
                   child: Text(
-                      MyDateTime.formatBy(_fromDate, MyDateTimeFormatTypes.ddMMyyyy),
+                      MyDateTime.formatBy(
+                          _fromDate, MyDateTimeFormatTypes.ddMMyyyy),
                       style: MyStyle.style20Color1()),
                   onPressed: _selectFromDate,
                 ),
@@ -225,7 +224,8 @@ class _UIState extends State<UI> {
                 ),
                 RaisedButton(
                   child: Text(
-                      MyDateTime.formatBy(_toDate, MyDateTimeFormatTypes.ddMMyyyy),
+                      MyDateTime.formatBy(
+                          _toDate, MyDateTimeFormatTypes.ddMMyyyy),
                       style: MyStyle.style20Color1()),
                   onPressed: _selectToDate,
                 )
@@ -316,8 +316,10 @@ class _UIState extends State<UI> {
   }
 
   void _edit(DocumentSnapshot dr) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => callerLogEditUI.UI(dr)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CallerLogEditUI(dr)));
   }
 
   @override

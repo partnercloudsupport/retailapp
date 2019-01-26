@@ -3,7 +3,7 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/mySnackBar.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
+import 'package:retailapp/ui/homePage/homePageUI.dart';
 import 'package:retailapp/control/my/mySharedPreferences.dart';
 
 String userName = '';
@@ -111,7 +111,7 @@ class _UIState extends State<UI> {
           _formKey.currentState.reset();
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => homePageUI.UI(4)),
+              MaterialPageRoute(builder: (context) => HomePageUI(4)),
               ModalRoute.withName(''));
         }
       } catch (e) {

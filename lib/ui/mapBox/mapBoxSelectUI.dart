@@ -12,15 +12,15 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
 LatLng _currentPoint;
 void Function(LatLng) _save;
 
-class UI extends StatefulWidget {
-  UI(void Function(LatLng) save, LatLng currentPoint) {
+class MapBoxSelectUI extends StatefulWidget {
+  MapBoxSelectUI(void Function(LatLng) save, LatLng currentPoint) {
     _save = save;
     _currentPoint = currentPoint;
   }
-  _UIState createState() => _UIState();
+  _MapBoxSelectUIState createState() => _MapBoxSelectUIState();
 }
 
-class _UIState extends State<UI> {
+class _MapBoxSelectUIState extends State<MapBoxSelectUI> {
   LatLng _myLocation;
 
   MapController _map;

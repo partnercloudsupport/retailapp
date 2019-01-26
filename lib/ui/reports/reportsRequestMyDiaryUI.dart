@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/employee/employeeRequestReportTabUI.dart'
-    as employeeRequestReportTabUI;
+import 'package:retailapp/ui/employee/employeeRequestReportTabUI.dart';
 import 'package:retailapp/ui/user/userMyDiaryReportTabUI.dart'
     as userMyDiaryReportTabUI;
-import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
-import 'package:retailapp/ui/employee/employeeRequestReportFilterUI.dart'
-    as employeeRequestReportFilterUI;
+import 'package:retailapp/ui/homePage/homeDrawerUI.dart';
+import 'package:retailapp/ui/employee/employeeRequestReportFilterUI.dart';
 import 'package:retailapp/ui/user/userMyDiaryReportFilterUI.dart'
     as userMyDiaryReportFilterUI;
-
 
 String _filterEmployee = '';
 String _filterUser = '';
@@ -38,13 +35,13 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: MyLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(context),
+        drawer: HomeDrawerUI.buildDrawer(context),
         appBar: _buildAppBar(),
         resizeToAvoidBottomPadding: false,
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            employeeRequestReportTabUI.UI(_filterEmployee, _filterWithDate,
+            EmployeeRequestReportTabUI(_filterEmployee, _filterWithDate,
                 _filterFromDate, _filterToDate, _filterWithTotalZero),
             userMyDiaryReportTabUI.UI(_filterUser, _filterWithDate,
                 _filterFromDate, _filterToDate, _filterWithTotalZero),
@@ -93,7 +90,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => employeeRequestReportFilterUI.UI(
+              builder: (context) => EmployeeRequestReportFilterUI(
                   _filterEmployeeApply,
                   _filterEmployee,
                   _filterWithDate,

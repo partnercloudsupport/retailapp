@@ -3,11 +3,9 @@ import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
-
-import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:retailapp/ui/all/selectWithFilterUI.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
-
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -17,10 +15,10 @@ DateTime _filterFromDate = DateTime.now();
 DateTime _filterToDate = DateTime.now();
 bool _filterWithTotalZero = true;
 
-class UI extends StatefulWidget {
+class EmployeeRequestReportFilterUI extends StatefulWidget {
   final void Function(String, bool, DateTime, DateTime, bool) _save;
 
-  UI(
+  EmployeeRequestReportFilterUI(
       this._save,
       String filterEmployee,
       bool filterWithDate,
@@ -35,10 +33,10 @@ class UI extends StatefulWidget {
   }
 
   @override
-  UIState createState() => UIState();
+  EmployeeRequestReportFilterUIState createState() => EmployeeRequestReportFilterUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class EmployeeRequestReportFilterUIState extends State<EmployeeRequestReportFilterUI> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
@@ -219,7 +217,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => selectWithFilterUI.UI(
+            builder: (context) => SelectWithFilterUI(
                   controlEmployee.getShowInSchedule(),
                   _chooseEmployee,
                   MyLanguage.text(myLanguageItem.chooseAnEmployee),

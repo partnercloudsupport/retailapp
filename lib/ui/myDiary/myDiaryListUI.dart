@@ -3,8 +3,8 @@ import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/ui/myDiary/myDiaryListTabUI.dart' as myDiaryListTabUI;
-import 'package:retailapp/ui/homePage/homeDrawer.dart' as homeDrawer;
-import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:retailapp/ui/homePage/homeDrawerUI.dart';
+import 'package:retailapp/ui/all/selectWithFilterUI.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
 String filterByUser = '';
@@ -31,7 +31,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: MyLanguage.rtl(),
       child: Scaffold(
-        drawer: homeDrawer.buildDrawer(context),
+        drawer: HomeDrawerUI.buildDrawer(context),
         appBar: _buildAppBar(),
         resizeToAvoidBottomPadding: false,
         body: TabBarView(
@@ -137,7 +137,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => selectWithFilterUI.UI(
+            builder: (context) => SelectWithFilterUI(
                   controlUser.getAllOrderByName(),
                   _filterApply,
                   MyLanguage.text(myLanguageItem.chooseAUser),

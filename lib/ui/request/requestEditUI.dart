@@ -9,12 +9,10 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
-
-import 'package:retailapp/ui/customer/customerSelectUI.dart'
-    as customerSelectUI;
+import 'package:retailapp/ui/customer/customerSelectUI.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:retailapp/control/my/myRegExp.dart';
-import 'package:retailapp/ui/all/selectWithFilterUI.dart' as selectWithFilterUI;
+import 'package:retailapp/ui/all/selectWithFilterUI.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/request/controlRequestType.dart'
@@ -256,7 +254,7 @@ class _UIState extends State<UI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => customerSelectUI.UI(_chooseCustomer)));
+            builder: (context) => CustomerSelectUI(_chooseCustomer)));
   }
 
   void _chooseCustomer(String v) {
@@ -269,7 +267,7 @@ class _UIState extends State<UI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => selectWithFilterUI.UI(
+            builder: (context) => SelectWithFilterUI(
                 controlEmployee.getShowInSchedule(),
                 _chooseEmployee,
                 MyLanguage.text(myLanguageItem.chooseAnEmployee))));
@@ -291,7 +289,7 @@ class _UIState extends State<UI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => selectWithFilterUI.UI(
+            builder: (context) => SelectWithFilterUI(
                 controlEmployee.getShowInSchedule(),
                 _chooseSalseman,
                 MyLanguage.text(myLanguageItem.chooseASalseman))));
@@ -307,7 +305,7 @@ class _UIState extends State<UI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => selectWithFilterUI.UI(
+            builder: (context) => SelectWithFilterUI(
                   controlRequestType.getAll(),
                   _chooseRequestType,
                   MyLanguage.text(myLanguageItem.chooseARequestType),

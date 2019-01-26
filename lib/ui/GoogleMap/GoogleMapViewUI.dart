@@ -10,20 +10,20 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
 
 CameraPosition _currentCameraPosition;
 
-class UI extends StatefulWidget {
+class GoogleMapViewUI extends StatefulWidget {
   final String _name;
   final String _phones;
 
-  UI(this._name, this._phones, GeoPoint mapLocation) {
+  GoogleMapViewUI(this._name, this._phones, GeoPoint mapLocation) {
     _currentCameraPosition = CameraPosition(
         target: LatLng(mapLocation.latitude, mapLocation.longitude),
         zoom: 14.0);
   }
 
-  _UIState createState() => _UIState();
+  _GoogleMapViewUIState createState() => _GoogleMapViewUIState();
 }
 
-class _UIState extends State<UI> {
+class _GoogleMapViewUIState extends State<GoogleMapViewUI> {
   GoogleMapController _c;
   LatLng _myLocation;
   CameraPosition _myCameraPosition;
