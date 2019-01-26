@@ -20,7 +20,8 @@ class CustomerSelectUI extends StatefulWidget {
   CustomerSelectUIState createState() => CustomerSelectUIState();
 }
 
-class CustomerSelectUIState extends State<CustomerSelectUI> with SingleTickerProviderStateMixin {
+class CustomerSelectUIState extends State<CustomerSelectUI>
+    with SingleTickerProviderStateMixin {
   bool customerInsert = controlPermission.drNow.data['customerInsert'];
   String _filter = '';
   TextEditingController _textEditingController =

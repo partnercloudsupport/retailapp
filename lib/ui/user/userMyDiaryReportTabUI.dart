@@ -11,20 +11,20 @@ import 'package:retailapp/ui/myDiary/myDiaryDetailByUserUI.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class UserMyDiaryReportTabUI extends StatefulWidget {
   final String _filterUser;
   final bool _filterWithDate;
   final DateTime _filterFromDate;
   final DateTime _filterToDate;
   final bool _filterWithTotalZero;
-  UI(this._filterUser, this._filterWithDate, this._filterFromDate,
+  UserMyDiaryReportTabUI(this._filterUser, this._filterWithDate, this._filterFromDate,
       this._filterToDate, this._filterWithTotalZero);
 
   @override
-  UIState createState() => UIState();
+  UserMyDiaryReportTabUIState createState() => UserMyDiaryReportTabUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class UserMyDiaryReportTabUIState extends State<UserMyDiaryReportTabUI> with SingleTickerProviderStateMixin {
   String _followUpUserMyDiary = controlUser.drNow.data['name'] +
       ', ' +
       controlUser.drNow.data['followUpUserMyDiary'].toString().toLowerCase() +

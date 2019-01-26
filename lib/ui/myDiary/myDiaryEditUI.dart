@@ -169,7 +169,8 @@ class _MyDiaryEditUIState extends State<MyDiaryEditUI> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                  MyDateTime.formatTimeOfDayBy(time, MyDateTimeFormatTypes.hhmma),
+                  MyDateTime.formatTimeOfDayBy(
+                      time, MyDateTimeFormatTypes.hhmma),
                   style: MyStyle.style15Color1()),
             ),
           ],

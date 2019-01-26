@@ -18,7 +18,8 @@ class CallerLogListTabUI extends StatefulWidget {
   final bool withFilterAction;
 
   @override
-  _CallerLogListTabUIState createState() => _CallerLogListTabUIState(querySnapshot);
+  _CallerLogListTabUIState createState() =>
+      _CallerLogListTabUIState(querySnapshot);
 }
 
 class _CallerLogListTabUIState extends State<CallerLogListTabUI> {
@@ -309,17 +310,13 @@ class _CallerLogListTabUIState extends State<CallerLogListTabUI> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => requestNewUI.UI(
-                  customer: customer,
-                  requiredImplementation: requiredImplementation,
-                )));
+            builder: (context) => requestNewUI.RequestNewUI(
+                customer, requiredImplementation, 0)));
   }
 
   void _edit(DocumentSnapshot dr) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CallerLogEditUI(dr)));
+        context, MaterialPageRoute(builder: (context) => CallerLogEditUI(dr)));
   }
 
   @override

@@ -9,22 +9,19 @@ import 'package:retailapp/control/my/MyLocation.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-LatLng _currentPoint;
-void Function(LatLng) _save;
-
 class MapBoxSelectUI extends StatefulWidget {
-  MapBoxSelectUI(void Function(LatLng) save, LatLng currentPoint) {
-    _save = save;
-    _currentPoint = currentPoint;
-  }
-  _MapBoxSelectUIState createState() => _MapBoxSelectUIState();
+  final void Function(LatLng) _save;
+  final LatLng _currentPoint;
+  MapBoxSelectUI(this._save, this._currentPoint);
+
+  _MapBoxSelectUIState createState() => _MapBoxSelectUIState(_currentPoint);
 }
 
 class _MapBoxSelectUIState extends State<MapBoxSelectUI> {
+  LatLng _currentPoint;
   LatLng _myLocation;
-
   MapController _map;
-
+  _MapBoxSelectUIState(this._currentPoint);
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
@@ -113,7 +110,7 @@ class _MapBoxSelectUIState extends State<MapBoxSelectUI> {
   }
 
   void _saveLocation() {
-    _save(_currentPoint);
+    widget._save(_currentPoint);
     Navigator.pop(context);
   }
 }

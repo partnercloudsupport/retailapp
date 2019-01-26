@@ -12,14 +12,13 @@ import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
 import 'package:retailapp/ui/customer/customerSelectUI.dart';
 
-final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
-class UI extends StatefulWidget {
-  _UIState createState() => _UIState();
+class MyDiaryNewUI extends StatefulWidget {
+  _MyDiaryNewUIState createState() => _MyDiaryNewUIState();
 }
 
-class _UIState extends State<UI> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+class _MyDiaryNewUIState extends State<MyDiaryNewUI> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _customerValid = true;
   String _customer = '';
   DateTime _beginDate = DateTime.now();
@@ -45,7 +44,7 @@ class _UIState extends State<UI> {
     return Directionality(
       textDirection: MyLanguage.rtl(),
       child: Scaffold(
-        key: scaffoldKey,
+        key: _scaffoldKey,
         appBar: _buildAppBar(),
         body: _buildForm(),
       ),
@@ -75,7 +74,7 @@ class _UIState extends State<UI> {
     return Container(
       padding: EdgeInsets.all(10.0),
       child: Form(
-          key: formKey,
+          key: _formKey,
           child: ListView(
             children: <Widget>[
               _buildCustomerChoose(),
@@ -156,7 +155,8 @@ class _UIState extends State<UI> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                  MyDateTime.formatTimeOfDayBy(time, MyDateTimeFormatTypes.hhmma),
+                  MyDateTime.formatTimeOfDayBy(
+                      time, MyDateTimeFormatTypes.hhmma),
                   style: MyStyle.style15Color1()),
             ),
           ],
@@ -336,8 +336,8 @@ class _UIState extends State<UI> {
 
   void _save() async {
     if (_saveValidator() == true) {
-      formKey.currentState.save();
-      if (await controlMyDiary.save(scaffoldKey, _customer, _beginDate,
+      _formKey.currentState.save();
+      if (await controlMyDiary.save(_scaffoldKey, _customer, _beginDate,
               _endDate, _note, _amountQuotation, _amount, _typeIs.index) ==
           true) {
         Navigator.pop(context);

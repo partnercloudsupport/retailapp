@@ -2,24 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
-
 import 'package:retailapp/control/mapBox/controlMapBox.dart' as controlMapBox;
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 
-LatLng _currentPoint;
-
 class MapBoxViewUI extends StatefulWidget {
   final String _name;
-  MapBoxViewUI(this._name, GeoPoint mapLocation) {
-    _currentPoint = LatLng(mapLocation.latitude, mapLocation.longitude);
-  }
+  final GeoPoint _mapLocation;
+  MapBoxViewUI(this._name, this._mapLocation);
 
   _MapBoxViewUIState createState() => _MapBoxViewUIState();
 }
 
 class _MapBoxViewUIState extends State<MapBoxViewUI> {
+  LatLng _currentPoint;
+  _MapBoxViewUIState() {
+    _currentPoint =
+        LatLng(widget._mapLocation.latitude, widget._mapLocation.longitude);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

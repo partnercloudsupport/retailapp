@@ -11,24 +11,23 @@ import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
 
 void main() {
   //Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
-  runApp(UI());
+  runApp(MainUI());
 }
 
-class UI extends StatefulWidget {
-  _UIState createState() => _UIState();
+class MainUI extends StatefulWidget {
+  _MainUIState createState() => _MainUIState();
 }
 
-class _UIState extends State<UI> {
+class _MainUIState extends State<MainUI> {
   bool _myLanguageIsLoaded = false;
   bool _myAccountIsVaild = false;
 
-  _UIState() {
+  _MainUIState() {
     _initState();
   }
 
   void _initState() async {
     MyLanguage.setLanguage(await MySharedPreferences.getLanguageApp());
-    userLoginUI.userName = await MySharedPreferences.getUserName();
     requestListUI.filterEmployee =
         await MySharedPreferences.getRequestFilterEmployee();
 
@@ -54,7 +53,7 @@ class _UIState extends State<UI> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : _myAccountIsVaild ? HomePageUI(4) : userLoginUI.UI(),
+          : _myAccountIsVaild ? HomePageUI(4) : userLoginUI.UserLoginUI(),
       theme:
           ThemeData(primarySwatch: Colors.blue, primaryColor: MyColor.color1),
       routes: <String, WidgetBuilder>{

@@ -5,22 +5,19 @@ import 'package:latlong/latlong.dart';
 import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myStyle.dart';
-
-import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
+import 'package:retailapp/ui/request/requestNewUI.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/request/requestNoteListUI.dart'
-    as requestNoteListUI;
-import 'package:retailapp/ui/request/requestEditUI.dart' as requestEditUI;
+import 'package:retailapp/ui/request/requestNoteListUI.dart';
+import 'package:retailapp/ui/request/requestEditUI.dart';
 import 'package:retailapp/control/my/myString.dart';
-import 'package:retailapp/ui/request/requestWinUI.dart' as requestWinUI;
-import 'package:retailapp/ui/request/requestImageListUI.dart'
-    as requestImageListUI;
+import 'package:retailapp/ui/request/requestWinUI.dart';
+import 'package:retailapp/ui/request/requestImageListUI.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/ui/GoogleMap/GoogleMapViewUI.dart';
 import 'package:retailapp/control/customer/controlCustomer.dart'
     as controlCustomer;
 import 'package:retailapp/ui/mapBox/mapBoxSelectUI.dart';
-import 'package:retailapp/ui/homePage/homePageUI.dart' as homePageUI;
+import 'package:retailapp/ui/homePage/homePageUI.dart';
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
 import 'package:retailapp/control/permission/controlPermission.dart'
@@ -29,7 +26,7 @@ import 'package:retailapp/control/my/mySnackBar.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class RequestListTabUI extends StatefulWidget {
   final bool _searchActive;
   final controlRequest.TypeView _typeView;
   final String filterType;
@@ -38,7 +35,7 @@ class UI extends StatefulWidget {
   final DateTime filterFromDate;
   final DateTime filterToDate;
   final ConnectivityResult connectionStatus;
-  UI(
+  RequestListTabUI(
       this._searchActive,
       this._typeView,
       this.filterType,
@@ -49,10 +46,11 @@ class UI extends StatefulWidget {
       this.connectionStatus);
 
   @override
-  UIState createState() => UIState();
+  RequestListTabUIState createState() => RequestListTabUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class RequestListTabUIState extends State<RequestListTabUI>
+    with SingleTickerProviderStateMixin {
   bool _requestInsert = controlPermission.drNow.data['requestInsert'];
   bool _requestEdit = controlPermission.drNow.data['requestEdit'];
   bool _requestDelete = controlPermission.drNow.data['requestDelete'];
@@ -289,8 +287,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => requestNoteListUI
-                  .UI(double.parse(dr.documentID.toString())))),
+              builder: (context) =>
+                  RequestNoteListUI(double.parse(dr.documentID.toString())))),
     );
   }
 
@@ -499,18 +497,18 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _new() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => requestNewUI.UI()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => RequestNewUI('', '', 0)));
   }
 
   void _edit(DocumentSnapshot dr) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => requestEditUI.UI(dr)));
+        context, MaterialPageRoute(builder: (context) => RequestEditUI(dr)));
   }
 
   void _win(DocumentSnapshot dr) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => requestWinUI.UI(dr)));
+        context, MaterialPageRoute(builder: (context) => RequestWinUI(dr)));
   }
 
   void _imageZoom(DocumentSnapshot dr) {
@@ -518,7 +516,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                requestImageListUI.UI(double.parse(dr.documentID.toString()))));
+                RequestImageListUI(double.parse(dr.documentID.toString()))));
   }
 
   void _viewMap(DocumentSnapshot dr) async {
@@ -559,7 +557,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _saveLocation(LatLng location) async {
-    await controlCustomer.editLocation(homePageUI.scaffoldKey,
+    await controlCustomer.editLocation(homePageUIScaffoldKey,
         drCustomer.documentID, GeoPoint(location.latitude, location.longitude));
   }
 }

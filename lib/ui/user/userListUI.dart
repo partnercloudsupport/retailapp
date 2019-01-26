@@ -6,13 +6,13 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/user/controluser.dart' as controlUser;
 
-
-class UI extends StatefulWidget {
+class UserListUI extends StatefulWidget {
   @override
-  UIState createState() => UIState();
+  UserListUIState createState() => UserListUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class UserListUIState extends State<UserListUI>
+    with SingleTickerProviderStateMixin {
   bool _filterActive = false;
   String _filter = '';
   TextEditingController _textEditingController =

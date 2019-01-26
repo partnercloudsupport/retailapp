@@ -8,7 +8,7 @@ import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
 import 'package:retailapp/ui/myDiary/myDiaryEditUI.dart';
 import 'package:retailapp/ui/GoogleMap/GoogleMapViewUI.dart';
-import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart' as myDiaryNewUI;
+import 'package:retailapp/ui/myDiary/myDiaryNewUI.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart';
 import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
@@ -16,20 +16,22 @@ import 'package:retailapp/control/my/myDialog.dart' as myDialog;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class MyDiaryListTabUI extends StatefulWidget {
   final controlMyDiary.TypeView _typeView;
   final bool _searchActive;
   final String _searchText;
   final void Function(String) _searchSetText;
   final String filterByUesr;
 
-  UI(this._typeView, this._searchActive, this._searchText, this._searchSetText,
+  MyDiaryListTabUI(
+      this._typeView, this._searchActive, this._searchText, this._searchSetText,
       {this.filterByUesr = ''});
   @override
-  UIState createState() => UIState(_searchText);
+  MyDiaryListTabUIState createState() => MyDiaryListTabUIState(_searchText);
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class MyDiaryListTabUIState extends State<MyDiaryListTabUI>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _searchActive = false;
   String _searchText;
@@ -39,7 +41,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       ', ' +
       controlUser.drNow.data['followUpUserMyDiary'].toString().toLowerCase() +
       ', ';
-  UIState(this._searchText);
+  MyDiaryListTabUIState(this._searchText);
 
   @override
   void initState() {
@@ -353,7 +355,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
   void _new() async {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => myDiaryNewUI.UI()));
+        context, MaterialPageRoute(builder: (context) => MyDiaryNewUI()));
   }
 
   void _edit(DocumentSnapshot dr) {
@@ -385,10 +387,10 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => requestNewUI.UI(
-                  customer: customer,
-                  requiredImplementation: requiredImplementation,
-                  targetPrice: targetPrice,
+            builder: (context) => requestNewUI.RequestNewUI(
+                  customer,
+                  requiredImplementation,
+                  targetPrice,
                 )));
   }
 

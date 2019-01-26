@@ -6,18 +6,20 @@ import 'package:retailapp/control/request/controlRequestHistory.dart'
     as controlRequestHistory;
 import 'package:retailapp/control/my/myLanguage.dart';
 
-
-class UI extends StatefulWidget {
+class RequestHistoryDetailByEmployeeUI extends StatefulWidget {
   final String filterByEmployeeID;
   final int _filterMonthYearNumber;
   final bool _filterWithTotalZero;
-  UI(this.filterByEmployeeID, this._filterMonthYearNumber,
-      this._filterWithTotalZero);
+  RequestHistoryDetailByEmployeeUI(this.filterByEmployeeID,
+      this._filterMonthYearNumber, this._filterWithTotalZero);
   @override
-  UIState createState() => UIState();
+  RequestHistoryDetailByEmployeeUIState createState() =>
+      RequestHistoryDetailByEmployeeUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class RequestHistoryDetailByEmployeeUIState
+    extends State<RequestHistoryDetailByEmployeeUI>
+    with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -70,15 +72,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
             return PaginatedDataTable(
               rowsPerPage: c <= 8 ? c : 8,
-              header: Text(MyLanguage
-                  .text(myLanguageItem.monthlySalesReportFromRequests)),
+              header: Text(MyLanguage.text(
+                  myLanguageItem.monthlySalesReportFromRequests)),
               source: DataRows(list, c),
               columns: <DataColumn>[
                 DataColumn(
                     label: Text(MyLanguage.text(myLanguageItem.customer))),
                 DataColumn(label: Text(MyLanguage.text(myLanguageItem.date))),
-                DataColumn(
-                    label: Text(MyLanguage.text(myLanguageItem.amount))),
+                DataColumn(label: Text(MyLanguage.text(myLanguageItem.amount))),
                 DataColumn(
                     label: Text(
                         MyLanguage.text(myLanguageItem.textToBeImplemented))),
@@ -110,7 +111,8 @@ class DataRows extends DataTableSource {
         style: MyStyle.style14Color1(),
       )),
       DataCell(Text(
-        MyDateTime.formatBy(list[i].data['endIn'], MyDateTimeFormatTypes.ddMMyyyy),
+        MyDateTime.formatBy(
+            list[i].data['endIn'], MyDateTimeFormatTypes.ddMMyyyy),
         style: MyStyle.style14Color1(),
       )),
       DataCell(Text(

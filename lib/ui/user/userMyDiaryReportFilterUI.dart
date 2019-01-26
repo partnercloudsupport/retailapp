@@ -3,41 +3,43 @@ import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
-
 import 'package:retailapp/ui/all/selectWithFilterUI.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
-
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-String _filterUser = '';
-bool _filterWithDate = false;
-DateTime _filterFromDate = DateTime.now();
-DateTime _filterToDate = DateTime.now();
-bool _filterWithTotalZero = true;
-
-class UI extends StatefulWidget {
+class UserMyDiaryReportFilterUI extends StatefulWidget {
   final void Function(String, bool, DateTime, DateTime, bool) _save;
+  final String _filterUser;
+  final bool _filterWithDate;
+  final DateTime _filterFromDate;
+  final DateTime _filterToDate;
+  final bool _filterWithTotalZero;
 
-  UI(
-      this._save,
-      String filterEmployee,
-      bool filterWithDate,
-      DateTime filterFromDate,
-      DateTime filterToDate,
-      bool filterWithTotalZero) {
-    _filterUser = filterEmployee;
-    _filterWithDate = filterWithDate;
-    _filterFromDate = filterFromDate;
-    _filterToDate = filterToDate;
-    _filterWithTotalZero = filterWithTotalZero;
-  }
+  UserMyDiaryReportFilterUI(this._save, this._filterUser, this._filterWithDate,
+      this._filterFromDate, this._filterToDate, this._filterWithTotalZero);
 
   @override
-  UIState createState() => UIState();
+  UserMyDiaryReportFilterUIState createState() =>
+      UserMyDiaryReportFilterUIState(_filterUser, _filterWithDate,
+          _filterFromDate, _filterToDate, _filterWithTotalZero);
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class UserMyDiaryReportFilterUIState extends State<UserMyDiaryReportFilterUI>
+    with SingleTickerProviderStateMixin {
+  String _filterUser;
+  bool _filterWithDate;
+  DateTime _filterFromDate;
+  DateTime _filterToDate;
+  bool _filterWithTotalZero;
+  UserMyDiaryReportFilterUIState(
+    this._filterUser,
+    this._filterWithDate,
+    this._filterFromDate,
+    this._filterToDate,
+    this._filterWithTotalZero,
+  );
+
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
@@ -150,16 +152,14 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return _filterWithDate
         ? Row(
             children: <Widget>[
-              _buildTime(
-                  _chooseFromDate, myLanguageItem.from, _filterFromDate),
+              _buildTime(_chooseFromDate, myLanguageItem.from, _filterFromDate),
               _buildTime(_chooseToDate, myLanguageItem.to, _filterToDate),
             ],
           )
         : SizedBox();
   }
 
-  Widget _buildTime(
-      void Function() save, myLanguageItem _text, DateTime date) {
+  Widget _buildTime(void Function() save, myLanguageItem _text, DateTime date) {
     return InkWell(
       child: Container(
         width: (MediaQuery.of(context).size.width - 20) / 2,
@@ -175,7 +175,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Text(MyDateTime.formatBy(date, MyDateTimeFormatTypes.ddMMyyyy),
+              child: Text(
+                  MyDateTime.formatBy(date, MyDateTimeFormatTypes.ddMMyyyy),
                   style: MyStyle.style15Color1()),
             ),
           ],
@@ -201,8 +202,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 style: MyStyle.style16Color1(),
               ),
               Text(
-                MyLanguage
-                    .text(myLanguageItem.thisWillApplyToTheDetailsAsWell),
+                MyLanguage.text(myLanguageItem.thisWillApplyToTheDetailsAsWell),
                 style: MyStyle.style12Color3Italic(),
               ),
             ],

@@ -22,13 +22,13 @@ import 'package:retailapp/ui//all/imageViewAssetUI.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class RequestWinUI extends StatefulWidget {
   final DocumentSnapshot dr;
-  UI(this.dr);
-  _UIState createState() => _UIState();
+  RequestWinUI(this.dr);
+  _RequestWinUIState createState() => _RequestWinUIState();
 }
 
-class _UIState extends State<UI> {
+class _RequestWinUIState extends State<RequestWinUI> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   BuildContext _context;
   final _formKey = GlobalKey<FormState>();

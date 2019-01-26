@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/ui/callerLog/callerLogListUI.dart';
 import 'package:retailapp/ui/customer/customerListUI.dart';
-import 'package:retailapp/ui/request/requestListUI.dart' as requestListUI;
-import 'package:retailapp/ui/myDiary/myDiaryListUI.dart' as myDiaryListUI;
+import 'package:retailapp/ui/request/requestListUI.dart';
+import 'package:retailapp/ui/myDiary/myDiaryListUI.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/reports/reportsRequestMyDiaryUI.dart'
-    as reportsRequestMyDiaryUI;
+import 'package:retailapp/ui/reports/reportsRequestMyDiaryUI.dart';
 
-int _currentIndex = 1;
-
-final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldState> homePageUIScaffoldKey =
+    new GlobalKey<ScaffoldState>();
 
 class HomePageUI extends StatefulWidget {
-  HomePageUI(_currentIndex);
+  final int _currentIndex;
+  HomePageUI(this._currentIndex);
 
   @override
-  HomePageUIState createState() => HomePageUIState();
+  HomePageUIState createState() => HomePageUIState(_currentIndex);
 }
 
-class HomePageUIState extends State<HomePageUI> with SingleTickerProviderStateMixin {
+class HomePageUIState extends State<HomePageUI>
+    with SingleTickerProviderStateMixin {
+  int _currentIndex;
   TabController _tabController;
   Widget _ui = CallerLogListUI();
-
+  HomePageUIState(this._currentIndex);
   @override
   void initState() {
     super.initState();
@@ -33,7 +34,7 @@ class HomePageUIState extends State<HomePageUI> with SingleTickerProviderStateMi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: homePageUIScaffoldKey,
       resizeToAvoidBottomPadding: false,
       body: _ui,
       bottomNavigationBar: _buildBottomNavigationBar(),
@@ -92,16 +93,16 @@ class HomePageUIState extends State<HomePageUI> with SingleTickerProviderStateMi
           _ui = CustomerListUI();
           break;
         case 1:
-          _ui = requestListUI.UI();
+          _ui = RequestListUI();
           break;
         case 2:
           _ui = CallerLogListUI();
           break;
         case 3:
-          _ui = myDiaryListUI.UI();
+          _ui = MyDiaryListUI();
           break;
         case 4:
-          _ui = reportsRequestMyDiaryUI.UI();
+          _ui = ReportsRequestMyDiaryUI();
           break;
         default:
       }

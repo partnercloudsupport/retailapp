@@ -8,17 +8,11 @@ import 'package:retailapp/control/my/MyLocation.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-CameraPosition _currentCameraPosition;
-
 class GoogleMapViewUI extends StatefulWidget {
   final String _name;
   final String _phones;
-
-  GoogleMapViewUI(this._name, this._phones, GeoPoint mapLocation) {
-    _currentCameraPosition = CameraPosition(
-        target: LatLng(mapLocation.latitude, mapLocation.longitude),
-        zoom: 14.0);
-  }
+  final GeoPoint _mapLocation;
+  GoogleMapViewUI(this._name, this._phones, this._mapLocation);
 
   _GoogleMapViewUIState createState() => _GoogleMapViewUIState();
 }
@@ -27,6 +21,13 @@ class _GoogleMapViewUIState extends State<GoogleMapViewUI> {
   GoogleMapController _c;
   LatLng _myLocation;
   CameraPosition _myCameraPosition;
+  CameraPosition _currentCameraPosition;
+  _GoogleMapViewUIState() {
+    _currentCameraPosition = CameraPosition(
+        target:
+            LatLng(widget._mapLocation.latitude, widget._mapLocation.longitude),
+        zoom: 14.0);
+  }
 
   @override
   void initState() {

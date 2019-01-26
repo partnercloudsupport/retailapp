@@ -8,7 +8,6 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
-
 import 'package:retailapp/ui/customer/customerSelectUI.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:retailapp/control/my/myRegExp.dart';
@@ -21,29 +20,24 @@ import 'package:retailapp/control/my/myString.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-String _requiredImplementation = '';
-String _customer = '';
-double _targetPrice = 0;
+class RequestNewUI extends StatefulWidget {
+  final String _customer;
+  final String _requiredImplementation;
+  final double _targetPrice;
 
-class UI extends StatefulWidget {
-  UI(
-      {String customer = '',
-      String requiredImplementation = '',
-      double targetPrice = 0}) {
-    if (requiredImplementation.trim().isNotEmpty)
-      _requiredImplementation = requiredImplementation;
-    if (customer.trim().isNotEmpty) _customer = customer;
-    _targetPrice = targetPrice;
-  }
-  _UIState createState() => _UIState();
+  RequestNewUI(this._customer, this._requiredImplementation, this._targetPrice);
+
+  _RequestNewUIState createState() =>
+      _RequestNewUIState(_customer, _requiredImplementation, _targetPrice);
 }
 
-class _UIState extends State<UI> {
+class _RequestNewUIState extends State<RequestNewUI> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
   BuildContext _context;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  String _customer;
+  String _requiredImplementation;
+  double _targetPrice;
   String _employee = '';
   DateTime _appointment = DateTime.now();
   String _salseman = '';
@@ -54,7 +48,11 @@ class _UIState extends State<UI> {
   final FocusNode _focusNode2 = new FocusNode();
 
   final dateFormat = DateFormat("EEEE, d-MM-yyyy 'at' h:mma");
-
+  _RequestNewUIState(
+    this._customer,
+    this._requiredImplementation,
+    this._targetPrice,
+  );
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
@@ -265,8 +263,6 @@ class _UIState extends State<UI> {
   void _chooseCustomer(String v) {
     setState(() {
       _customer = v;
-      print(v);
-      print(_customer);
     });
   }
 

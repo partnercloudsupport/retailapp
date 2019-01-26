@@ -9,34 +9,40 @@ import 'package:retailapp/control/employee/controlEmployee.dart'
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-String _filterEmployee = '';
-bool _filterWithDate = false;
-DateTime _filterFromDate = DateTime.now();
-DateTime _filterToDate = DateTime.now();
-bool _filterWithTotalZero = true;
-
 class EmployeeRequestReportFilterUI extends StatefulWidget {
   final void Function(String, bool, DateTime, DateTime, bool) _save;
+  final String _filterEmployee;
+  final bool _filterWithDate;
+  final DateTime _filterFromDate;
+  final DateTime _filterToDate;
+  final bool _filterWithTotalZero;
 
   EmployeeRequestReportFilterUI(
       this._save,
-      String filterEmployee,
-      bool filterWithDate,
-      DateTime filterFromDate,
-      DateTime filterToDate,
-      bool filterWithTotalZero) {
-    _filterEmployee = filterEmployee;
-    _filterWithDate = filterWithDate;
-    _filterFromDate = filterFromDate;
-    _filterToDate = filterToDate;
-    _filterWithTotalZero = filterWithTotalZero;
-  }
+      this._filterEmployee,
+      this._filterWithDate,
+      this._filterFromDate,
+      this._filterToDate,
+      this._filterWithTotalZero);
 
   @override
-  EmployeeRequestReportFilterUIState createState() => EmployeeRequestReportFilterUIState();
+  EmployeeRequestReportFilterUIState createState() =>
+      EmployeeRequestReportFilterUIState(_filterEmployee, _filterWithDate,
+          _filterFromDate, _filterToDate, _filterWithTotalZero);
 }
 
-class EmployeeRequestReportFilterUIState extends State<EmployeeRequestReportFilterUI> with SingleTickerProviderStateMixin {
+class EmployeeRequestReportFilterUIState
+    extends State<EmployeeRequestReportFilterUI>
+    with SingleTickerProviderStateMixin {
+  String _filterEmployee;
+  bool _filterWithDate;
+  DateTime _filterFromDate;
+  DateTime _filterToDate;
+  bool _filterWithTotalZero;
+
+  EmployeeRequestReportFilterUIState(this._filterEmployee, this._filterWithDate,
+      this._filterFromDate, this._filterToDate, this._filterWithTotalZero);
+
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
@@ -150,16 +156,14 @@ class EmployeeRequestReportFilterUIState extends State<EmployeeRequestReportFilt
     return _filterWithDate
         ? Row(
             children: <Widget>[
-              _buildTime(
-                  _chooseFromDate, myLanguageItem.from, _filterFromDate),
+              _buildTime(_chooseFromDate, myLanguageItem.from, _filterFromDate),
               _buildTime(_chooseToDate, myLanguageItem.to, _filterToDate),
             ],
           )
         : SizedBox();
   }
 
-  Widget _buildTime(
-      void Function() save, myLanguageItem _text, DateTime date) {
+  Widget _buildTime(void Function() save, myLanguageItem _text, DateTime date) {
     return InkWell(
       child: Container(
         width: (MediaQuery.of(context).size.width - 20) / 2,
@@ -175,7 +179,8 @@ class EmployeeRequestReportFilterUIState extends State<EmployeeRequestReportFilt
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Text(MyDateTime.formatBy(date, MyDateTimeFormatTypes.ddMMyyyy),
+              child: Text(
+                  MyDateTime.formatBy(date, MyDateTimeFormatTypes.ddMMyyyy),
                   style: MyStyle.style15Color1()),
             ),
           ],
@@ -201,8 +206,7 @@ class EmployeeRequestReportFilterUIState extends State<EmployeeRequestReportFilt
                 style: MyStyle.style16Color1(),
               ),
               Text(
-                MyLanguage
-                    .text(myLanguageItem.thisWillApplyToTheDetailsAsWell),
+                MyLanguage.text(myLanguageItem.thisWillApplyToTheDetailsAsWell),
                 style: MyStyle.style12Color3Italic(),
               ),
             ],

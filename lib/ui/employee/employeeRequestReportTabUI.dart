@@ -5,14 +5,11 @@ import 'package:retailapp/control/employee/controlEmployee.dart'
 import 'package:retailapp/control/employee/controlEmployeeRequestMonthlyReport.dart'
     as controlEmployeeRequestMonthlyReport;
 import 'package:retailapp/control/my/myDateTime.dart';
-
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLanguage.dart';
-
-import 'package:retailapp/ui/request/requestHistoryDetailByEmployeeUI.dart'
-    as requestHistoryDetailByEmployeeUI;
+import 'package:retailapp/ui/request/requestHistoryDetailByEmployeeUI.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -23,14 +20,16 @@ class EmployeeRequestReportTabUI extends StatefulWidget {
   final DateTime _filterToDate;
   final bool _filterWithTotalZero;
 
-  EmployeeRequestReportTabUI(this._filterEmployee, this._filterWithDate, this._filterFromDate,
-      this._filterToDate, this._filterWithTotalZero);
+  EmployeeRequestReportTabUI(this._filterEmployee, this._filterWithDate,
+      this._filterFromDate, this._filterToDate, this._filterWithTotalZero);
 
   @override
-  EmployeeRequestReportTabUIState createState() => EmployeeRequestReportTabUIState();
+  EmployeeRequestReportTabUIState createState() =>
+      EmployeeRequestReportTabUIState();
 }
 
-class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI> with SingleTickerProviderStateMixin {
+class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI>
+    with SingleTickerProviderStateMixin {
   String _followUpEmployeeRequest = controlUser
           .drNow.data['followUpEmployeeRequest']
           .toString()
@@ -226,7 +225,7 @@ class DataRows extends DataTableSource {
           Navigator.push(
               _context,
               MaterialPageRoute(
-                  builder: (context) => requestHistoryDetailByEmployeeUI.UI(
+                  builder: (context) => RequestHistoryDetailByEmployeeUI(
                       list[i].data['employeeID'].toString(),
                       list[i].data['monthYearNumber'],
                       _filterWithTotalZero)));

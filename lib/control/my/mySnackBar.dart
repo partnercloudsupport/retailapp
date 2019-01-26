@@ -6,7 +6,7 @@ import 'package:retailapp/control/my/myLanguage.dart';
 
 class MySnackBar {
   static void showInHomePage1(String text) {
-    homePageUI.scaffoldKey.currentState.showSnackBar(SnackBar(
+    homePageUI.homePageUIScaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(
         text,
         style: MyStyle.style20Color1(),
@@ -15,7 +15,7 @@ class MySnackBar {
       action: SnackBarAction(
         label: MyLanguage.text(myLanguageItem.ok).toUpperCase(),
         textColor: MyColor.color1,
-        onPressed: () => homePageUI.scaffoldKey.currentState
+        onPressed: () => homePageUI.homePageUIScaffoldKey.currentState
             .hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss),
       ),
     ));

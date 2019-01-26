@@ -14,13 +14,13 @@ import 'package:retailapp/ui//all/imageViewAssetUI.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class RequestImageNewUI extends StatefulWidget {
   final double _requestID;
-  UI(this._requestID);
-  _UIState createState() => _UIState();
+  RequestImageNewUI(this._requestID);
+  _RequestImageNewUIState createState() => _RequestImageNewUIState();
 }
 
-class _UIState extends State<UI> {
+class _RequestImageNewUIState extends State<RequestImageNewUI> {
   final _formKey = GlobalKey<FormState>();
   String _note = '';
   final FocusNode _focusNode1 = new FocusNode();

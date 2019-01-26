@@ -6,19 +6,18 @@ import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/request/controlRequestNote.dart'
     as controlRequestNote;
-
-
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class RequestNoteListUI extends StatefulWidget {
   final double requestID;
-  UI(this.requestID);
+  RequestNoteListUI(this.requestID);
   @override
-  UIState createState() => UIState();
+  RequestNoteListUIState createState() => RequestNoteListUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class RequestNoteListUIState extends State<RequestNoteListUI>
+    with SingleTickerProviderStateMixin {
   bool _filterActive = false;
   String _filter = '';
   TextEditingController _filterController = TextEditingController(text: '');
@@ -222,8 +221,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
             ),
           ),
           Text(
-            MyDateTime.formatAndShortByFromString(
-                dr['dateTimeIs'].toString(), MyDateTimeFormatTypes.ddMMyyyyhhmma),
+            MyDateTime.formatAndShortByFromString(dr['dateTimeIs'].toString(),
+                MyDateTimeFormatTypes.ddMMyyyyhhmma),
             textAlign: TextAlign.end,
             style: MyStyle.style12Color3(),
           ),

@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
     as controlMyDiary;
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/myDiary/myDiaryListTabUI.dart' as myDiaryListTabUI;
+import 'package:retailapp/ui/myDiary/myDiaryListTabUI.dart';
 import 'package:retailapp/ui/homePage/homeDrawerUI.dart';
 import 'package:retailapp/ui/all/selectWithFilterUI.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 
-String filterByUser = '';
-
-class UI extends StatefulWidget {
+class MyDiaryListUI extends StatefulWidget {
   @override
-  UIState createState() => UIState();
+  MyDiaryListUIState createState() => MyDiaryListUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class MyDiaryListUIState extends State<MyDiaryListUI>
+    with SingleTickerProviderStateMixin {
   bool _searchActive = false;
   String _searchText = '';
+  String _filterByUser = '';
 
   TabController _tabController;
 
@@ -37,33 +37,33 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            myDiaryListTabUI.UI(
+            MyDiaryListTabUI(
               controlMyDiary.TypeView.today,
               _searchActive,
               _searchText,
               _searchSetText,
-              filterByUesr: filterByUser,
+              filterByUesr: _filterByUser,
             ),
-            myDiaryListTabUI.UI(
+            MyDiaryListTabUI(
               controlMyDiary.TypeView.yesterday,
               _searchActive,
               _searchText,
               _searchSetText,
-              filterByUesr: filterByUser,
+              filterByUesr: _filterByUser,
             ),
-            myDiaryListTabUI.UI(
+            MyDiaryListTabUI(
               controlMyDiary.TypeView.lastWeek,
               _searchActive,
               _searchText,
               _searchSetText,
-              filterByUesr: filterByUser,
+              filterByUesr: _filterByUser,
             ),
-            myDiaryListTabUI.UI(
+            MyDiaryListTabUI(
               controlMyDiary.TypeView.all,
               _searchActive,
               _searchText,
               _searchSetText,
-              filterByUesr: filterByUser,
+              filterByUesr: _filterByUser,
             )
           ],
         ),
@@ -113,8 +113,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     return IconButton(
       icon: Icon(
         Icons.filter_list,
-        color: filterByUser.isNotEmpty ? Colors.white : Colors.grey,
-        size: filterByUser.isNotEmpty ? 32 : null,
+        color: _filterByUser.isNotEmpty ? Colors.white : Colors.grey,
+        size: _filterByUser.isNotEmpty ? 32 : null,
       ),
       onPressed: _filterOpen,
     );
@@ -145,9 +145,9 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 )));
   }
 
-  void _filterApply(String _filterByUser) {
+  void _filterApply(String filterByUser) {
     setState(() {
-      filterByUser = _filterByUser.toLowerCase();
+      _filterByUser = filterByUser.toLowerCase();
     });
   }
 

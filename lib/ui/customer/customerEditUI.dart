@@ -13,12 +13,9 @@ import 'package:retailapp/control/permission/controlPermission.dart'
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-DocumentSnapshot _dr;
-
 class CustomerEditUI extends StatefulWidget {
-  CustomerEditUI(DocumentSnapshot dr) {
-    _dr = dr;
-  }
+  final DocumentSnapshot _dr;
+  CustomerEditUI(this._dr);
 
   _CustomerEditUIState createState() => _CustomerEditUIState();
 }
@@ -27,13 +24,13 @@ class _CustomerEditUIState extends State<CustomerEditUI> {
   bool customerEditPhone = controlPermission.drNow.data['customerEditPhone'];
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   BuildContext _context;
-  String _name = _dr['name'];
-  String _phones = _dr['phones'];
-  String _address = _dr['address'];
-  String _email = _dr['email'];
-  String _note = _dr['note'];
+  String _name;
+  String _phones;
+  String _address;
+  String _email;
+  String _note;
   LatLng _mapLocation;
-  GeoPoint _mapLocationBase = _dr['mapLocation'];
+  GeoPoint _mapLocationBase;
   final formKey = GlobalKey<FormState>();
   final FocusNode _focusNodePhones = new FocusNode();
   final FocusNode _focusNodeAddress = new FocusNode();
@@ -43,6 +40,12 @@ class _CustomerEditUIState extends State<CustomerEditUI> {
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
+    _name = widget._dr['name'];
+    _phones = widget._dr['phones'];
+    _address = widget._dr['address'];
+    _email = widget._dr['email'];
+    _note = widget._dr['note'];
+    _mapLocationBase = widget._dr['mapLocation'];
     initStateMe();
     _mapLocation =
         LatLng(_mapLocationBase.latitude, _mapLocationBase.longitude);
@@ -226,9 +229,9 @@ class _CustomerEditUIState extends State<CustomerEditUI> {
     if (_saveValidator() == true) {
       if (await controlCustomer.edit(
               scaffoldKey,
-              _dr.documentID,
+              widget._dr.documentID,
               _name,
-              customerEditPhone ? _phones : _dr.data['phones'],
+              customerEditPhone ? _phones : widget._dr.data['phones'],
               _address,
               _email,
               _note,

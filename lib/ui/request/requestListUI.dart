@@ -1,14 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/request/controlRequest.dart'
     as controlRequest;
 import 'package:retailapp/control/my/myLanguage.dart';
-import 'package:retailapp/ui/request/requestListTabUI.dart' as requestListTabUI;
+import 'package:retailapp/ui/request/requestListTabUI.dart';
 import 'package:retailapp/ui/homePage/homeDrawerUI.dart';
-import 'package:retailapp/ui/request/requestFilterUI.dart' as requestFilterUI;
-
+import 'package:retailapp/ui/request/requestFilterUI.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:retailapp/control/my/mySuperTooltip.dart';
 
@@ -19,12 +17,13 @@ DateTime _filterFromDate = DateTime.now();
 DateTime _filterToDate = DateTime.now();
 ConnectivityResult _connectionStatus = ConnectivityResult.none;
 
-class UI extends StatefulWidget {
+class RequestListUI extends StatefulWidget {
   @override
-  UIState createState() => UIState();
+  RequestListUIState createState() => RequestListUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class RequestListUIState extends State<RequestListUI>
+    with SingleTickerProviderStateMixin {
   bool _searchActive = false;
   TabController _tabController;
   final Connectivity _connectivity = Connectivity();
@@ -72,7 +71,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            requestListTabUI.UI(
+            RequestListTabUI(
                 _searchActive,
                 controlRequest.TypeView.today,
                 _filterType,
@@ -81,7 +80,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 _filterFromDate,
                 _filterToDate,
                 _connectionStatus),
-            requestListTabUI.UI(
+            RequestListTabUI(
                 _searchActive,
                 controlRequest.TypeView.tomorrow,
                 _filterType,
@@ -90,7 +89,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 _filterFromDate,
                 _filterToDate,
                 _connectionStatus),
-            requestListTabUI.UI(
+            RequestListTabUI(
                 _searchActive,
                 controlRequest.TypeView.all,
                 _filterType,
@@ -99,7 +98,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
                 _filterFromDate,
                 _filterToDate,
                 _connectionStatus),
-            requestListTabUI.UI(
+            RequestListTabUI(
                 _searchActive,
                 controlRequest.TypeView.pending,
                 _filterType,
@@ -190,7 +189,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => requestFilterUI.UI(
+            builder: (context) => RequestFilterUI(
                 _filterApply,
                 _filterType,
                 filterEmployee,
@@ -216,8 +215,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
         context,
         MyLanguage.text(myLanguageItem.youAreNotConnectedToTheInternet) +
             '\n\n 1-' +
-            MyLanguage
-                .text(myLanguageItem.youWereUnableToAddOrEditAnyRequest) +
+            MyLanguage.text(myLanguageItem.youWereUnableToAddOrEditAnyRequest) +
             '\n 2-' +
             MyLanguage.text(myLanguageItem.currentDataMayHaveBeenChanged));
   }

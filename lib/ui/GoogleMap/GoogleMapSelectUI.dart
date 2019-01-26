@@ -3,26 +3,26 @@ import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
-CameraPosition _currentCameraPosition;
-void Function(LatLng) _save;
-
 class GoogleMapSelectUI extends StatefulWidget {
+  final void Function(LatLng) _save;
   final String _name;
   final String _phones;
-  GoogleMapSelectUI(void Function(LatLng) save, this._name, this._phones,
-      LatLng currentPoint) {
-    _currentCameraPosition = CameraPosition(
-        target: LatLng(currentPoint.latitude, currentPoint.longitude),
-        zoom: 18.0);
-    _save = save;
-  }
+  final LatLng _currentPoint;
+  GoogleMapSelectUI(this._save, this._name, this._phones, this._currentPoint);
 
   _GoogleMapSelectUIState createState() => _GoogleMapSelectUIState();
 }
 
 class _GoogleMapSelectUIState extends State<GoogleMapSelectUI> {
   GoogleMapController _c;
+  CameraPosition _currentCameraPosition;
+
+  _GoogleMapSelectUIState() {
+    _currentCameraPosition = CameraPosition(
+        target: LatLng(
+            widget._currentPoint.latitude, widget._currentPoint.longitude),
+        zoom: 18.0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _GoogleMapSelectUIState extends State<GoogleMapSelectUI> {
   }
 
   void _saveLocation() {
-    _save(_c.markers.first.options.position);
+    widget._save(_c.markers.first.options.position);
     Navigator.pop(context);
   }
 

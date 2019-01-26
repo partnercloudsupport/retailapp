@@ -6,16 +6,14 @@ import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/ui/homePage/homePageUI.dart';
 import 'package:retailapp/control/my/mySharedPreferences.dart';
 
-String userName = '';
-
-class UI extends StatefulWidget {
-  _UIState createState() => _UIState();
+class UserLoginUI extends StatefulWidget {
+  _UserLoginUIState createState() => _UserLoginUIState();
 }
 
-class _UIState extends State<UI> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
+class _UserLoginUIState extends State<UserLoginUI> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _userName = '';
   String _userPassword = '';
 
   @override
@@ -23,7 +21,7 @@ class _UIState extends State<UI> {
     return Directionality(
       textDirection: MyLanguage.rtl(),
       child: Scaffold(
-        key: scaffoldKey,
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text(
             MyLanguage.text(myLanguageItem.smartSecurity),
@@ -50,7 +48,7 @@ class _UIState extends State<UI> {
 
   Widget _buildTextFormFieldName() {
     return TextFormField(
-      initialValue: userName,
+      initialValue: _userName,
       decoration:
           InputDecoration(labelText: MyLanguage.text(myLanguageItem.yourName)),
       style: MyStyle.style20Color1(),
@@ -58,7 +56,7 @@ class _UIState extends State<UI> {
           ? MyLanguage.text(myLanguageItem.youMustInsertYourName)
           : null,
       keyboardType: TextInputType.emailAddress,
-      onSaved: (v) => userName = v.trim(),
+      onSaved: (v) => _userName = v.trim(),
     );
   }
 
@@ -95,7 +93,7 @@ class _UIState extends State<UI> {
       return true;
     } else {
       MySnackBar.show1(
-          scaffoldKey, MyLanguage.text(myLanguageItem.theDataIsIncorrect));
+          _scaffoldKey, MyLanguage.text(myLanguageItem.theDataIsIncorrect));
       return false;
     }
   }
@@ -104,9 +102,9 @@ class _UIState extends State<UI> {
     if (_validatorSave()) {
       try {
         if (await controlUser.signInByEmail(
-                scaffoldKey, 'samerbrees@gmail.com', '12345678') &&
-            await controlUser.signIn(scaffoldKey, userName, _userPassword)) {
-          await MySharedPreferences.setUserName(userName);
+                _scaffoldKey, 'samerbrees@gmail.com', '12345678') &&
+            await controlUser.signIn(_scaffoldKey, _userName, _userPassword)) {
+          await MySharedPreferences.setUserName(_userName);
           await MySharedPreferences.setUserPassword(_userPassword);
           _formKey.currentState.reset();
           Navigator.pushAndRemoveUntil(
@@ -114,9 +112,7 @@ class _UIState extends State<UI> {
               MaterialPageRoute(builder: (context) => HomePageUI(4)),
               ModalRoute.withName(''));
         }
-      } catch (e) {
-        print(e.toString());
-      }
+      } catch (e) {}
     }
   }
 }

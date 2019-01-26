@@ -20,13 +20,13 @@ import 'package:retailapp/control/request/controlRequestType.dart'
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class RequestEditUI extends StatefulWidget {
   final DocumentSnapshot dr;
-  UI(this.dr);
-  _UIState createState() => _UIState();
+  RequestEditUI(this.dr);
+  _RequestEditUIState createState() => _RequestEditUIState();
 }
 
-class _UIState extends State<UI> {
+class _RequestEditUIState extends State<RequestEditUI> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   BuildContext _context;

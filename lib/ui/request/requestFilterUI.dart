@@ -3,14 +3,12 @@ import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:retailapp/control/my/myStyle.dart';
-
 import 'package:retailapp/ui/all/selectWithFilterUI.dart';
 import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/request/controlRequestType.dart'
     as controlRequestType;
 import 'package:retailapp/control/my/mySharedPreferences.dart';
-
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
@@ -20,10 +18,10 @@ bool _filterWithDate = false;
 DateTime _filterFromDate = DateTime.now();
 DateTime _filterToDate = DateTime.now();
 
-class UI extends StatefulWidget {
+class RequestFilterUI extends StatefulWidget {
   final void Function(String, String, bool, DateTime, DateTime) _save;
 
-  UI(this._save, String filterType, String filterEmployee, bool filterWithDate,
+  RequestFilterUI(this._save, String filterType, String filterEmployee, bool filterWithDate,
       DateTime filterFromDate, DateTime filterToDate) {
     _filterEmployee = filterEmployee;
     _filterType = filterType;
@@ -33,10 +31,10 @@ class UI extends StatefulWidget {
   }
 
   @override
-  UIState createState() => UIState();
+  RequestFilterUIState createState() => RequestFilterUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class RequestFilterUIState extends State<RequestFilterUI> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);

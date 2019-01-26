@@ -7,8 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/request/controlRequestImage.dart'
     as controlRequestImage;
 import 'package:retailapp/ui/all/imageZoomUI.dart';
-import 'package:retailapp/ui/request/requestImageNewUI.dart'
-    as requestImageNewUI;
+import 'package:retailapp/ui/request/requestImageNewUI.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/mySuperTooltip.dart';
 import 'package:retailapp/control/my/myDialog.dart' as myDialog;
@@ -16,14 +15,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
 
-class UI extends StatefulWidget {
+class RequestImageListUI extends StatefulWidget {
   final double requestID;
-  UI(this.requestID);
+  RequestImageListUI(this.requestID);
   @override
-  UIState createState() => UIState();
+  RequestImageListUIState createState() => RequestImageListUIState();
 }
 
-class UIState extends State<UI> with SingleTickerProviderStateMixin {
+class RequestImageListUIState extends State<RequestImageListUI>
+    with SingleTickerProviderStateMixin {
   bool _filterActive = false;
   String _filter = '';
   TextEditingController _filterController = TextEditingController(text: '');
@@ -353,10 +353,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
   }
 
   void _new() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (c) => requestImageNewUI.UI(widget.requestID)));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (c) => RequestImageNewUI(widget.requestID)));
   }
 
   @override
