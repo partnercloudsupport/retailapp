@@ -132,8 +132,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
               return PaginatedDataTable(
                 rowsPerPage: c <= 3 ? c : 3,
-                header: Text(MyLanguage
-                    .text(myLanguageItem.monthlySalesReportFromMyDiaries)),
+                header: Text(MyLanguage.text(
+                    myLanguageItem.monthlySalesReportFromMyDiaries)),
                 source: DataRows(list, c, context, dr.documentID,
                     widget._filterWithTotalZero),
                 columns: <DataColumn>[
@@ -165,7 +165,7 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
       return false;
 
     if ((_followUpUserMyDiary
-                .contains(dr['user'].toString().toLowerCase() + ',') ||
+                .contains(dr['name'].toString().toLowerCase() + ',') ||
             controlUser.drNow.data['name'].toString().toLowerCase() ==
                 'admin') ==
         false) return false;

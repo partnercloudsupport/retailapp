@@ -137,8 +137,8 @@ class UIState extends State<UI> with SingleTickerProviderStateMixin {
 
               return PaginatedDataTable(
                 rowsPerPage: c <= 3 ? c : 3,
-                header: Text(MyLanguage
-                    .text(myLanguageItem.monthlySalesReportFromRequests)),
+                header: Text(MyLanguage.text(
+                    myLanguageItem.monthlySalesReportFromRequests)),
                 source: DataRows(
                     list,
                     c,
