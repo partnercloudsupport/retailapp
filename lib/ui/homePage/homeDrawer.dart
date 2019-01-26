@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
@@ -23,8 +24,9 @@ Widget buildDrawer(BuildContext bc) {
                 borderRadius: BorderRadius.circular(100.0),
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(
-                        controlUser.drNow.data['imageURL'].toString()))),
+                    image: CachedNetworkImageProvider(
+                      controlUser.drNow.data['imageURL'].toString(),
+                    ))),
           ),
         ),
         ListTile(
