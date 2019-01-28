@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
+import 'package:retailapp/control/my/mySnackBar.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:retailapp/control/myDiary/controlMyDiary.dart'
@@ -15,6 +16,8 @@ import 'package:retailapp/ui/request/requestNewUI.dart' as requestNewUI;
 import 'package:retailapp/control/my/myDialog.dart' as myDialog;
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
+import 'package:retailapp/control/customer/controlCustomer.dart'
+    as controlCustomer;
 
 class MyDiaryListTabUI extends StatefulWidget {
   final controlMyDiary.TypeView _typeView;
@@ -170,7 +173,7 @@ class MyDiaryListTabUIState extends State<MyDiaryListTabUI>
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  dr['note'],
+                  dr.data['note'],
                   style: MyStyle.style16Color1Italic(),
                 ),
               ),
@@ -353,7 +356,7 @@ class MyDiaryListTabUIState extends State<MyDiaryListTabUI>
     });
   }
 
-  void _new() async {
+  void _new() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => MyDiaryNewUI()));
   }
@@ -363,12 +366,22 @@ class MyDiaryListTabUIState extends State<MyDiaryListTabUI>
         context, MaterialPageRoute(builder: (context) => MyDiaryEditUI(dr)));
   }
 
-  void _viewMap(DocumentSnapshot dr) {
+  void _viewMap(DocumentSnapshot dr) async {
+    DocumentSnapshot drCustomer =
+        await controlCustomer.getDataRow(dr.data['customerID'].toString());
+    if (drCustomer.exists == false) {
+      MySnackBar.showInHomePage1(
+          MyLanguage.text(myLanguageItem.theCustomerYouWantIsNotFound));
+      return;
+    }
+
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => GoogleMapViewUI(
-                dr.data['customer'], dr.data['note'], dr.data['mapLocation'])));
+                drCustomer.data['name'],
+                drCustomer.data['note'],
+                drCustomer.data['mapLocation'])));
   }
 
   void _deleteTooltip() {

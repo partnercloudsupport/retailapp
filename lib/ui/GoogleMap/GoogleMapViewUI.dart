@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:retailapp/control/my/myColor.dart';
 import 'package:retailapp/control/my/myLanguage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:retailapp/control/my/MyLocation.dart';
 import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
     as controlLiveVersion;
@@ -14,7 +13,7 @@ class GoogleMapViewUI extends StatefulWidget {
   final GeoPoint _mapLocation;
   GoogleMapViewUI(this._name, this._phones, this._mapLocation);
 
-  _GoogleMapViewUIState createState() => _GoogleMapViewUIState();
+  _GoogleMapViewUIState createState() => _GoogleMapViewUIState(_mapLocation);
 }
 
 class _GoogleMapViewUIState extends State<GoogleMapViewUI> {
@@ -22,10 +21,9 @@ class _GoogleMapViewUIState extends State<GoogleMapViewUI> {
   LatLng _myLocation;
   CameraPosition _myCameraPosition;
   CameraPosition _currentCameraPosition;
-  _GoogleMapViewUIState() {
+  _GoogleMapViewUIState(GeoPoint _mapLocation) {
     _currentCameraPosition = CameraPosition(
-        target:
-            LatLng(widget._mapLocation.latitude, widget._mapLocation.longitude),
+        target: LatLng(_mapLocation.latitude, _mapLocation.longitude),
         zoom: 14.0);
   }
 
