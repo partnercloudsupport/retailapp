@@ -53,7 +53,7 @@ class _RadialProgressState extends State<RadialProgress>
           child: Column(
             children: <Widget>[
               Text(
-                'RUNNING',
+                'run',
                 style: TextStyle(fontSize: 24.0, letterSpacing: 1.5),
               ),
               SizedBox(
@@ -74,7 +74,7 @@ class _RadialProgressState extends State<RadialProgress>
                 style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
               ),
               Text(
-                'CALORIES BURN',
+                'test',
                 style: TextStyle(
                     fontSize: 14.0, color: Colors.blue, letterSpacing: 1.5),
               ),

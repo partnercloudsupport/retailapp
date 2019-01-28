@@ -63,3 +63,33 @@ class MyPainter1 extends CustomPainter {
     return oldDelegate != this;
   }
 }
+
+class MyPainterLine extends CustomPainter {
+  final double percentage;
+  MyPainterLine(this.percentage);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double height = size.height;
+
+    Paint paint = Paint()
+      ..color = MyColor.grey
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round;
+
+    Offset bottomPoint = Offset(0, height);
+
+    canvas.drawLine(Offset(0, 0), bottomPoint, paint);
+
+    paint = Paint()
+      ..color = MyColor.color1
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(
+        bottomPoint, Offset(0, height - (percentage * height) / 100), paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
