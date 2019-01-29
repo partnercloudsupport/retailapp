@@ -24,7 +24,13 @@ class MyString {
   }
 
   static String formatNumber(dynamic v, {String pattern = '0'}) {
+    if (v == null) return '0';
     return NumberFormat(pattern).format(v);
+  }
+
+  static String formatCurrencyD(dynamic v) {
+    if (v == null) return '0 \$';
+    return NumberFormat('###,###,###,##0 \$').format(v);
   }
 
   static String toMe(dynamic v) {

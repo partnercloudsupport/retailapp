@@ -9,8 +9,40 @@ Stream<QuerySnapshot> getAll() {
 Stream<QuerySnapshot> getOrderByMonthYearNumber() {
   return Firestore.instance
       .collection(_name)
-      .orderBy('monthYearNumber' ,descending: true)
+      .orderBy('monthYearNumber', descending: true)
       .snapshots();
+}
+
+Stream<QuerySnapshot> getByFilterEmployee(int id) {
+  return Firestore.instance.collection(_name).snapshots();
+}
+
+Future<double> getTotalOfEmployee(
+    int id, int fromMonthYearNumber, int toMonthYearNumber) async {
+  var drs = await Firestore.instance
+      .collection(_name)
+      .where('employeeID', isEqualTo: id)
+      .where('monthYearNumber', isGreaterThanOrEqualTo: fromMonthYearNumber)
+      .where('monthYearNumber', isLessThanOrEqualTo: toMonthYearNumber)
+      .getDocuments();
+
+  double total = 0;
+  drs.documents.forEach((v) {
+    total += v.data['amountD'];
+  });
+
+  return total;
+}
+
+Future<double> getAllTotal() async {
+  var drs = await Firestore.instance.collection(_name).getDocuments();
+
+  double total = 0;
+  drs.documents.forEach((v) {
+    total += v.data['amountD'];
+  });
+
+  return total;
 }
 
 Future<bool> addSomeColumn() async {

@@ -17,14 +17,15 @@ class UserMyDiaryReportTabUI extends StatefulWidget {
   final DateTime _filterFromDate;
   final DateTime _filterToDate;
   final bool _filterWithTotalZero;
-  UserMyDiaryReportTabUI(this._filterUser, this._filterWithDate, this._filterFromDate,
-      this._filterToDate, this._filterWithTotalZero);
+  UserMyDiaryReportTabUI(this._filterUser, this._filterWithDate,
+      this._filterFromDate, this._filterToDate, this._filterWithTotalZero);
 
   @override
   UserMyDiaryReportTabUIState createState() => UserMyDiaryReportTabUIState();
 }
 
-class UserMyDiaryReportTabUIState extends State<UserMyDiaryReportTabUI> with SingleTickerProviderStateMixin {
+class UserMyDiaryReportTabUIState extends State<UserMyDiaryReportTabUI>
+    with SingleTickerProviderStateMixin {
   String _followUpUserMyDiary = controlUser.drNow.data['name'] +
       ', ' +
       controlUser.drNow.data['followUpUserMyDiary'].toString().toLowerCase() +
@@ -86,10 +87,10 @@ class UserMyDiaryReportTabUIState extends State<UserMyDiaryReportTabUI> with Sin
   Widget _buildCard(DocumentSnapshot dr) {
     return Card(
       child: ExpansionTile(
-        leading: Text(
-          dr['myDiaryTotalAmountDF'],
-          style: MyStyle.style20Color1(),
-        ),
+        // leading: Text(
+        //   dr['myDiaryTotalAmountDF'],
+        //   style: MyStyle.style20Color1(),
+        // ),
         title: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
@@ -106,8 +107,8 @@ class UserMyDiaryReportTabUIState extends State<UserMyDiaryReportTabUI> with Sin
               List<DocumentSnapshot> list = v.data.documents.where((v) {
                 if (v.data['userID'].toString() != dr.documentID) return false;
 
-                if (widget._filterWithTotalZero == false &&
-                    v.data['amountD'] == 0) return false;
+                // if (widget._filterWithTotalZero == false &&
+                //     v.data['amountD'] == 0) return false;
 
                 if (widget._filterWithDate &&
                     (v['monthYearNumber'] < _filterFromMonthYearNumber ||
@@ -138,8 +139,8 @@ class UserMyDiaryReportTabUIState extends State<UserMyDiaryReportTabUI> with Sin
                       label: Text(MyLanguage.text(myLanguageItem.month))),
                   DataColumn(
                       label: Text(MyLanguage.text(myLanguageItem.count))),
-                  DataColumn(
-                      label: Text(MyLanguage.text(myLanguageItem.total))),
+                  // DataColumn(
+                  //     label: Text(MyLanguage.text(myLanguageItem.total))),
                   DataColumn(
                       label: Text(MyLanguage.text(myLanguageItem.detail))),
                 ],
@@ -154,8 +155,8 @@ class UserMyDiaryReportTabUIState extends State<UserMyDiaryReportTabUI> with Sin
   bool _cardValid(DocumentSnapshot dr) {
     if (dr['isEnabled'] == false) return false;
 
-    if (widget._filterWithTotalZero == false &&
-        dr.data['myDiaryTotalAmountD'] == 0) return false;
+    // if (widget._filterWithTotalZero == false &&
+    //     dr.data['myDiaryTotalAmountD'] == 0) return false;
 
     if (widget._filterUser.isNotEmpty &&
         dr['name'].toString().toLowerCase() != widget._filterUser.toLowerCase())
@@ -191,10 +192,10 @@ class DataRows extends DataTableSource {
         list[i].data['countIs'].toString(),
         style: MyStyle.style14Color1(),
       )),
-      DataCell(Text(
-        list[i].data['amountDF'],
-        style: MyStyle.style14Color1(),
-      )),
+      // DataCell(Text(
+      //   list[i].data['amountDF'],
+      //   style: MyStyle.style14Color1(),
+      // )),
       DataCell(IconButton(
         icon: Icon(
           Icons.list,

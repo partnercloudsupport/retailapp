@@ -69,6 +69,10 @@ class MyStyle {
     return TextStyle(fontSize: 20.0, color: MyColor.color4);
   }
 
+  static TextStyle style26Color1() {
+    return TextStyle(fontSize: 26.0, color: MyColor.color1);
+  }
+
   static TextStyle style12Color3() {
     return TextStyle(fontSize: 12.0, color: MyColor.color3);
   }

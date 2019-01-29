@@ -9,13 +9,6 @@ import 'package:retailapp/ui/employee/employeeRequestReportFilterUI.dart';
 import 'package:retailapp/ui/user/userMyDiaryReportFilterUI.dart'
     as userMyDiaryReportFilterUI;
 
-String _filterEmployee = '';
-String _filterUser = '';
-bool _filterWithDate = false;
-DateTime _filterFromDate = DateTime.now();
-DateTime _filterToDate = DateTime.now();
-bool _filterWithTotalZero = true;
-
 class ReportsRequestMyDiaryUI extends StatefulWidget {
   @override
   ReportsRequestMyDiaryUIState createState() => ReportsRequestMyDiaryUIState();
@@ -25,10 +18,23 @@ class ReportsRequestMyDiaryUIState extends State<ReportsRequestMyDiaryUI>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
 
+  String _filterEmployee = '';
+  String _filterUser = '';
+  bool _filterWithDate = false;
+  DateTime _filterFromDate = DateTime.now();
+  DateTime _filterToDate = DateTime.now();
+  int _filterFromMonthYearNumber = 0;
+  int _filterToMonthYearNumber = 0;
+  bool _filterWithTotalZero = true;
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
+    _filterFromMonthYearNumber =
+        MyDateTime.castDateToYearMonthNumber(_filterFromDate);
+    _filterToMonthYearNumber =
+        MyDateTime.castDateToYearMonthNumber(_filterToDate);
   }
 
   @override
@@ -42,8 +48,12 @@ class ReportsRequestMyDiaryUIState extends State<ReportsRequestMyDiaryUI>
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            EmployeeRequestReportTabUI(_filterEmployee, _filterWithDate,
-                _filterFromDate, _filterToDate, _filterWithTotalZero),
+            EmployeeRequestReportTabUI(
+                _filterEmployee,
+                _filterWithDate,
+                _filterFromMonthYearNumber,
+                _filterToMonthYearNumber,
+                _filterWithTotalZero),
             userMyDiaryReportTabUI.UserMyDiaryReportTabUI(
                 _filterUser,
                 _filterWithDate,
@@ -130,6 +140,10 @@ class ReportsRequestMyDiaryUIState extends State<ReportsRequestMyDiaryUI>
       _filterFromDate = MyDateTime.getLess(fixDate, filterToDate);
       _filterToDate = MyDateTime.getBiggest(fixDate, filterToDate);
       _filterWithTotalZero = filterWithTotalZero;
+      _filterFromMonthYearNumber =
+          MyDateTime.castDateToYearMonthNumber(_filterFromDate);
+      _filterToMonthYearNumber =
+          MyDateTime.castDateToYearMonthNumber(_filterToDate);
     });
   }
 
@@ -140,12 +154,14 @@ class ReportsRequestMyDiaryUIState extends State<ReportsRequestMyDiaryUI>
       DateTime filterToDate,
       bool filterWithTotalZero) {
     setState(() {
+      _filterWithDate = !_filterWithDate;
+    });
+    setState(() {
       _filterUser = filterUser;
       _filterWithDate = filterWithDate;
       DateTime fixDate = filterFromDate;
       _filterFromDate = MyDateTime.getLess(fixDate, filterToDate);
       _filterToDate = MyDateTime.getBiggest(fixDate, filterToDate);
-      _filterWithTotalZero = filterWithTotalZero;
     });
   }
 

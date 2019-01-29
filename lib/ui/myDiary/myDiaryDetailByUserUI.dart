@@ -61,8 +61,8 @@ class MyDiaryDetailByUserUIState extends State<MyDiaryDetailByUserUI> with Singl
             List<DocumentSnapshot> list = v.data.documents.where((v) {
               if (v.data['userID'].toString() != widget.filterByUesrID)
                 return false;
-              if (widget._filterWithTotalZero == false && v.data['amount'] == 0)
-                return false;
+              // if (widget._filterWithTotalZero == false && v.data['amount'] == 0)
+              //   return false;
 
               if (MyDateTime.castDateToYearMonthNumber(v.data['beginDate']) !=
                   widget._filterMonthYearNumber) return false;
@@ -90,7 +90,7 @@ class MyDiaryDetailByUserUIState extends State<MyDiaryDetailByUserUI> with Singl
                     label: Text(MyLanguage.text(myLanguageItem.customer))),
                 DataColumn(
                     label: Text(MyLanguage.text(myLanguageItem.duration))),
-                DataColumn(label: Text(MyLanguage.text(myLanguageItem.total))),
+                // DataColumn(label: Text(MyLanguage.text(myLanguageItem.total))),
                 DataColumn(
                     label: Text(MyLanguage.text(myLanguageItem.viewLocation))),
               ],
@@ -125,10 +125,10 @@ class DataRows extends DataTableSource {
         list[i].data['durationHourF'],
         style: MyStyle.style14Color1(),
       )),
-      DataCell(Text(
-        list[i].data['amountF'].toString(),
-        style: MyStyle.style14Color1(),
-      )),
+      // DataCell(Text(
+      //   list[i].data['amountF'].toString(),
+      //   style: MyStyle.style14Color1(),
+      // )),
       DataCell(IconButton(
         icon: Icon(
           Icons.location_on,

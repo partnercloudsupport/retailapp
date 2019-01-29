@@ -153,9 +153,9 @@ class MyDiaryListTabUIState extends State<MyDiaryListTabUI>
 
   Widget _buildCard(DocumentSnapshot dr) {
     return ExpansionTile(
-      leading: Text(
-        dr['amountF'],
-      ),
+      // leading: Text(
+      //   dr['amountF'],
+      // ),
       title: Text(
         dr['customer'],
         style: MyStyle.style20Color1(),

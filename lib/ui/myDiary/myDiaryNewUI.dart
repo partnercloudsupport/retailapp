@@ -81,7 +81,7 @@ class _MyDiaryNewUIState extends State<MyDiaryNewUI> {
               _buildTimeFromTo(),
               _buildNote(),
               _buildAmountQuotation(),
-              _buildAmount(),
+              // _buildAmount(),
               _buildTypeIs(),
             ],
           )),

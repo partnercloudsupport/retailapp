@@ -4,8 +4,8 @@ import 'package:retailapp/control/employee/controlEmployee.dart'
     as controlEmployee;
 import 'package:retailapp/control/employee/controlEmployeeRequestMonthlyReport.dart'
     as controlEmployeeRequestMonthlyReport;
-import 'package:retailapp/control/my/myDateTime.dart';
 import 'package:retailapp/control/my/myColor.dart';
+import 'package:retailapp/control/my/myString.dart';
 import 'package:retailapp/control/my/myStyle.dart';
 import 'package:retailapp/control/user/controlUser.dart' as controlUser;
 import 'package:retailapp/control/my/myLanguage.dart';
@@ -16,12 +16,16 @@ import 'package:retailapp/control/liveVersion/controlLiveVersion.dart'
 class EmployeeRequestReportTabUI extends StatefulWidget {
   final String _filterEmployee;
   final bool _filterWithDate;
-  final DateTime _filterFromDate;
-  final DateTime _filterToDate;
+  final int _filterFromMonthYearNumber;
+  final int _filterToMonthYearNumber;
   final bool _filterWithTotalZero;
 
-  EmployeeRequestReportTabUI(this._filterEmployee, this._filterWithDate,
-      this._filterFromDate, this._filterToDate, this._filterWithTotalZero);
+  EmployeeRequestReportTabUI(
+      this._filterEmployee,
+      this._filterWithDate,
+      this._filterFromMonthYearNumber,
+      this._filterToMonthYearNumber,
+      this._filterWithTotalZero);
 
   @override
   EmployeeRequestReportTabUIState createState() =>
@@ -36,9 +40,6 @@ class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI>
           .toLowerCase() +
       ', ';
 
-  int _filterFromMonthYearNumber = 0;
-  int _filterToMonthYearNumber = 0;
-
   @override
   void initState() {
     controlLiveVersion.checkupVersion(context);
@@ -50,18 +51,50 @@ class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI>
               .toString()
               .toLowerCase() +
           ', ';
-
-      _filterFromMonthYearNumber =
-          MyDateTime.castDateToYearMonthNumber(widget._filterFromDate);
-      _filterToMonthYearNumber =
-          MyDateTime.castDateToYearMonthNumber(widget._filterToDate);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildList(),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            _buildTotal(),
+            _buildList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTotal() {
+    return FutureBuilder(
+      future: controlEmployeeRequestMonthlyReport.getAllTotal(),
+      builder: (BuildContext context, AsyncSnapshot<double> v) {
+        return Card(
+          margin: EdgeInsets.all(20),
+          elevation: 10,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  MyLanguage.text(myLanguageItem.total) + ': ',
+                  style: MyStyle.style20Color1(),
+                ),
+                v.data == null
+                    ? _buildLoading()
+                    : Text(
+                        MyString.formatCurrencyD(v.data),
+                        style: MyStyle.style26Color1(),
+                      ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -71,6 +104,8 @@ class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI>
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> v) {
         if (!v.hasData) return _buildLoading();
         return ListView(
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
           padding: EdgeInsets.only(bottom: 70),
           children: v.data.documents.where((v) {
             return _cardValid(v);
@@ -91,10 +126,7 @@ class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI>
   Widget _buildCard(DocumentSnapshot dr) {
     return Card(
       child: ExpansionTile(
-        leading: Text(
-          dr['totalAmountRequestDF'],
-          style: MyStyle.style20Color1(),
-        ),
+        leading: _buildEmployeeTotal(dr),
         title: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
@@ -117,8 +149,8 @@ class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI>
                     v.data['amountD'] == 0) return false;
 
                 if (widget._filterWithDate &&
-                    (v['monthYearNumber'] < _filterFromMonthYearNumber ||
-                        v['monthYearNumber'] > _filterToMonthYearNumber))
+                    (v['monthYearNumber'] < widget._filterFromMonthYearNumber ||
+                        v['monthYearNumber'] > widget._filterToMonthYearNumber))
                   return false;
 
                 return true;
@@ -143,8 +175,8 @@ class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI>
                     c,
                     context,
                     widget._filterWithDate,
-                    _filterFromMonthYearNumber,
-                    _filterToMonthYearNumber,
+                    widget._filterFromMonthYearNumber,
+                    widget._filterToMonthYearNumber,
                     widget._filterWithTotalZero),
                 columns: <DataColumn>[
                   DataColumn(
@@ -162,6 +194,28 @@ class EmployeeRequestReportTabUIState extends State<EmployeeRequestReportTabUI>
         ],
       ),
     );
+  }
+
+  Widget _buildEmployeeTotal(DocumentSnapshot dr) {
+    return widget._filterWithDate
+        ? FutureBuilder(
+            future: controlEmployeeRequestMonthlyReport.getTotalOfEmployee(
+                int.parse(dr.documentID),
+                widget._filterFromMonthYearNumber,
+                widget._filterToMonthYearNumber),
+            builder: (BuildContext context, AsyncSnapshot<double> v) {
+              return v.data == null
+                  ? _buildLoading()
+                  : Text(
+                      MyString.formatCurrencyD(v.data),
+                      style: MyStyle.style26Color1(),
+                    );
+            },
+          )
+        : Text(
+            dr['totalAmountRequestDF'],
+            style: MyStyle.style20Color1(),
+          );
   }
 
   bool _cardValid(DocumentSnapshot dr) {
